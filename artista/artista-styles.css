@@ -1,0 +1,798 @@
+/**
+ * Estilos para la plantilla de Artistas
+ * Casa de la Cultura de Tungurahua
+ * Versión sin variables CSS para máxima compatibilidad
+ */
+
+/* ========== RESET Y BASE ========== */
+* {
+    box-sizing: border-box;
+}
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.artista-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    color: #2c3e50;
+}
+
+/* ========== HEADER DEL ARTISTA ========== */
+.artista-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.artista-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #8e44ad;
+    position: relative;
+    padding-bottom: 15px;
+    line-height: 1.2;
+}
+
+.artista-header h1::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background: #e67e22;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.artista-disciplinas {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #6c3483;
+    margin-top: 20px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* ========== LAYOUT DEL CONTENIDO ========== */
+.artista-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+@media (min-width: 768px) {
+    .artista-content {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.artista-main,
+.artista-sidebar {
+    min-width: 0;
+}
+
+/* ========== SLIDER DE IMÁGENES ========== */
+.artista-slider {
+    position: relative;
+    margin-bottom: 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 16 / 9;
+    background: #f8f9fa;
+}
+
+.slider-wrapper {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    will-change: transform;
+}
+
+.slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: filter 0.5s ease;
+}
+
+.slide:hover img {
+    filter: brightness(1.05);
+}
+
+/* Botones de navegación del slider */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #8e44ad;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+}
+
+.slider-nav:hover {
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-nav:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.slider-nav:focus-visible {
+    outline: 3px solid #e67e22;
+    outline-offset: 3px;
+}
+
+.slider-nav.prev {
+    left: 20px;
+}
+
+.slider-nav.next {
+    right: 20px;
+}
+
+/* Indicadores del slider */
+.slider-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.slider-dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+.slider-dot.active {
+    background-color: #ffffff;
+    width: 28px;
+    border-radius: 6px;
+}
+
+.slider-dot:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* ========== DESCRIPCIÓN DEL ARTISTA ========== */
+.artista-descripcion {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.artista-descripcion p:last-child {
+    margin-bottom: 0;
+}
+
+/* ========== TRAYECTORIA ========== */
+.artista-trayectoria {
+    margin-bottom: 40px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #e67e22;
+}
+
+.artista-trayectoria h2 {
+    color: #8e44ad;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 8px;
+    font-weight: 600;
+}
+
+.artista-trayectoria h2::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background: #e67e22;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+}
+
+.trayectoria-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c3e50;
+}
+
+.trayectoria-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ========== INFORMACIÓN DEL ARTISTA ========== */
+.artista-info {
+    margin-bottom: 30px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.artista-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Items de información */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.info-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.08), transparent);
+}
+
+/* Wrapper del icono */
+.icon-wrapper {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8e44ad, #6c3483);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 22px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.info-item:hover .icon-wrapper {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+.icon-wrapper i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenido de la información */
+.info-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-self: center;
+}
+
+.label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.value {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #6c3483;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.value a {
+    color: #6c3483;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.value a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #8e44ad;
+    transition: width 0.3s ease;
+}
+
+.value a:hover {
+    color: #8e44ad;
+}
+
+.value a:hover::after {
+    width: 100%;
+}
+
+.value a:focus-visible {
+    outline: 2px solid #e67e22;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* ========== TAGS DE DISCIPLINAS ========== */
+.disciplina-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+    align-items: center;
+}
+
+.disciplina-tag {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f0e6f6, #e8d5f2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #6c3483;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    line-height: 1.2;
+}
+
+.disciplina-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: #ffffff;
+}
+
+/* ========== REDES SOCIALES ========== */
+.artista-redes-sociales {
+    margin-bottom: 30px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.artista-redes-sociales:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.artista-redes-sociales h3 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.redes-iconos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    justify-items: center;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.red-social {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 24px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.red-social::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+}
+
+.red-social:hover::before {
+    transform: scale(1);
+}
+
+.red-social:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.red-social:active {
+    transform: translateY(-2px) scale(1);
+}
+
+.red-social:focus-visible {
+    outline: 3px solid #e67e22;
+    outline-offset: 3px;
+}
+
+/* Colores específicos de redes sociales */
+.red-social.facebook {
+    background: linear-gradient(135deg, #3b5998, #2d4373);
+}
+
+.red-social.instagram {
+    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C);
+}
+
+.red-social.twitter {
+    background: linear-gradient(135deg, #000000, #333333);
+}
+
+.red-social.spotify {
+    background: linear-gradient(135deg, #1DB954, #168f43);
+}
+
+.red-social.pinterest {
+    background: linear-gradient(135deg, #E60023, #ad001a);
+}
+
+.red-social.tiktok {
+    background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52);
+}
+
+.red-social.youtube {
+    background: linear-gradient(135deg, #FF0000, #cc0000);
+}
+
+.red-social.link {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* ========== BOTÓN DE WHATSAPP ========== */
+.whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #ffffff;
+    padding: 18px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.whatsapp-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #128c7e, #25d366);
+    transition: left 0.3s ease;
+}
+
+.whatsapp-btn:hover::before {
+    left: 0;
+}
+
+.whatsapp-btn:hover {
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-btn:active {
+    transform: translateY(-1px);
+}
+
+.whatsapp-btn:focus-visible {
+    outline: 3px solid #e67e22;
+    outline-offset: 3px;
+}
+
+.whatsapp-btn i,
+.whatsapp-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.whatsapp-btn i {
+    font-size: 26px;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablets */
+@media (max-width: 991px) {
+    .artista-container {
+        margin: 40px auto;
+    }
+    
+    .artista-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .artista-slider {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* Móviles */
+@media (max-width: 767px) {
+    .artista-container {
+        margin: 30px auto;
+    }
+    
+    .artista-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .artista-disciplinas {
+        font-size: 1.3rem;
+    }
+    
+    .artista-slider {
+        aspect-ratio: 1 / 1;
+    }
+    
+    .slider-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .slider-nav.prev {
+        left: 12px;
+    }
+    
+    .slider-nav.next {
+        right: 12px;
+    }
+    
+    .redes-iconos {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 260px;
+    }
+    
+    .red-social {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .artista-container {
+        padding: 0 15px;
+    }
+    
+    .artista-content {
+        gap: 30px;
+    }
+    
+    .icon-wrapper {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .label {
+        font-size: 0.75rem;
+    }
+    
+    .value {
+        font-size: 1rem;
+    }
+    
+    .redes-iconos {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 180px;
+        gap: 10px;
+    }
+    
+    .red-social {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+    
+    .whatsapp-btn {
+        font-size: 1rem;
+        padding: 15px 12px;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .whatsapp-btn span {
+        font-size: 0.9rem;
+    }
+    
+    .disciplina-tag {
+        font-size: 0.85rem;
+        padding: 5px 12px;
+    }
+}
+
+/* ========== ACCESIBILIDAD ========== */
+
+/* Reducir movimiento para usuarios con preferencias de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .slider-wrapper {
+        transition: none;
+    }
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+    .info-item:not(:last-child)::after {
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .artista-info,
+    .artista-redes-sociales,
+    .artista-descripcion,
+    .artista-trayectoria {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.artista-info,
+.artista-redes-sociales,
+.artista-descripcion,
+.artista-trayectoria {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+.artista-info {
+    animation-delay: 0.1s;
+}
+
+.artista-redes-sociales {
+    animation-delay: 0.2s;
+}
+
+.whatsapp-btn {
+    animation-delay: 0.3s;
+}
+
+/* ========== ESTILOS DE IMPRESIÓN ========== */
+@media print {
+    .slider-nav,
+    .slider-indicators,
+    .whatsapp-btn {
+        display: none !important;
+    }
+    
+    .artista-slider {
+        page-break-inside: avoid;
+    }
+    
+    .artista-info,
+    .artista-redes-sociales {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .red-social {
+        filter: grayscale(1);
+    }
+}
+
+/* ========== UTILIDADES ========== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

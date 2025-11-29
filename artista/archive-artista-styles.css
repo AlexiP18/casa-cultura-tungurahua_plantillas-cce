@@ -1,0 +1,262 @@
+/* Estilos para el archivo de artistas */
+
+.artistas-archive-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.artistas-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.artistas-header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #8e44ad;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.artistas-header h1:after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 4px;
+    background: #e67e22;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.artistas-descripcion {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #2c3e50;
+    line-height: 1.8;
+}
+
+/* Grid de artistas */
+.artistas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -17.5px;
+}
+
+.artistas-grid article {
+    width: calc(33.333% - 35px);
+    margin: 17.5px;
+}
+
+/* Tarjeta de artista */
+.artista-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background-color: white;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.artista-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.artista-card-image {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.artista-card-image:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    z-index: 1;
+}
+
+.artista-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.artista-card:hover .artista-card-image img {
+    transform: scale(1.08);
+}
+
+.artista-card-content {
+    padding: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.artista-card-title {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.artista-card-title a {
+    color: #8e44ad;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.artista-card-title a:hover {
+    color: #e67e22;
+}
+
+.artista-card-disciplina {
+    color: #6c3483;
+    font-style: italic;
+    margin-bottom: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.disciplina-count {
+    background: #f1f1f1;
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    color: #2c3e50;
+    font-style: normal;
+}
+
+.artista-card-excerpt {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.artista-card-btn {
+    display: block;
+    text-align: center;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #8e44ad, #6c3483);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    margin-top: auto;
+}
+
+.artista-card-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #6c3483, #8e44ad);
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.artista-card-btn:hover {
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+}
+
+.artista-card-btn:hover:before {
+    left: 0;
+}
+
+/* Paginación */
+.artistas-pagination {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.artistas-pagination .page-numbers {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 8px;
+    background-color: white;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: 500;
+}
+
+.artistas-pagination .page-numbers:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+.artistas-pagination .page-numbers.current {
+    background-color: #8e44ad;
+    color: white;
+}
+
+/* Mensaje de no artistas */
+.artistas-empty {
+    text-align: center;
+    padding: 60px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.artistas-empty p {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .artistas-grid article {
+        width: calc(50% - 35px);
+    }
+}
+
+@media (max-width: 768px) {
+    .artistas-grid {
+        margin: -12.5px;
+    }
+    
+    .artistas-grid article {
+        width: calc(100% - 25px);
+        margin: 12.5px;
+    }
+    
+    .artistas-header h1 {
+        font-size: 2.3rem;
+    }
+    
+    .artistas-descripcion {
+        font-size: 1.1rem;
+    }
+}

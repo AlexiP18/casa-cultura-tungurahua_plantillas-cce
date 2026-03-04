@@ -8,7 +8,7 @@
 get_header();
 
 // Obtener campos ACF
-$disciplina_artistica = get_field('disciplina_artistica');
+$disciplina_artistica = get_field('disciplina_artistica'); // Ahora es un array
 $especialidad = get_field('especialidad');
 $slider = get_field('slider_imagenes');
 $trayectoria = get_field('trayectoria');
@@ -40,19 +40,63 @@ if (substr($numero_whatsapp, 0, 3) !== '593') {
     }
 }
 
-// Disciplina y especialidad son ahora campos de texto simples
-$disciplina_texto = $disciplina_artistica;
+// Obtener etiquetas de disciplinas (conversión de keys a labels)
+$disciplinas_labels = cc_get_disciplinas_labels();
+
 $especialidad_texto = $especialidad;
+
+// Iconos por disciplina
+$disciplina_icons = array(
+    // Claves con guiones bajos (formato del sistema)
+    'artes_visuales' => 'fa-palette',
+    'artes_plasticas' => 'fa-paint-brush',
+    'artes_literarias' => 'fa-book',
+    'artes_escenicas' => 'fa-masks-theater',
+    'artes_musicales' => 'fa-music',
+    'artes_audiovisuales' => 'fa-video',
+    'artes_digitales' => 'fa-laptop-code',
+    'artes_aplicadas' => 'fa-pencil-ruler',
+    'artes_tradicionales' => 'fa-landmark',
+    'artes_corporales' => 'fa-person-dancing',
+    'fotografia' => 'fa-camera',
+    'arquitectura' => 'fa-building',
+    
+    // Claves antiguas o alternativas (por si acaso)
+    'artes-visuales' => 'fa-palette',
+    'artes-escenicas' => 'fa-masks-theater',
+    'musica' => 'fa-music',
+    'danza' => 'fa-person-dancing',
+    'literatura' => 'fa-book',
+    'cine' => 'fa-film',
+    'audiovisual' => 'fa-video',
+    'teatro' => 'fa-masks-theater',
+    'formacion' => 'fa-graduation-cap',
+    'investigacion' => 'fa-magnifying-glass',
+    'patrimonio' => 'fa-landmark',
+    'otros' => 'fa-star'
+);
 ?>
 
 <div class="artista-container">
     <header class="artista-header">
         <h1><?php the_title(); ?></h1>
-        <?php if ($disciplina_texto) : ?>
+        <?php if (!empty($disciplina_artistica) && is_array($disciplina_artistica)) : ?>
             <div class="artista-disciplinas">
-                <?php echo esc_html($disciplina_texto); ?>
+                <div class="disciplina-tags">
+                    <?php foreach ($disciplina_artistica as $disciplina_key) : ?>
+                        <?php if (isset($disciplinas_labels[$disciplina_key])) : 
+                            $icon_class = isset($disciplina_icons[$disciplina_key]) ? $disciplina_icons[$disciplina_key] : 'fa-star';
+                        ?>
+                            <span class="disciplina-tag">
+                                <i class="fas <?php echo $icon_class; ?>"></i> <?php echo esc_html($disciplinas_labels[$disciplina_key]); ?>
+                            </span>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
                 <?php if ($especialidad_texto) : ?>
-                    <span class="especialidad"> - <?php echo esc_html($especialidad_texto); ?></span>
+                    <div style="margin-top: 10px; font-size: 1.2rem; color: #6c3483; font-style: italic;">
+                        Especialidad: <?php echo esc_html($especialidad_texto); ?>
+                    </div>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -61,48 +105,45 @@ $especialidad_texto = $especialidad;
     <div class="artista-content">
         <div class="artista-main">
             <?php if (!empty($slider)) : ?>
-                <div class="artista-slider">
-                    <div class="slider-wrapper">
-                        <?php
-                        // Imágenes del slider
-                        for ($i = 1; $i <= 5; $i++) {
-                            $imagen_key = "imagen_{$i}";
-                            if (!empty($slider[$imagen_key])) :
-                                $imagen = $slider[$imagen_key];
-                        ?>
-                            <div class="slide">
-                                <img src="<?php echo esc_url($imagen['url']); ?>" 
-                                     alt="<?php echo esc_attr($imagen['alt'] ?: get_the_title()); ?>">
-                            </div>
-                        <?php 
-                            endif;
-                        } 
-                        ?>
-                    </div>
-                    
-                    <button class="slider-nav prev">
+            <div class="artista-galeria-slider">
+                <div class="galeria-slider-artista">
+                    <?php
+                    $count = 0;
+                    for ($i = 1; $i <= 5; $i++) {
+                        $imagen_key = "imagen_{$i}";
+                        if (!empty($slider[$imagen_key])) :
+                            $imagen = $slider[$imagen_key];
+                            $active = $count === 0 ? ' active' : '';
+                    ?>
+                        <div class="galeria-slide-artista<?php echo $active; ?>">
+                            <img src="<?php echo esc_url($imagen['url']); ?>" 
+                                 alt="<?php echo esc_attr($imagen['alt'] ?: get_the_title()); ?>">
+                        </div>
+                    <?php 
+                            $count++;
+                        endif;
+                    } 
+                    ?>
+                </div>
+                
+                <?php if ($count > 1): ?>
+                    <button class="galeria-btn-artista prev" onclick="cambiarSlideArtista(-1)">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="slider-nav next">
+                    <button class="galeria-btn-artista next" onclick="cambiarSlideArtista(1)">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                     
-                    <div class="slider-indicators">
+                    <div class="galeria-dots-artista">
                         <?php
-                        $count = 0;
-                        for ($i = 1; $i <= 5; $i++) {
-                            $imagen_key = "imagen_{$i}";
-                            if (!empty($slider[$imagen_key])) :
-                                $active = $count === 0 ? ' active' : '';
+                        for ($i = 0; $i < $count; $i++) {
+                            $active = $i === 0 ? ' active' : '';
                         ?>
-                            <div class="slider-dot<?php echo $active; ?>" data-index="<?php echo $count; ?>"></div>
-                        <?php
-                                $count++;
-                            endif;
-                        }
-                        ?>
+                            <span class="dot-artista<?php echo $active; ?>" onclick="irASlideArtista(<?php echo $i; ?>)"></span>
+                        <?php } ?>
                     </div>
-                </div>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
 
             <div class="artista-descripcion">
@@ -121,15 +162,25 @@ $especialidad_texto = $especialidad;
 
         <div class="artista-sidebar">
             <div class="artista-info">
-                <!-- Disciplina y especialidad -->
-                <?php if ($disciplina_texto) : ?>
+                <!-- Disciplinas artísticas -->
+                <?php if (!empty($disciplina_artistica) && is_array($disciplina_artistica)) : ?>
                     <div class="info-item">
                         <div class="icon-wrapper">
                             <i class="fas fa-palette" aria-hidden="true"></i>
                         </div>
                         <div class="info-content">
-                            <span class="label">Disciplina:</span>
-                            <span class="value"><?php echo esc_html($disciplina_texto); ?></span>
+                            <span class="label">Disciplinas:</span>
+                            <div class="disciplina-tags">
+                                <?php foreach ($disciplina_artistica as $disciplina_key) : ?>
+                                    <?php if (isset($disciplinas_labels[$disciplina_key])) : 
+                                        $icon_class = isset($disciplina_icons[$disciplina_key]) ? $disciplina_icons[$disciplina_key] : 'fa-star';
+                                    ?>
+                                        <span class="disciplina-tag">
+                                            <i class="fas <?php echo $icon_class; ?>"></i> <?php echo esc_html($disciplinas_labels[$disciplina_key]); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -198,125 +249,85 @@ $especialidad_texto = $especialidad;
 
             <!-- Redes Sociales -->
             <?php
-            $tiene_redes = $facebook || $instagram || $x_twitter || $youtube || $tiktok || $otro_url;
-            
-            if ($tiene_redes) : 
+            $redes = array();
+            if ($facebook)  $redes[] = array('url' => $facebook,  'class' => 'facebook',  'icon' => 'fab fa-facebook-f',    'label' => 'Facebook');
+            if ($instagram) $redes[] = array('url' => $instagram, 'class' => 'instagram', 'icon' => 'fab fa-instagram',      'label' => 'Instagram');
+            if ($x_twitter) $redes[] = array('url' => $x_twitter, 'class' => 'x-twitter', 'icon' => 'fab fa-x-twitter',      'label' => 'X (Twitter)');
+            if ($tiktok)    $redes[] = array('url' => $tiktok,    'class' => 'tiktok',    'icon' => 'fab fa-tiktok',          'label' => 'TikTok');
+            if ($youtube)   $redes[] = array('url' => $youtube,   'class' => 'youtube',   'icon' => 'fab fa-youtube',         'label' => 'YouTube');
+            if ($otro_url)  $redes[] = array('url' => $otro_url,  'class' => 'link',      'icon' => 'fas fa-link',            'label' => 'Enlace');
+
+            if (!empty($redes)) :
             ?>
-                <!-- Reemplaza la sección de redes sociales con este código actualizado -->
                 <div class="artista-redes-sociales">
                     <h3>Redes Sociales</h3>
                     <div class="redes-iconos">
-                        <?php if ($facebook) : ?>
-                            <a href="<?php echo esc_url($facebook); ?>" target="_blank" rel="noopener noreferrer" class="red-social facebook" aria-label="Facebook">
-                                <i class="fab fa-facebook-f"></i>
+                        <?php foreach ($redes as $red) : ?>
+                            <a href="<?php echo esc_url($red['url']); ?>" target="_blank" rel="noopener noreferrer" class="red-social <?php echo esc_attr($red['class']); ?>" aria-label="<?php echo esc_attr($red['label']); ?>">
+                                <i class="<?php echo esc_attr($red['icon']); ?>"></i>
                             </a>
-                        <?php endif; ?>
-                        
-                        <?php if ($instagram) : ?>
-                            <a href="<?php echo esc_url($instagram); ?>" target="_blank" rel="noopener noreferrer" class="red-social instagram" aria-label="Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                        <?php endif; ?>
-                        
-                        <?php if ($x_twitter) : ?>
-                            <a href="<?php echo esc_url($x_twitter); ?>" target="_blank" rel="noopener noreferrer" class="red-social twitter" aria-label="X/Twitter">
-                                <i class="fab fa-twitter"></i> <!-- Cambiado de fa-x-twitter a fa-twitter -->
-                            </a>
-                        <?php endif; ?>
-                
-                        <?php if ($tiktok) : ?>
-                            <a href="<?php echo esc_url($tiktok); ?>" target="_blank" rel="noopener noreferrer" class="red-social tiktok" aria-label="TikTok">
-                                <i class="fa-brands fa-tiktok"></i> <!-- Aseguramos que usamos la clase correcta -->
-                            </a>
-                        <?php endif; ?>
-                
-                        <?php if ($youtube) : ?>
-                            <a href="<?php echo esc_url($youtube); ?>" target="_blank" rel="noopener noreferrer" class="red-social youtube" aria-label="YouTube">
-                                <i class="fa-brands fa-youtube"></i> <!-- Aseguramos que usamos la clase correcta -->
-                            </a>
-                        <?php endif; ?>
-                
-                        <?php if ($otro_url) : ?>
-                            <a href="<?php echo esc_url($otro_url); ?>" target="_blank" rel="noopener noreferrer" class="red-social link" aria-label="Otros Enlaces">
-                                <i class="fa-solid fa-link"></i> <!-- Cambiado a un ícono más reconocible -->
-                            </a>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php endif; ?>
             
             <?php if ($numero_whatsapp) : ?>
                 <a href="https://wa.me/<?php echo $numero_whatsapp; ?>" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+                    <i class="fab fa-whatsapp"></i> <span class="whatsapp-text" data-hover="WhatsApp">Contactar por WhatsApp</span>
                 </a>
             <?php endif; ?>
         </div>
     </div>
 </div>
 
+<!-- Widget de Compartir -->
+<?php include(get_stylesheet_directory() . '/compartir-widget.php'); ?>
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget-styles.css">
+<script src="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget.js"></script>
+
 <!-- JavaScript para el slider -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sliderWrapper = document.querySelector('.slider-wrapper');
-    const slides = document.querySelectorAll('.slide');
-    const dotsContainer = document.querySelector('.slider-indicators');
-    const dots = document.querySelectorAll('.slider-dot');
-    const prevButton = document.querySelector('.slider-nav.prev');
-    const nextButton = document.querySelector('.slider-nav.next');
+// Slider de galería del artista
+let slideActualArtista = 0;
+
+function cambiarSlideArtista(direccion) {
+    const slides = document.querySelectorAll('.galeria-slide-artista');
+    const dots = document.querySelectorAll('.dot-artista');
     
-    if (!sliderWrapper || slides.length === 0) return;
+    if (slides.length === 0) return;
     
-    let currentSlide = 0;
+    slides[slideActualArtista].classList.remove('active');
+    if (dots.length > 0) dots[slideActualArtista].classList.remove('active');
     
-    // Inicializar slider
-    updateSliderPosition();
+    slideActualArtista = (slideActualArtista + direccion + slides.length) % slides.length;
     
-    // Event listeners
-    if (prevButton) {
-        prevButton.addEventListener('click', prevSlide);
-    }
+    slides[slideActualArtista].classList.add('active');
+    if (dots.length > 0) dots[slideActualArtista].classList.add('active');
+}
+
+function irASlideArtista(index) {
+    const slides = document.querySelectorAll('.galeria-slide-artista');
+    const dots = document.querySelectorAll('.dot-artista');
     
-    if (nextButton) {
-        nextButton.addEventListener('click', nextSlide);
-    }
+    if (slides.length === 0) return;
     
-    if (dots.length > 0) {
-        dots.forEach(dot => {
-            dot.addEventListener('click', function() {
-                currentSlide = parseInt(this.dataset.index);
-                updateSliderPosition();
-            });
-        });
-    }
+    slides[slideActualArtista].classList.remove('active');
+    if (dots.length > 0) dots[slideActualArtista].classList.remove('active');
     
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        updateSliderPosition();
-    }
+    slideActualArtista = index;
     
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        updateSliderPosition();
-    }
-    
-    function updateSliderPosition() {
-        sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-        
-        // Actualizar dots
-        if (dots.length > 0) {
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[currentSlide].classList.add('active');
-        }
-    }
-    
-    // Auto rotación (opcional)
-    let interval = setInterval(nextSlide, 5000);
-    
-    sliderWrapper.addEventListener('mouseenter', () => clearInterval(interval));
-    sliderWrapper.addEventListener('mouseleave', () => {
-        interval = setInterval(nextSlide, 5000);
-    });
-});
+    slides[slideActualArtista].classList.add('active');
+    if (dots.length > 0) dots[slideActualArtista].classList.add('active');
+}
+
+// Auto-avanzar galería
+if (document.querySelectorAll('.galeria-slide-artista').length > 1) {
+    setInterval(() => {
+        cambiarSlideArtista(1);
+    }, 5000);
+}
 </script>
+    
+
 
 <?php get_footer(); ?>

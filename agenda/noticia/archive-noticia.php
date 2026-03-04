@@ -9,8 +9,8 @@ get_header(); ?>
 <main id="main-content" class="site-main archivo-noticias">
     
     <header class="page-header">
-        <h1 class="page-title">📰 Noticias de la Casa de la Cultura</h1>
-        <p class="page-description">Mantente informado sobre todas nuestras actividades, eventos y novedades</p>
+        <h1 class="page-title"><i class="fas fa-newspaper"></i> Noticias de la Casa de la Cultura</h1>
+        <p class="page-description">Manténte informado sobre todas nuestras actividades, eventos y novedades</p>
     </header>
     
     <?php
@@ -18,13 +18,27 @@ get_header(); ?>
     ?>
     <div class="noticias-filtros">
         <div class="filtros-container">
-            <button class="filtro-btn active" data-categoria="todas">Todas</button>
-            <button class="filtro-btn" data-categoria="eventos">Eventos</button>
-            <button class="filtro-btn" data-categoria="talleres">Talleres</button>
-            <button class="filtro-btn" data-categoria="exposiciones">Exposiciones</button>
-            <button class="filtro-btn" data-categoria="actividades">Actividades</button>
-            <button class="filtro-btn" data-categoria="comunicados">Comunicados</button>
-            <button class="filtro-btn" data-categoria="convocatorias">Convocatorias</button>
+            <button class="filtro-btn active" data-categoria="todas">
+                <i class="fas fa-layer-group"></i> Todas
+            </button>
+            <button class="filtro-btn" data-categoria="eventos">
+                <i class="fas fa-calendar-star"></i> Eventos
+            </button>
+            <button class="filtro-btn" data-categoria="talleres">
+                <i class="fas fa-chalkboard-teacher"></i> Talleres
+            </button>
+            <button class="filtro-btn" data-categoria="exposiciones">
+                <i class="fas fa-image"></i> Exposiciones
+            </button>
+            <button class="filtro-btn" data-categoria="actividades">
+                <i class="fas fa-music"></i> Actividades
+            </button>
+            <button class="filtro-btn" data-categoria="comunicados">
+                <i class="fas fa-bullhorn"></i> Comunicados
+            </button>
+            <button class="filtro-btn" data-categoria="convocatorias">
+                <i class="fas fa-clipboard-list"></i> Convocatorias
+            </button>
         </div>
     </div>
     
@@ -46,7 +60,7 @@ get_header(); ?>
                 <article class="noticia-card<?php echo $clase_destacada . $clase_urgente; ?>" data-categoria="<?php echo esc_attr($categoria); ?>">
                     
                     <?php if ($urgente): ?>
-                        <div class="badge-urgente">⚠️ URGENTE</div>
+                        <div class="badge-urgente"><i class="fas fa-exclamation-triangle"></i> URGENTE</div>
                     <?php endif; ?>
                     
                     <?php if ($imagen): ?>
@@ -88,18 +102,13 @@ get_header(); ?>
                         
                         <div class="noticia-card-meta">
                             <span class="noticia-card-fecha">
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                                </svg>
+                                <i class="far fa-calendar-alt"></i>
                                 <?php echo get_the_date('j M, Y'); ?>
                             </span>
                             
                             <a href="<?php the_permalink(); ?>" class="noticia-card-leer-mas">
                                 Leer más
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                                </svg>
+                                <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
@@ -122,10 +131,7 @@ get_header(); ?>
     <?php else : ?>
         
         <div class="no-noticias">
-            <svg width="80" height="80" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
-            </svg>
+            <i class="fas fa-newspaper" style="font-size: 80px; color: #ccc; margin-bottom: 20px;"></i>
             <h2>No hay noticias disponibles</h2>
             <p>Vuelve pronto para ver las últimas novedades</p>
         </div>

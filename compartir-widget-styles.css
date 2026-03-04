@@ -1,0 +1,470 @@
+/**
+ * Widget de Compartir Flotante - CCE
+ * Estilos unificados para todas las single templates
+ */
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.cce-compartir-widget {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    z-index: 99999 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* ===== BOTÓN FLOTANTE PRINCIPAL ===== */
+.cce-compartir-toggle {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: #e71e8a !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 15px rgba(231, 30, 138, 0.4), 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    z-index: 3 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+}
+
+.cce-compartir-toggle:hover {
+    transform: scale(1.08) !important;
+    box-shadow: 0 6px 20px rgba(231, 30, 138, 0.5), 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cce-compartir-toggle:active {
+    transform: scale(0.95) !important;
+}
+
+.cce-compartir-toggle svg {
+    display: block !important;
+    fill: #fff !important;
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* Iconos del botón toggle */
+.cce-compartir-toggle .cce-icon-share {
+    transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+.cce-compartir-toggle .cce-icon-close {
+    position: absolute !important;
+    opacity: 0 !important;
+    transform: rotate(-90deg) scale(0.5) !important;
+    transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+/* Estado abierto */
+.cce-compartir-widget.active .cce-compartir-toggle {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4) !important;
+}
+
+.cce-compartir-widget.active .cce-compartir-toggle .cce-icon-share {
+    opacity: 0 !important;
+    transform: rotate(90deg) scale(0.5) !important;
+}
+
+.cce-compartir-widget.active .cce-compartir-toggle .cce-icon-close {
+    opacity: 1 !important;
+    transform: rotate(0deg) scale(1) !important;
+}
+
+/* ===== PANEL DE OPCIONES ===== */
+.cce-compartir-panel {
+    position: absolute !important;
+    bottom: 70px !important;
+    right: 0 !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-width: 210px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(15px) scale(0.95) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+}
+
+.cce-compartir-widget.active .cce-compartir-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+}
+
+/* ===== BOTONES DE COMPARTIR ===== */
+.cce-compartir-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 16px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #2c3e50 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    text-align: left !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    line-height: 1.4 !important;
+}
+
+.cce-compartir-btn:hover {
+    transform: translateX(4px) !important;
+}
+
+/* ===== OVERRIDE FUERTE PARA ENLACES <a> (evitar conflictos con tema) ===== */
+.cce-compartir-widget .cce-compartir-panel a.cce-compartir-btn,
+.cce-compartir-panel a.cce-compartir-btn,
+#cce-compartir-panel a.cce-compartir-btn,
+a.cce-compartir-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    width: 100% !important;
+    max-height: none !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+    float: none !important;
+    font-size: 14px !important;
+    color: #2c3e50 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 12px 16px !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    align-items: center !important;
+    gap: 12px !important;
+    cursor: pointer !important;
+    transform: none !important;
+    clip: auto !important;
+    -webkit-clip-path: none !important;
+    clip-path: none !important;
+    text-indent: 0 !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+}
+
+.cce-compartir-widget .cce-compartir-panel a.cce-compartir-btn:hover {
+    transform: translateX(4px) !important;
+}
+
+/* Contenedor de icono */
+.cce-btn-icon,
+.cce-compartir-panel .cce-btn-icon,
+.cce-compartir-panel a .cce-btn-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.cce-compartir-btn:hover .cce-btn-icon {
+    transform: scale(1.1) !important;
+}
+
+.cce-btn-icon svg,
+.cce-compartir-panel .cce-btn-icon svg,
+.cce-compartir-panel a .cce-btn-icon svg {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Label del botón */
+.cce-btn-label,
+.cce-compartir-panel .cce-btn-label,
+.cce-compartir-panel a .cce-btn-label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-indent: 0 !important;
+}
+
+/* ===== COLORES POR RED SOCIAL ===== */
+
+/* Facebook */
+.cce-icon-fb {
+    background: rgba(24, 119, 242, 0.1) !important;
+}
+
+.cce-icon-fb svg {
+    fill: #1877F2 !important;
+}
+
+.cce-facebook:hover {
+    background: rgba(24, 119, 242, 0.06) !important;
+    color: #1877F2 !important;
+}
+
+/* X (Twitter) */
+.cce-icon-x {
+    background: rgba(0, 0, 0, 0.08) !important;
+}
+
+.cce-icon-x svg {
+    fill: #000000 !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.cce-xtwitter:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: #000000 !important;
+}
+
+/* WhatsApp */
+.cce-icon-wa {
+    background: rgba(37, 211, 102, 0.1) !important;
+}
+
+.cce-icon-wa svg {
+    fill: #25D366 !important;
+}
+
+.cce-whatsapp:hover {
+    background: rgba(37, 211, 102, 0.06) !important;
+    color: #25D366 !important;
+}
+
+/* Telegram */
+.cce-icon-tg {
+    background: rgba(0, 136, 204, 0.1) !important;
+}
+
+.cce-icon-tg svg {
+    fill: #0088cc !important;
+}
+
+.cce-telegram:hover {
+    background: rgba(0, 136, 204, 0.06) !important;
+    color: #0088cc !important;
+}
+
+/* Pinterest */
+.cce-icon-pin {
+    background: rgba(230, 0, 35, 0.1) !important;
+}
+
+.cce-icon-pin svg {
+    fill: #E60023 !important;
+}
+
+.cce-pinterest:hover {
+    background: rgba(230, 0, 35, 0.06) !important;
+    color: #E60023 !important;
+}
+
+/* Copiar enlace */
+.cce-icon-copy {
+    background: rgba(102, 126, 234, 0.1) !important;
+}
+
+.cce-icon-copy svg {
+    fill: #667eea !important;
+}
+
+.cce-copiar:hover {
+    background: rgba(102, 126, 234, 0.06) !important;
+    color: #667eea !important;
+}
+
+/* Estado "copiado" */
+.cce-copiar.copiado {
+    background: rgba(39, 174, 96, 0.08) !important;
+    color: #27ae60 !important;
+}
+
+.cce-copiar.copiado .cce-icon-copy {
+    background: rgba(39, 174, 96, 0.1) !important;
+}
+
+.cce-copiar.copiado .cce-icon-copy svg {
+    fill: #27ae60 !important;
+}
+
+/* Ocultar/mostrar iconos de copiar */
+.cce-compartir-panel .cce-icon-copy svg.cce-icon-check,
+.cce-compartir-widget .cce-compartir-panel .cce-icon-copy svg.cce-icon-check,
+#cce-compartir-panel .cce-icon-copy svg.cce-icon-check {
+    display: none !important;
+}
+
+.cce-copiar.copiado .cce-icon-copy .cce-icon-link {
+    display: none !important;
+}
+
+.cce-compartir-panel .cce-copiar.copiado .cce-icon-copy svg.cce-icon-check,
+.cce-compartir-widget .cce-compartir-panel .cce-copiar.copiado .cce-icon-copy svg.cce-icon-check,
+#cce-compartir-panel .cce-copiar.copiado .cce-icon-copy svg.cce-icon-check {
+    display: block !important;
+}
+
+/* ===== OVERLAY PARA MÓVIL ===== */
+.cce-compartir-overlay {
+    display: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    z-index: 1 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.cce-compartir-widget.active .cce-compartir-overlay {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+/* ===== SEPARADOR VISUAL ===== */
+.cce-compartir-panel .cce-copiar {
+    border-top: 1px solid #f0f0f0 !important;
+    margin-top: 4px !important;
+    padding-top: 12px !important;
+}
+
+/* ===== RESPONSIVE - TABLET Y MÓVIL ===== */
+@media (max-width: 768px) {
+    .cce-compartir-widget {
+        bottom: 20px !important;
+        right: 20px !important;
+    }
+
+    .cce-compartir-toggle {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .cce-compartir-panel {
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        position: fixed !important;
+        border-radius: 20px 20px 0 0 !important;
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 12px 16px !important;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+        gap: 2px !important;
+        transform: translateY(100%) !important;
+    }
+
+    .cce-compartir-widget.active .cce-compartir-panel {
+        transform: translateY(0) !important;
+    }
+
+    /* Indicador de arrastre */
+    .cce-compartir-panel::before {
+        content: '' !important;
+        display: block !important;
+        width: 40px !important;
+        height: 4px !important;
+        background: #ddd !important;
+        border-radius: 2px !important;
+        margin: 4px auto 12px !important;
+    }
+
+    .cce-compartir-btn {
+        padding: 14px 16px !important;
+        border-radius: 12px !important;
+        font-size: 15px !important;
+    }
+
+    .cce-btn-label {
+        font-size: 15px !important;
+    }
+
+    .cce-compartir-overlay {
+        background: rgba(0, 0, 0, 0.45) !important;
+        backdrop-filter: blur(2px) !important;
+        -webkit-backdrop-filter: blur(2px) !important;
+    }
+}
+
+/* ===== RESPONSIVE - MÓVIL PEQUEÑO ===== */
+@media (max-width: 480px) {
+    .cce-compartir-widget {
+        bottom: 16px !important;
+        right: 16px !important;
+    }
+
+    .cce-compartir-toggle {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .cce-compartir-toggle svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .cce-compartir-btn {
+        padding: 12px 14px !important;
+        gap: 10px !important;
+    }
+
+    .cce-btn-icon {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+    }
+
+    .cce-btn-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+.cce-compartir-toggle:focus-visible,
+.cce-compartir-btn:focus-visible {
+    outline: 2px solid #667eea !important;
+    outline-offset: 2px !important;
+}
+
+/* ===== PRINT ===== */
+@media print {
+    .cce-compartir-widget {
+        display: none !important;
+    }
+}

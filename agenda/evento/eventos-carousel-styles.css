@@ -1,0 +1,459 @@
+/**
+ * Estilos para el Shortcode [eventos_carousel]
+ * Carrusel horizontal de eventos destacados
+ * Casa de la Cultura de Tungurahua
+ */
+
+/* ========== WRAPPER PRINCIPAL ========== */
+.eventos-carousel-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ========== HEADER: FILTROS (izq) + TÍTULO (der) ========== */
+.ev-carousel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.ev-carousel-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    order: 2;
+    /* Título a la derecha */
+}
+
+.ev-carousel-header h2 i {
+    color: #1d5695;
+    font-size: 0.9em;
+}
+
+/* ========== FILTROS POR TIPO DE EVENTO ========== */
+.ev-carousel-filtros {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    order: 1;
+    /* Filtros a la izquierda */
+}
+
+.ev-carousel-filtro-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    background: #ffffff;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.ev-carousel-filtro-btn:hover {
+    border-color: #1d5695;
+    color: #1d5695;
+    background: rgba(29, 86, 149, 0.05);
+}
+
+.ev-carousel-filtro-btn.active {
+    background: #1d5695;
+    color: #ffffff;
+    border-color: #1d5695;
+    box-shadow: 0 4px 12px rgba(29, 86, 149, 0.3);
+}
+
+.ev-carousel-filtro-btn.active:hover {
+    background: #174a80;
+    border-color: #174a80;
+}
+
+.ev-carousel-filtro-btn i {
+    font-size: 0.85em;
+}
+
+/* ========== CONTENEDOR DEL CARRUSEL ========== */
+.ev-carousel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* ========== TRACK ========== */
+.ev-carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* ========== NAVEGACIÓN ========== */
+.ev-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1d5695;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.ev-carousel-nav:hover {
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.ev-carousel-nav:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.ev-carousel-nav.prev {
+    left: 10px;
+}
+
+.ev-carousel-nav.next {
+    right: 10px;
+}
+
+.ev-carousel-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.ev-carousel-nav:disabled:hover {
+    transform: translateY(-50%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== CARD DE EVENTO ========== */
+.ev-carousel-card {
+    flex: 0 0 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.ev-carousel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen */
+.ev-card-image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.ev-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.ev-carousel-card:hover .ev-card-image img {
+    transform: scale(1.05);
+}
+
+.ev-card-image a {
+    display: block;
+    height: 100%;
+}
+
+/* Badge de estado */
+/* Badge de estado */
+.ev-card-estado {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    top: auto;
+    right: auto;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    z-index: 2;
+}
+
+/* Badge destacado */
+.ev-card-badge-destacado {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #e67e22;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+}
+
+/* Contenido */
+.ev-card-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.ev-card-tipo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1d5695;
+    margin-bottom: 8px;
+}
+
+.ev-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ev-card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.ev-card-title a:hover {
+    color: #1d5695;
+}
+
+/* Info: fecha + lugar */
+.ev-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+    flex: 1;
+}
+
+.ev-card-fecha,
+.ev-card-lugar {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ev-card-fecha i,
+.ev-card-lugar i {
+    color: #1d5695;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Footer: precio + ver detalles */
+.ev-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    margin-top: auto;
+}
+
+.ev-card-precio {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.ev-card-precio.gratuito {
+    color: #27ae60;
+}
+
+.ev-card-ver-mas {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1d5695;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.ev-card-ver-mas:hover {
+    color: #174a80;
+    gap: 8px;
+}
+
+.ev-card-ver-mas i {
+    font-size: 0.8em;
+    transition: transform 0.2s ease;
+}
+
+.ev-card-ver-mas:hover i {
+    transform: translateX(3px);
+}
+
+/* ========== ESTADO VACÍO ========== */
+.ev-carousel-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.ev-carousel-empty i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.4;
+}
+
+.ev-carousel-empty p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+
+/* Tablets */
+@media (max-width: 991px) {
+    .ev-carousel-card {
+        flex: 0 0 280px;
+    }
+
+    .ev-carousel-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .ev-carousel-nav {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 767px) {
+    .eventos-carousel-wrapper {
+        margin: 30px auto;
+    }
+
+    .ev-carousel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    /* En mobile, título arriba y filtros abajo */
+    .ev-carousel-header h2 {
+        font-size: 1.3rem;
+        order: 1;
+    }
+
+    .ev-carousel-filtros {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        order: 2;
+    }
+
+    .ev-carousel-filtro-btn {
+        padding: 6px 14px;
+        font-size: 0.82rem;
+        flex-shrink: 0;
+    }
+
+    .ev-carousel-card {
+        flex: 0 0 260px;
+    }
+
+    .ev-carousel-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .ev-carousel-nav.prev {
+        left: 5px;
+    }
+
+    .ev-carousel-nav.next {
+        right: 5px;
+    }
+
+    .ev-card-title {
+        font-size: 0.95rem;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .ev-carousel-card {
+        flex: 0 0 240px;
+    }
+
+    .ev-card-content {
+        padding: 14px;
+    }
+}
+
+/* ========== ACCESIBILIDAD ========== */
+@media (prefers-reduced-motion: reduce) {
+    .ev-carousel-track {
+        transition: none;
+    }
+
+    .ev-carousel-card,
+    .ev-card-image img {
+        transition: none;
+    }
+}

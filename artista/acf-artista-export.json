@@ -8,8 +8,8 @@
                 "label": "Disciplina Artística",
                 "name": "disciplina_artistica",
                 "aria-label": "",
-                "type": "text",
-                "instructions": "Ej: Pintor, Músico, Escultor, Poeta, etc.",
+                "type": "checkbox",
+                "instructions": "Seleccione una o más disciplinas artísticas principales",
                 "required": 1,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -17,19 +17,36 @@
                     "class": "",
                     "id": ""
                 },
-                "default_value": "",
-                "maxlength": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
+                "choices": {
+                    "artes_visuales": "Artes Visuales",
+                    "artes_plasticas": "Artes Plásticas",
+                    "artes_literarias": "Artes Literarias",
+                    "artes_escenicas": "Artes Escénicas",
+                    "artes_musicales": "Artes Musicales",
+                    "artes_audiovisuales": "Artes Audiovisuales",
+                    "artes_digitales": "Artes Digitales y Nuevos Medios",
+                    "artes_aplicadas": "Artes Aplicadas y Diseño",
+                    "artes_tradicionales": "Artes Tradicionales y Populares",
+                    "artes_corporales": "Artes Corporales y Performance",
+                    "fotografia": "Fotografía",
+                    "arquitectura": "Arquitectura",
+                    "otra": "Otra"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "allow_custom": 0,
+                "layout": "vertical",
+                "toggle": 0,
+                "save_custom": 0,
+                "custom_choice_button_text": "Añadir nueva opción"
             },
             {
                 "key": "field_especialidad_artista",
                 "label": "Especialidad",
                 "name": "especialidad",
                 "aria-label": "",
-                "type": "text",
-                "instructions": "Ej: Arte Abstracto, Jazz, Cerámica, etc.",
+                "type": "textarea",
+                "instructions": "Especifique sus áreas de especialización. Ej: Pintura al óleo, Arte abstracto, Retrato \/ Poesía contemporánea, Narrativa \/ Teatro experimental, Mimo \/ Jazz, Piano, Composición \/ etc.",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -40,8 +57,8 @@
                 "default_value": "",
                 "maxlength": "",
                 "placeholder": "",
-                "prepend": "",
-                "append": ""
+                "new_lines": "",
+                "rows": 3
             },
             {
                 "key": "field_slider_artista",
@@ -224,7 +241,7 @@
                 "sub_fields": [
                     {
                         "key": "field_telefono_artista",
-                        "label": "Teléfono / WhatsApp",
+                        "label": "Teléfono \/ WhatsApp",
                         "name": "telefono",
                         "aria-label": "",
                         "type": "text",
@@ -237,7 +254,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "maxlength": "",
+                        "maxlength": 10,
                         "placeholder": "",
                         "prepend": "",
                         "append": ""
@@ -315,7 +332,7 @@
                     },
                     {
                         "key": "field_twitter_artista",
-                        "label": "Twitter / X",
+                        "label": "Twitter \/ X",
                         "name": "twitter",
                         "aria-label": "",
                         "type": "url",
@@ -401,6 +418,7 @@
         "hide_on_screen": "",
         "active": true,
         "description": "",
-        "show_in_rest": 0
+        "show_in_rest": 0,
+        "display_title": ""
     }
 ]

@@ -1,0 +1,789 @@
+/**
+ * Estilos para el Formulario de Registro de Artistas
+ * Casa de la Cultura de Tungurahua
+ * Paleta: #e71e8a, #1d5695, #0084ff
+ */
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.registro-artista-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ========== HEADER ========== */
+.registro-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.registro-header h1 {
+    font-size: 2.8rem;
+    color: #e71e8a;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.registro-header h1::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 4px;
+    background: #0084ff;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.registro-descripcion {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ========== FORMULARIO ========== */
+.registro-formulario {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+/* Instrucciones del formulario */
+.registro-instrucciones {
+    background: rgba(0, 132, 255, 0.1);
+    border-left: 4px solid #0084ff;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.registro-instrucciones i {
+    font-size: 1.5rem;
+    color: #0084ff;
+    flex-shrink: 0;
+}
+
+.registro-instrucciones p {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.campo-requerido {
+    color: #e71e8a;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+/* ========== SECCIONES DEL FORMULARIO ========== */
+.form-seccion {
+    margin-bottom: 35px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.form-seccion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+
+.form-seccion-titulo {
+    font-size: 1.4rem;
+    color: #1d5695;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-seccion-titulo i {
+    color: #e71e8a;
+    font-size: 1.2rem;
+}
+
+/* ========== GRUPOS DE CAMPOS ========== */
+.form-grupo {
+    margin-bottom: 20px;
+}
+
+.form-grupo label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.form-ayuda {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* ========== INPUTS ========== */
+.form-grupo input[type="text"],
+.form-grupo input[type="email"],
+.form-grupo input[type="tel"],
+.form-grupo input[type="url"],
+.form-grupo textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    color: #2c3e50;
+}
+
+.form-grupo input[type="text"]:focus,
+.form-grupo input[type="email"]:focus,
+.form-grupo input[type="tel"]:focus,
+.form-grupo input[type="url"]:focus,
+.form-grupo textarea:focus {
+    outline: none;
+    border-color: #0084ff;
+    box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.1);
+}
+
+.form-grupo input::placeholder,
+.form-grupo textarea::placeholder {
+    color: #adb5bd;
+}
+
+.form-grupo textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* ========== INPUTS CON ICONO ========== */
+.input-icono {
+    position: relative;
+    display: block;
+}
+
+.input-icono i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1d5695;
+    font-size: 1rem;
+    z-index: 10;
+    transition: color 0.3s ease;
+    pointer-events: none;
+}
+
+.form-grupo .input-icono input {
+    padding-left: 48px !important;
+}
+
+.input-icono:focus-within i {
+    color: #0084ff;
+}
+
+/* ========== FILAS DEL FORMULARIO ========== */
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* ========== CHECKBOXES DE DISCIPLINAS ========== */
+.checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    flex: 0 0 auto;
+}
+
+.checkbox-item:hover {
+    background: rgba(231, 30, 138, 0.05);
+    border-color: rgba(231, 30, 138, 0.2);
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #e71e8a;
+    flex-shrink: 0;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-label {
+    color: #e71e8a;
+    font-weight: 600;
+}
+
+.checkbox-label {
+    font-size: 0.95rem;
+    color: #2c3e50;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* ========== UPLOAD DE IMÁGENES ========== */
+.imagenes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.imagen-upload-grupo {
+    flex: 0 0 calc(33.333% - 10px);
+    margin-bottom: 5px;
+}
+
+.imagen-input {
+    display: none;
+}
+
+.imagen-upload-label {
+    cursor: pointer;
+    display: block;
+}
+
+.imagen-upload-area {
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    padding: 25px 15px;
+    text-align: center;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-height: 120px;
+    justify-content: center;
+}
+
+.imagen-upload-area:hover {
+    border-color: #0084ff;
+    background: rgba(0, 132, 255, 0.05);
+}
+
+.imagen-upload-area i {
+    font-size: 2rem;
+    color: #0084ff;
+}
+
+.imagen-upload-area span {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.imagen-upload-area small {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.imagen-upload-area.has-image {
+    padding: 0;
+    border-style: solid;
+    border-color: #0084ff;
+    overflow: hidden;
+    position: relative;
+}
+
+.imagen-upload-area.has-image img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+}
+
+.imagen-cambiar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    text-align: center;
+    padding: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.imagen-upload-area.has-image:hover .imagen-cambiar {
+    opacity: 1;
+}
+
+/* ========== POLÍTICA DE PRIVACIDAD ========== */
+.form-politica {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.checkbox-politica {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.checkbox-politica:hover {
+    background: transparent;
+    border-color: transparent;
+}
+
+.checkbox-politica .checkbox-label {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ========== BOTÓN DE ENVÍO ========== */
+.form-submit {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-registro-submit {
+    background: #e71e8a;
+    color: #ffffff;
+    padding: 16px 45px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(231, 30, 138, 0.3);
+    font-family: inherit;
+}
+
+.btn-registro-submit:hover {
+    background: #1d5695;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 86, 149, 0.4);
+}
+
+.btn-registro-submit:active {
+    transform: translateY(0);
+}
+
+.btn-registro-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-registro-submit i {
+    font-size: 1.2rem;
+}
+
+.form-nota {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 12px;
+}
+
+/* ========== MENSAJE DE ÉXITO ========== */
+.registro-mensaje-exito {
+    background: #ffffff;
+    padding: 60px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.mensaje-icono {
+    margin-bottom: 25px;
+}
+
+.mensaje-icono i {
+    font-size: 5rem;
+    color: #27ae60;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.registro-mensaje-exito h2 {
+    font-size: 2.2rem;
+    color: #e71e8a;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.registro-mensaje-exito p {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-volver {
+    display: inline-block;
+    background: #1d5695;
+    color: #ffffff;
+    padding: 15px 35px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-volver:hover {
+    background: #0084ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 132, 255, 0.3);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* ========== FOOTER DEL REGISTRO ========== */
+.registro-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.registro-footer > * {
+    flex: 1;
+    min-width: 280px;
+}
+
+.registro-ayuda,
+.registro-politicas {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.registro-ayuda h3,
+.registro-politicas h3 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.registro-ayuda h3 i {
+    color: #0084ff;
+}
+
+.registro-politicas h3 i {
+    color: #1d5695;
+}
+
+.registro-ayuda p,
+.registro-politicas p {
+    color: #2c3e50;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.registro-ayuda ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.registro-ayuda ul li {
+    padding: 8px 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.registro-ayuda ul li i {
+    color: #e71e8a;
+    flex-shrink: 0;
+}
+
+/* ========== CONTADORES DE CARACTERES ========== */
+.char-counter {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 4px;
+    transition: color 0.3s ease;
+}
+
+.char-counter.char-warning {
+    color: #e67e22;
+    font-weight: 600;
+}
+
+.char-counter.char-limit {
+    color: #e71e8a;
+    font-weight: 700;
+}
+
+/* ========== ERRORES DE CAMPO ========== */
+.field-error {
+    display: none;
+    color: #e71e8a;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 5px;
+    padding-left: 2px;
+}
+
+.imagen-error {
+    display: none;
+    color: #e71e8a;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* ========== CAPTCHA ========== */
+.form-seccion-captcha {
+    background: rgba(29, 86, 149, 0.04);
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid rgba(29, 86, 149, 0.15);
+}
+
+.captcha-grupo {
+    margin-bottom: 0;
+}
+
+.captcha-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.captcha-pregunta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid rgba(29, 86, 149, 0.2);
+}
+
+.captcha-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1d5695;
+}
+
+.captcha-operador {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #e71e8a;
+}
+
+.captcha-input {
+    width: 80px;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2c3e50;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.captcha-input::-webkit-outer-spin-button,
+.captcha-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.captcha-input:focus {
+    outline: none;
+    border-color: #0084ff;
+    box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.1);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .registro-artista-container {
+        margin: 40px auto;
+    }
+    
+    .registro-header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .registro-formulario {
+        padding: 25px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-col {
+        min-width: 100%;
+    }
+    
+    .imagen-upload-grupo {
+        flex: 0 0 calc(50% - 8px);
+    }
+    
+    .checkbox-grid {
+        gap: 8px;
+    }
+    
+    .btn-registro-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .registro-artista-container {
+        padding: 0 15px;
+    }
+    
+    .registro-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .registro-descripcion {
+        font-size: 1rem;
+    }
+    
+    .registro-formulario {
+        padding: 20px;
+    }
+    
+    .form-seccion-titulo {
+        font-size: 1.2rem;
+    }
+    
+    .imagen-upload-grupo {
+        flex: 0 0 100%;
+    }
+    
+    .registro-mensaje-exito {
+        padding: 40px 20px;
+    }
+    
+    .mensaje-icono i {
+        font-size: 4rem;
+    }
+    
+    .registro-mensaje-exito h2 {
+        font-size: 1.8rem;
+    }
+    
+    .registro-ayuda,
+    .registro-politicas {
+        padding: 20px;
+    }
+}
+
+/* ========== ANIMACIONES ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.registro-formulario,
+.registro-footer > * {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+.registro-formulario {
+    animation-delay: 0.1s;
+}
+
+.registro-ayuda {
+    animation-delay: 0.2s;
+}
+
+.registro-politicas {
+    animation-delay: 0.3s;
+}
+
+/* ========== ACCESIBILIDAD ========== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

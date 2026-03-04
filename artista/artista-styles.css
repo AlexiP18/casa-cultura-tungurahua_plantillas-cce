@@ -5,51 +5,63 @@
  */
 
 /* ========== RESET Y BASE ========== */
-* {
+body.single-artista * {
     box-sizing: border-box;
 }
 
 /* ========== CONTENEDOR PRINCIPAL ========== */
-.artista-container {
-    max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
-    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
-    color: #2c3e50;
+body.single-artista .artista-container {
+    max-width: 1200px !important;
+    margin: 60px auto !important;
+    padding: 0 20px !important;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif !important;
+    color: #2c3e50 !important;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+}
+
+/* Fix mobile menu z-index issues */
+header,
+.site-header,
+#masthead,
+.main-header {
+    position: relative;
+    z-index: 9999 !important;
 }
 
 /* ========== HEADER DEL ARTISTA ========== */
-.artista-header {
-    margin-bottom: 40px;
-    text-align: center;
+body.single-artista .artista-header {
+    margin-bottom: 40px !important;
+    text-align: center !important;
 }
 
-.artista-header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 15px;
-    font-weight: 700;
-    color: #8e44ad;
-    position: relative;
-    padding-bottom: 15px;
-    line-height: 1.2;
+body.single-artista .artista-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem) !important;
+    margin-bottom: 15px !important;
+    font-weight: 700 !important;
+    color: #e71e8a !important;
+    position: relative !important;
+    padding-bottom: 15px !important;
+    line-height: 1.2 !important;
 }
 
-.artista-header h1::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 4px;
-    background: #e67e22;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
+body.single-artista .artista-header h1::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 80px !important;
+    height: 4px !important;
+    background: #0084ff !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-radius: 2px !important;
 }
 
-.artista-disciplinas {
+body.single-artista .artista-disciplinas {
     text-align: center;
     font-size: 1.5rem;
-    color: #6c3483;
+    color: #1d5695;
     margin-top: 20px;
     font-weight: 500;
     font-style: italic;
@@ -73,128 +85,103 @@
     min-width: 0;
 }
 
-/* ========== SLIDER DE IMÁGENES ========== */
-.artista-slider {
+/* ========== SLIDER DE IMÁGENES (Estilo Blog) ========== */
+.artista-galeria-slider {
     position: relative;
-    margin-bottom: 40px;
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    aspect-ratio: 16 / 9;
-    background: #f8f9fa;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    background: #000;
 }
 
-.slider-wrapper {
-    display: flex;
-    height: 100%;
-    transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-    will-change: transform;
-}
-
-.slide {
-    flex: 0 0 100%;
-    height: 100%;
+.galeria-slider-artista {
     position: relative;
+    aspect-ratio: 16 / 9;
+    max-height: 500px;
 }
 
-.slide img {
+.galeria-slide-artista {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.galeria-slide-artista.active {
+    opacity: 1;
+}
+
+.galeria-slide-artista img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: filter 0.5s ease;
-}
-
-.slide:hover img {
-    filter: brightness(1.05);
 }
 
 /* Botones de navegación del slider */
-.slider-nav {
+.galeria-btn-artista {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #8e44ad;
-    border: none;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    font-size: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    z-index: 10;
     transition: all 0.3s ease;
+    z-index: 10;
+    color: #e71e8a;
+    font-size: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
 }
 
-.slider-nav:hover {
-    background-color: #ffffff;
+.galeria-btn-artista:hover {
+    background: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transform: translateY(-50%) scale(1.1);
 }
 
-.slider-nav:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.slider-nav:focus-visible {
-    outline: 3px solid #e67e22;
-    outline-offset: 3px;
-}
-
-.slider-nav.prev {
+.galeria-btn-artista.prev {
     left: 20px;
 }
 
-.slider-nav.next {
+.galeria-btn-artista.next {
     right: 20px;
 }
 
 /* Indicadores del slider */
-.slider-indicators {
+.galeria-dots-artista {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    gap: 10px;
     z-index: 10;
-    padding: 8px 12px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
 }
 
-.slider-dot {
+.dot-artista {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.5);
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
 }
 
-.slider-dot:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    transform: scale(1.2);
-}
-
-.slider-dot.active {
-    background-color: #ffffff;
-    width: 28px;
-    border-radius: 6px;
-}
-
-.slider-dot:focus-visible {
-    outline: 2px solid #ffffff;
-    outline-offset: 2px;
+.dot-artista.active,
+.dot-artista:hover {
+    background: #ffffff;
+    transform: scale(1.3);
 }
 
 /* ========== DESCRIPCIÓN DEL ARTISTA ========== */
@@ -220,12 +207,13 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #e67e22;
 }
 
 .artista-trayectoria h2 {
-    color: #8e44ad;
+    color: #e71e8a;
     font-size: 2rem;
+    margin-top: 0;
+    /* Evita el espaciado extra arriba */
     margin-bottom: 20px;
     position: relative;
     padding-bottom: 8px;
@@ -237,7 +225,7 @@
     position: absolute;
     width: 60px;
     height: 3px;
-    background: #e67e22;
+    background: #0084ff;
     bottom: 0;
     left: 0;
     border-radius: 2px;
@@ -246,7 +234,7 @@
 .trayectoria-content {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #2c3e50;
+    color: #4a5568;
 }
 
 .trayectoria-content p:last-child {
@@ -290,7 +278,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.08), transparent);
+    background: rgba(0, 0, 0, 0.08);
 }
 
 /* Wrapper del icono */
@@ -299,7 +287,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
+    background: #e71e8a;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,13 +331,13 @@
 .value {
     font-weight: 500;
     font-size: 1.1rem;
-    color: #6c3483;
+    color: #1d5695;
     word-break: break-word;
     line-height: 1.4;
 }
 
 .value a {
-    color: #6c3483;
+    color: #1d5695;
     text-decoration: none;
     transition: all 0.2s ease;
     position: relative;
@@ -363,12 +351,12 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #8e44ad;
+    background: #e71e8a;
     transition: width 0.3s ease;
 }
 
 .value a:hover {
-    color: #8e44ad;
+    color: #e71e8a;
 }
 
 .value a:hover::after {
@@ -376,7 +364,7 @@
 }
 
 .value a:focus-visible {
-    outline: 2px solid #e67e22;
+    outline: 2px solid #0084ff;
     outline-offset: 2px;
     border-radius: 2px;
 }
@@ -384,31 +372,109 @@
 /* ========== TAGS DE DISCIPLINAS ========== */
 .disciplina-tags {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    /* Horizontal scroll */
+    gap: 8px;
     margin-top: 2px;
     align-items: center;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    /* Space for scrollbar */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    max-width: 100%;
+}
+
+/* Scrollbar styling */
+.disciplina-tags::-webkit-scrollbar {
+    height: 4px;
+}
+
+.disciplina-tags::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.disciplina-tags::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.disciplina-tags::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .disciplina-tag {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(135deg, #f0e6f6, #e8d5f2);
+    white-space: nowrap;
+    /* Prevent text wrapping */
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    background: rgba(231, 30, 138, 0.1);
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.9rem;
-    color: #6c3483;
+    color: #1d5695;
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     line-height: 1.2;
+    border: 1px solid rgba(231, 30, 138, 0.2);
+}
+
+.disciplina-tag i {
+    margin-right: 6px;
+    font-size: 0.9em;
 }
 
 .disciplina-tag:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    background: #e71e8a;
     color: #ffffff;
+    border-color: #e71e8a;
+}
+
+/* Tags en el header del artista */
+.artista-header .disciplina-tags {
+    display: inline-flex;
+    /* Allows centering via parent text-align */
+    justify-content: flex-start;
+    /* Start items from left */
+    max-width: 100%;
+    margin-top: 15px;
+    padding-left: 4px;
+    /* Tiny padding */
+}
+
+.artista-header .disciplina-tag {
+    font-size: 1rem;
+    padding: 8px 18px;
+}
+
+/* Tags en el info sidebar */
+.info-content .disciplina-tags {
+    margin-top: 5px;
+}
+
+.info-content .disciplina-tag {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+}
+
+/* Tags en las cards de archivo */
+.artista-card-disciplina {
+    margin-bottom: 12px;
+}
+
+.artista-card-disciplina .disciplina-tags {
+    justify-content: flex-start;
+}
+
+.artista-card-disciplina .disciplina-tag {
+    font-size: 0.85rem;
+    padding: 5px 12px;
 }
 
 /* ========== REDES SOCIALES ========== */
@@ -422,24 +488,40 @@
 }
 
 .artista-redes-sociales:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .artista-redes-sociales h3 {
     font-size: 1.3rem;
     color: #2c3e50;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    /* Increased margin */
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.artista-redes-sociales h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #e71e8a;
+    border-radius: 2px;
 }
 
 .redes-iconos {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     justify-items: center;
-    max-width: 280px;
+    max-width: 220px;
     margin: 0 auto;
 }
 
@@ -459,26 +541,10 @@
     overflow: hidden;
 }
 
-.red-social::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(0);
-    transition: transform 0.3s ease;
-    border-radius: 50%;
-}
-
-.red-social:hover::before {
-    transform: scale(1);
-}
-
 .red-social:hover {
-    transform: translateY(-5px) scale(1.05);
+    transform: translateY(-5px) scale(1.1);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    filter: brightness(1.1);
 }
 
 .red-social:active {
@@ -486,41 +552,41 @@
 }
 
 .red-social:focus-visible {
-    outline: 3px solid #e67e22;
+    outline: 3px solid #0084ff;
     outline-offset: 3px;
 }
 
 /* Colores específicos de redes sociales */
 .red-social.facebook {
-    background: linear-gradient(135deg, #3b5998, #2d4373);
+    background: #3b5998;
 }
 
 .red-social.instagram {
-    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C);
+    background: #E1306C;
 }
 
-.red-social.twitter {
-    background: linear-gradient(135deg, #000000, #333333);
+.red-social.x-twitter {
+    background: #000000;
 }
 
 .red-social.spotify {
-    background: linear-gradient(135deg, #1DB954, #168f43);
+    background: #1DB954;
 }
 
 .red-social.pinterest {
-    background: linear-gradient(135deg, #E60023, #ad001a);
+    background: #E60023;
 }
 
 .red-social.tiktok {
-    background: linear-gradient(135deg, #000000, #69C9D0, #EE1D52);
+    background: #000000;
 }
 
 .red-social.youtube {
-    background: linear-gradient(135deg, #FF0000, #cc0000);
+    background: #FF0000;
 }
 
 .red-social.link {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #1d5695;
 }
 
 /* ========== BOTÓN DE WHATSAPP ========== */
@@ -529,7 +595,7 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background: linear-gradient(135deg, #25d366, #128c7e);
+    background: #25d366;
     color: #ffffff;
     padding: 18px 20px;
     border-radius: 8px;
@@ -551,8 +617,9 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #128c7e, #25d366);
+    background: #128c7e;
     transition: left 0.3s ease;
+    z-index: 0;
 }
 
 .whatsapp-btn:hover::before {
@@ -571,18 +638,27 @@
 }
 
 .whatsapp-btn:focus-visible {
-    outline: 3px solid #e67e22;
+    outline: 3px solid #0084ff;
     outline-offset: 3px;
 }
 
 .whatsapp-btn i,
-.whatsapp-btn span {
+.whatsapp-btn span,
+.whatsapp-btn * {
     position: relative;
     z-index: 1;
 }
 
 .whatsapp-btn i {
     font-size: 26px;
+    z-index: 1;
+}
+
+/* El texto se mantiene estático por petición del usuario */
+.whatsapp-text {
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 /* ========== RESPONSIVE DESIGN ========== */
@@ -592,11 +668,11 @@
     .artista-container {
         margin: 40px auto;
     }
-    
+
     .artista-header h1 {
         font-size: 2.5rem;
     }
-    
+
     .artista-slider {
         aspect-ratio: 4 / 3;
     }
@@ -607,38 +683,38 @@
     .artista-container {
         margin: 30px auto;
     }
-    
+
     .artista-header h1 {
         font-size: 2.2rem;
     }
-    
+
     .artista-disciplinas {
         font-size: 1.3rem;
     }
-    
+
     .artista-slider {
         aspect-ratio: 1 / 1;
     }
-    
+
     .slider-nav {
         width: 45px;
         height: 45px;
         font-size: 20px;
     }
-    
+
     .slider-nav.prev {
         left: 12px;
     }
-    
+
     .slider-nav.next {
         right: 12px;
     }
-    
+
     .redes-iconos {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 260px;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 220px;
     }
-    
+
     .red-social {
         width: 50px;
         height: 50px;
@@ -651,48 +727,48 @@
     .artista-container {
         padding: 0 15px;
     }
-    
+
     .artista-content {
         gap: 30px;
     }
-    
+
     .icon-wrapper {
         width: 45px;
         height: 45px;
         font-size: 20px;
     }
-    
+
     .label {
         font-size: 0.75rem;
     }
-    
+
     .value {
         font-size: 1rem;
     }
-    
+
     .redes-iconos {
         grid-template-columns: repeat(3, 1fr);
         max-width: 180px;
         gap: 10px;
     }
-    
+
     .red-social {
         width: 48px;
         height: 48px;
         font-size: 20px;
     }
-    
+
     .whatsapp-btn {
         font-size: 1rem;
         padding: 15px 12px;
         flex-direction: column;
         gap: 8px;
     }
-    
+
     .whatsapp-btn span {
         font-size: 0.9rem;
     }
-    
+
     .disciplina-tag {
         font-size: 0.85rem;
         padding: 5px 12px;
@@ -703,6 +779,7 @@
 
 /* Reducir movimiento para usuarios con preferencias de accesibilidad */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -710,7 +787,7 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-    
+
     .slider-wrapper {
         transition: none;
     }
@@ -721,7 +798,7 @@
     .info-item:not(:last-child)::after {
         background: rgba(0, 0, 0, 0.3);
     }
-    
+
     .artista-info,
     .artista-redes-sociales,
     .artista-descripcion,
@@ -736,6 +813,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -763,22 +841,23 @@
 
 /* ========== ESTILOS DE IMPRESIÓN ========== */
 @media print {
+
     .slider-nav,
     .slider-indicators,
     .whatsapp-btn {
         display: none !important;
     }
-    
+
     .artista-slider {
         page-break-inside: avoid;
     }
-    
+
     .artista-info,
     .artista-redes-sociales {
         box-shadow: none;
         border: 1px solid #ddd;
     }
-    
+
     .red-social {
         filter: grayscale(1);
     }

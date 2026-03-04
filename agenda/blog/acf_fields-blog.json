@@ -1,0 +1,1038 @@
+[
+    {
+        "key": "group_blog_institucional",
+        "title": "Configuración de Entrada de Blog",
+        "fields": [
+            {
+                "key": "field_tab_info_blog",
+                "label": "📝 Información General",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_categoria",
+                "label": "Categoría Principal",
+                "name": "blog_categoria",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Selecciona la categoría de esta entrada",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "mensaje_directora": "Mensaje de la Directora",
+                    "conmemoracion": "Conmemoración \/ Fecha Especial",
+                    "rendicion_cuentas": "Rendición de Cuentas",
+                    "logros": "Logros y Reconocimientos",
+                    "proyectos": "Proyectos en Curso",
+                    "reflexion": "Reflexión Cultural",
+                    "opinion": "Opinión y Análisis",
+                    "general": "General"
+                },
+                "default_value": "mensaje_directora",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 1,
+                "ajax": 0,
+                "return_format": "value",
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_blog_destacada",
+                "label": "Entrada Destacada",
+                "name": "blog_destacada",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Marcar para mostrar en slider principal",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "ui": 1,
+                "ui_on_text": "Sí",
+                "ui_off_text": "No"
+            },
+            {
+                "key": "field_blog_urgente",
+                "label": "Comunicado Urgente",
+                "name": "blog_urgente",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Marcar si es un comunicado urgente o importante",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "ui": 1,
+                "ui_on_text": "Sí",
+                "ui_off_text": "No"
+            },
+            {
+                "key": "field_blog_resumen",
+                "label": "Resumen \/ Extracto",
+                "name": "blog_resumen",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Resumen corto que aparecerá en listados y tarjetas (máx. 200 caracteres)",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": 200,
+                "rows": 3,
+                "placeholder": "Escribe un resumen atractivo de esta entrada...",
+                "new_lines": ""
+            },
+            {
+                "key": "field_blog_subtitulo",
+                "label": "Subtítulo",
+                "name": "blog_subtitulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Subtítulo o frase complementaria al título",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": 150,
+                "placeholder": "Ej: Reflexiones sobre el arte en nuestra comunidad",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_tab_multimedia_blog",
+                "label": "🖼️ Multimedia",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_imagen_destacada",
+                "label": "Imagen Destacada",
+                "name": "blog_imagen_destacada",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen principal de la entrada (Recomendado: 1200x630px)",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": 800,
+                "min_height": 500,
+                "max_size": 2,
+                "mime_types": "jpg,jpeg,png,webp",
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0
+            },
+            {
+                "key": "field_blog_imagen_banner",
+                "label": "Banner \/ Hero",
+                "name": "blog_imagen_banner",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen de banner para el header (Recomendado: 1920x600px)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_blog_imagen_2",
+                "label": "Imagen Galería 2",
+                "name": "blog_imagen_2",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen adicional para galería\/slider",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_blog_imagen_3",
+                "label": "Imagen Galería 3",
+                "name": "blog_imagen_3",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_blog_imagen_4",
+                "label": "Imagen Galería 4",
+                "name": "blog_imagen_4",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_blog_imagen_5",
+                "label": "Imagen Galería 5",
+                "name": "blog_imagen_5",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_blog_video",
+                "label": "Video Embebido",
+                "name": "blog_video",
+                "aria-label": "",
+                "type": "oembed",
+                "instructions": "URL de video de YouTube, Vimeo, etc.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "width": "",
+                "height": ""
+            },
+            {
+                "key": "field_tab_autor_blog",
+                "label": "👤 Autor",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_autor_personalizado",
+                "label": "¿Usar información de autor personalizada?",
+                "name": "blog_autor_personalizado",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Activar para sobrescribir los datos del autor de WordPress",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "ui": 1,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_blog_autor_nombre",
+                "label": "Nombre del Autor",
+                "name": "blog_autor_nombre",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre que aparecerá como autor",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_autor_personalizado",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Mgtr. Noemi Salazar",
+                "maxlength": "",
+                "allow_in_bindings": 1,
+                "placeholder": "Ej: Dra. María García - Directora",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_blog_autor_cargo",
+                "label": "Cargo del Autor",
+                "name": "blog_autor_cargo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Cargo o título del autor",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_autor_personalizado",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Directora - Casa de la Cultura \"Núcleo Tungurahua\"",
+                "maxlength": "",
+                "allow_in_bindings": 1,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_blog_autor_bio",
+                "label": "Biografía del Autor",
+                "name": "blog_autor_bio",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Breve biografía o descripción del autor",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_autor_personalizado",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Actualmente cumplo funciones como directora de la Casa de la Cultura - Núcleo de Tungurahua",
+                "maxlength": 300,
+                "allow_in_bindings": 1,
+                "rows": 3,
+                "placeholder": "Breve descripción del autor...",
+                "new_lines": ""
+            },
+            {
+                "key": "field_blog_autor_foto",
+                "label": "Foto del Autor",
+                "name": "blog_autor_foto",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Foto de perfil del autor",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_autor_personalizado",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": "",
+                "allow_in_bindings": 1,
+                "preview_size": "thumbnail"
+            },
+            {
+                "key": "field_tab_conmemoracion",
+                "label": "🎊 Conmemoración",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "conmemoracion"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_fecha_conmemoracion",
+                "label": "Fecha de Conmemoración",
+                "name": "blog_fecha_conmemoracion",
+                "aria-label": "",
+                "type": "date_picker",
+                "instructions": "Fecha que se está conmemorando",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "conmemoracion"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "d\/m\/Y",
+                "return_format": "Y-m-d",
+                "first_day": 1,
+                "default_to_current_date": 0
+            },
+            {
+                "key": "field_blog_evento_historico",
+                "label": "Evento Histórico",
+                "name": "blog_evento_historico",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del evento o fecha que se conmemora",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "conmemoracion"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Día Internacional de la Danza",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_tab_rendicion",
+                "label": "📊 Rendición de Cuentas",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_periodo_reporte",
+                "label": "Período del Reporte",
+                "name": "blog_periodo_reporte",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Ej: Enero - Marzo 2024, Primer Semestre 2024",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Primer Trimestre 2024",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_blog_tipo_reporte",
+                "label": "Tipo de Reporte",
+                "name": "blog_tipo_reporte",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Tipo de rendición de cuentas",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "trimestral": "Reporte Trimestral",
+                    "semestral": "Reporte Semestral",
+                    "anual": "Reporte Anual",
+                    "proyecto": "Reporte de Proyecto Específico",
+                    "financiero": "Reporte Financiero",
+                    "actividades": "Reporte de Actividades"
+                },
+                "default_value": "trimestral",
+                "allow_null": 1,
+                "multiple": 0,
+                "ui": 1,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_blog_datos_estadisticos",
+                "label": "Datos Estadísticos",
+                "name": "blog_datos_estadisticos",
+                "aria-label": "",
+                "type": "wysiwyg",
+                "instructions": "Datos numéricos, estadísticas o métricas del reporte",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "tabs": "all",
+                "toolbar": "basic",
+                "media_upload": 1,
+                "delay": 0
+            },
+            {
+                "key": "field_blog_archivo_1_titulo",
+                "label": "Archivo 1 - Título",
+                "name": "blog_archivo_1_titulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Título descriptivo del archivo",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Reporte Financiero Trimestral",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_blog_archivo_1",
+                "label": "Archivo 1",
+                "name": "blog_archivo_1",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "Documento PDF, Excel, etc.",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "min_size": 0,
+                "max_size": 10,
+                "mime_types": "pdf,doc,docx,xls,xlsx,ppt,pptx"
+            },
+            {
+                "key": "field_blog_archivo_2_titulo",
+                "label": "Archivo 2 - Título",
+                "name": "blog_archivo_2_titulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_blog_archivo_2",
+                "label": "Archivo 2",
+                "name": "blog_archivo_2",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "min_size": 0,
+                "max_size": 10,
+                "mime_types": "pdf,doc,docx,xls,xlsx,ppt,pptx"
+            },
+            {
+                "key": "field_blog_archivo_3_titulo",
+                "label": "Archivo 3 - Título",
+                "name": "blog_archivo_3_titulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_blog_archivo_3",
+                "label": "Archivo 3",
+                "name": "blog_archivo_3",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_blog_categoria",
+                            "operator": "==",
+                            "value": "rendicion_cuentas"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "min_size": 0,
+                "max_size": 10,
+                "mime_types": "pdf,doc,docx,xls,xlsx,ppt,pptx"
+            },
+            {
+                "key": "field_tab_config_blog",
+                "label": "⚙️ Configuración",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_blog_etiquetas",
+                "label": "Etiquetas",
+                "name": "blog_etiquetas",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Etiquetas para categorizar la entrada",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "importante": "Importante",
+                    "urgente": "Urgente",
+                    "historico": "Histórico",
+                    "transparencia": "Transparencia",
+                    "comunidad": "Comunidad",
+                    "educacion": "Educación",
+                    "arte": "Arte",
+                    "musica": "Música",
+                    "teatro": "Teatro",
+                    "literatura": "Literatura",
+                    "patrimonio": "Patrimonio",
+                    "juventud": "Juventud",
+                    "inclusion": "Inclusión"
+                },
+                "default_value": [],
+                "allow_null": 1,
+                "multiple": 1,
+                "ui": 1,
+                "ajax": 1,
+                "return_format": "value",
+                "placeholder": "",
+                "create_options": 1,
+                "save_options": 0
+            },
+            {
+                "key": "field_blog_permitir_comentarios",
+                "label": "Permitir Comentarios",
+                "name": "blog_permitir_comentarios",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Activar sistema de comentarios para esta entrada",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 1,
+                "ui": 1,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_blog_mostrar_autor",
+                "label": "Mostrar Información del Autor",
+                "name": "blog_mostrar_autor",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Mostrar tarjeta de autor al final de la entrada",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 1,
+                "ui": 1,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_blog_mostrar_relacionadas",
+                "label": "Mostrar Entradas Relacionadas",
+                "name": "blog_mostrar_relacionadas",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Mostrar entradas relacionadas al final",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "34",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 1,
+                "ui": 1,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_blog_tiempo_lectura",
+                "label": "Tiempo de Lectura Estimado",
+                "name": "blog_tiempo_lectura",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Tiempo estimado de lectura en minutos (se calcula automáticamente si se deja vacío)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 5",
+                "min": 1,
+                "max": 60,
+                "step": 1,
+                "prepend": "",
+                "append": "minutos"
+            },
+            {
+                "key": "field_blog_enlace_externo",
+                "label": "Enlace Externo",
+                "name": "blog_enlace_externo",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace a recurso externo relacionado (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "blog"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "acf_after_title",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "excerpt",
+            "discussion",
+            "slug",
+            "author",
+            "format",
+            "page_attributes",
+            "featured_image"
+        ],
+        "active": true,
+        "description": "Campos personalizados para el blog institucional de la Casa de la Cultura",
+        "show_in_rest": 0,
+        "display_title": ""
+    }
+]

@@ -159,17 +159,33 @@ function cc_get_blog_categoria_info($post_id = null) {
     $categoria = get_field('blog_categoria', $post_id);
     
     $categorias = array(
-        'mensaje_directora' => array('label' => 'Mensaje de la Directora', 'icon' => 'fa-message', 'color' => '#8e44ad'),
-        'conmemoracion' => array('label' => 'Conmemoración', 'icon' => 'fa-calendar-star', 'color' => '#e74c3c'),
+        'mensaje_directora' => array('label' => 'Mensaje de la Directora', 'icon' => 'fa-envelope', 'color' => '#8e44ad'),
+        'conmemoracion' => array('label' => 'Conmemoración', 'icon' => 'fa-calendar-alt', 'color' => '#e74c3c'),
         'rendicion_cuentas' => array('label' => 'Rendición de Cuentas', 'icon' => 'fa-chart-line', 'color' => '#16a085'),
         'logros' => array('label' => 'Logros y Reconocimientos', 'icon' => 'fa-trophy', 'color' => '#f39c12'),
         'proyectos' => array('label' => 'Proyectos en Curso', 'icon' => 'fa-lightbulb', 'color' => '#3498db'),
         'reflexion' => array('label' => 'Reflexión Cultural', 'icon' => 'fa-brain', 'color' => '#9b59b6'),
         'opinion' => array('label' => 'Opinión y Análisis', 'icon' => 'fa-comments', 'color' => '#34495e'),
-        'general' => array('label' => 'General', 'icon' => 'fa-pen-to-square', 'color' => '#95a5a6')
+        'general' => array('label' => 'General', 'icon' => 'fa-edit', 'color' => '#95a5a6')
     );
     
     return $categorias[$categoria] ?? $categorias['general'];
+}
+
+/**
+ * Obtener array de categorías de blog con sus labels e iconos
+ */
+function cc_get_categorias_blog_labels() {
+    return array(
+        'mensaje_directora' => array('label' => 'Mensaje de la Directora', 'icon' => 'fa-envelope', 'color' => '#8e44ad'),
+        'conmemoracion' => array('label' => 'Conmemoración', 'icon' => 'fa-calendar-alt', 'color' => '#e74c3c'),
+        'rendicion_cuentas' => array('label' => 'Rendición de Cuentas', 'icon' => 'fa-chart-line', 'color' => '#16a085'),
+        'logros' => array('label' => 'Logros y Reconocimientos', 'icon' => 'fa-trophy', 'color' => '#f39c12'),
+        'proyectos' => array('label' => 'Proyectos en Curso', 'icon' => 'fa-lightbulb', 'color' => '#3498db'),
+        'reflexion' => array('label' => 'Reflexión Cultural', 'icon' => 'fa-brain', 'color' => '#9b59b6'),
+        'opinion' => array('label' => 'Opinión y Análisis', 'icon' => 'fa-comments', 'color' => '#34495e'),
+        'general' => array('label' => 'General', 'icon' => 'fa-edit', 'color' => '#95a5a6')
+    );
 }
 
 /**
@@ -313,17 +329,10 @@ function cc_get_entradas_relacionadas($post_id = null, $limit = 3) {
     
     $query = new WP_Query($args);
     
-    // Si no hay suficientes, obtener las más recientes
-    if ($query->post_count < $limit) {
-        $args = array(
-            'post_type' => 'blog',
-            'posts_per_page' => $limit,
-            'post__not_in' => array($post_id),
-            'orderby' => 'date',
-            'order' => 'DESC'
-        );
-        $query = new WP_Query($args);
-    }
+    
+    // Eliminamos el fallback genérico por petición del usuario para
+    // que SOLO muestre entradas relacionadas de la misma categoría, 
+    // sin importar si no llega al límite.
     
     return $query;
 }
@@ -496,6 +505,375 @@ function cc_shortcode_ultimas_entradas($atts) {
 add_shortcode('ultimas_entradas', 'cc_shortcode_ultimas_entradas');
 
 /**
+ * Shortcode para mostrar todas las entradas del blog en grid
+ * Uso: [mostrar_blog cantidad="9" orden="date" direccion="DESC" categoria=""]
+ */
+function cc_shortcode_mostrar_blog($atts) {
+    $atts = shortcode_atts(array(
+        'cantidad' => 9,
+        'orden' => 'date',
+        'direccion' => 'DESC',
+        'categoria' => ''
+    ), $atts);
+    
+    // Asegurar estilos cargados
+    wp_enqueue_style('cc-blog-styles', get_template_directory_uri() . '/plantillas/agenda/blog/blog-styles.css');
+    
+    $args = array(
+        'post_type' => 'blog',
+        'posts_per_page' => intval($atts['cantidad']),
+        'orderby' => $atts['orden'],
+        'order' => $atts['direccion']
+    );
+    
+    // Filtro por categoría si se especifica
+    if (!empty($atts['categoria'])) {
+        $args['meta_query'] = array(
+            array(
+                'key' => 'blog_categoria',
+                'value' => $atts['categoria'],
+                'compare' => '='
+            )
+        );
+    }
+    
+    $query = new WP_Query($args);
+    
+    ob_start();
+    
+    if ($query->have_posts()) : ?>
+        <div class="blog-archive-container">
+            <div class="blog-grid">
+                <?php while ($query->have_posts()) : $query->the_post();
+                    $imagen = get_field('blog_imagen_destacada');
+                    $categoria_info = cc_get_blog_categoria_info();
+                    $resumen = get_field('blog_resumen');
+                    $autor = get_field('blog_autor');
+                    $destacada = get_field('blog_destacada');
+                    
+                    $clase_destacada = $destacada ? ' blog-destacada' : '';
+                ?>
+                    <article class="blog-card<?php echo esc_attr($clase_destacada); ?>">
+                        <?php if ($imagen) : ?>
+                            <div class="blog-card-image">
+                                <a href="<?php the_permalink(); ?>">
+                                    <img src="<?php echo esc_url($imagen['sizes']['medium_large'] ?? $imagen['url']); ?>" alt="<?php echo esc_attr($imagen['alt']); ?>" loading="lazy">
+                                </a>
+                                <?php if ($destacada) : ?>
+                                    <span class="blog-badge destacada"><i class="fas fa-star"></i> Destacada</span>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="blog-card-content">
+                            <span class="blog-categoria" style="color: <?php echo esc_attr($categoria_info['color']); ?>;">
+                                <i class="fas <?php echo esc_attr($categoria_info['icon']); ?>"></i>
+                                <?php echo esc_html($categoria_info['label']); ?>
+                            </span>
+                            
+                            <h3 class="blog-card-title">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+                            
+                            <?php if ($resumen) : ?>
+                                <p class="blog-card-resumen"><?php echo esc_html(wp_trim_words($resumen, 20)); ?></p>
+                            <?php endif; ?>
+                            
+                            <div class="blog-card-meta">
+                                <span class="blog-fecha">
+                                    <i class="far fa-calendar-alt"></i> <?php echo get_the_date('j M, Y'); ?>
+                                </span>
+                                <?php if ($autor) : ?>
+                                    <span class="blog-autor">
+                                        <i class="far fa-user"></i> <?php echo esc_html($autor); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <a href="<?php the_permalink(); ?>" class="blog-leer-mas">Leer mas <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+            </div>
+        </div>
+    <?php else : ?>
+        <div class="blog-empty">
+            <p>No hay entradas de blog disponibles en este momento.</p>
+        </div>
+    <?php endif;
+    
+    wp_reset_postdata();
+    
+    return ob_get_clean();
+}
+add_shortcode('mostrar_blog', 'cc_shortcode_mostrar_blog');
+
+/**
+ * Shortcode: Carrusel de Blog Destacadas y Comunicados Urgentes
+ * Uso: [blog_carousel cantidad="10" titulo="Blog Institucional"]
+ */
+function cc_shortcode_blog_carousel($atts) {
+    $atts = shortcode_atts(array(
+        'cantidad' => 10,
+        'titulo'   => 'Blog Institucional',
+    ), $atts);
+
+    // Enqueue CSS
+    wp_enqueue_style(
+        'cc-blog-carousel-styles',
+        get_template_directory_uri() . '/plantillas/agenda/blog/blog-carousel-styles.css',
+        array(),
+        filemtime(get_template_directory() . '/plantillas/agenda/blog/blog-carousel-styles.css')
+    );
+
+    // Query: blog_destacada=1 OR blog_urgente=1
+    $args = array(
+        'post_type'      => 'blog',
+        'posts_per_page' => intval($atts['cantidad']),
+        'meta_query'     => array(
+            'relation' => 'OR',
+            array(
+                'key'     => 'blog_destacada',
+                'value'   => '1',
+                'compare' => '=',
+            ),
+            array(
+                'key'     => 'blog_urgente',
+                'value'   => '1',
+                'compare' => '=',
+            ),
+        ),
+        'orderby' => 'date',
+        'order'   => 'DESC',
+    );
+
+    $query = new WP_Query($args);
+
+    // Reordenar manual: Urgente > Destacada > Fecha
+    if ($query->have_posts()) {
+        $posts = $query->posts;
+        usort($posts, function ($a, $b) {
+            $a_urgente = get_field('blog_urgente', $a->ID);
+            $b_urgente = get_field('blog_urgente', $b->ID);
+
+            if ($a_urgente && !$b_urgente) return -1;
+            if (!$a_urgente && $b_urgente) return 1;
+
+            $a_destacada = get_field('blog_destacada', $a->ID);
+            $b_destacada = get_field('blog_destacada', $b->ID);
+
+            if ($a_destacada && !$b_destacada) return -1;
+            if (!$a_destacada && $b_destacada) return 1;
+
+            return strtotime($b->post_date) - strtotime($a->post_date);
+        });
+        $query->posts = $posts;
+    }
+
+    $carousel_id = 'blc-' . wp_rand(1000, 9999);
+    $categorias_blog = cc_get_categorias_blog_labels();
+
+    ob_start();
+    ?>
+    <div class="blog-carousel-wrapper" id="<?php echo esc_attr($carousel_id); ?>">
+        <!-- Header: Título (izq) + Filtros (der) — como noticias -->
+        <div class="blog-carousel-header">
+            <h2>
+                <i class="fas fa-blog"></i>
+                <?php echo esc_html($atts['titulo']); ?>
+            </h2>
+            <div class="blog-carousel-filtros">
+                <button class="blog-carousel-filtro-btn active" data-filter="todas">
+                    <i class="fas fa-layer-group"></i> Todas
+                </button>
+                <button class="blog-carousel-filtro-btn" data-filter="destacada">
+                    <i class="fas fa-star"></i> Destacadas
+                </button>
+                <button class="blog-carousel-filtro-btn" data-filter="urgente">
+                    <i class="fas fa-exclamation-circle"></i> Urgentes
+                </button>
+            </div>
+        </div>
+
+        <?php if ($query->have_posts()) : ?>
+            <!-- Carrusel -->
+            <div class="blog-carousel-container">
+                <button class="blog-carousel-nav prev" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="blog-carousel-track">
+                    <?php while ($query->have_posts()) : $query->the_post();
+                        $imagen       = get_field('blog_imagen_destacada');
+                        $categoria    = cc_get_blog_categoria_info();
+                        $resumen      = get_field('blog_resumen');
+                        $autor        = get_field('blog_autor');
+                        $destacada    = get_field('blog_destacada');
+                        $urgente      = get_field('blog_urgente');
+
+                        // Determinar tipo de badge para filtro
+                        $card_tipo = 'destacada';
+                        if ($urgente) $card_tipo = 'urgente';
+                    ?>
+                        <article class="blog-carousel-card" data-tipo="<?php echo esc_attr($card_tipo); ?>">
+                            <?php if ($imagen) : ?>
+                                <div class="blog-card-image">
+                                    <a href="<?php the_permalink(); ?>">
+                                        <img src="<?php echo esc_url($imagen['sizes']['medium_large'] ?? $imagen['url']); ?>"
+                                             alt="<?php echo esc_attr($imagen['alt']); ?>"
+                                             loading="lazy">
+                                    </a>
+                                    <?php if ($urgente) : ?>
+                                        <span class="blog-carousel-badge urgente">
+                                            <i class="fas fa-exclamation-circle"></i> Urgente
+                                        </span>
+                                    <?php elseif ($destacada) : ?>
+                                        <span class="blog-carousel-badge destacada">
+                                            <i class="fas fa-star"></i> Destacada
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="blog-card-content">
+                                <span class="blog-card-categoria" style="color: <?php echo esc_attr($categoria['color']); ?>;">
+                                    <i class="fas <?php echo esc_attr($categoria['icon']); ?>"></i>
+                                    <?php echo esc_html($categoria['label']); ?>
+                                </span>
+
+                                <h3 class="blog-carousel-card-title">
+                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                </h3>
+
+                                <?php if ($resumen) : ?>
+                                    <p class="blog-card-resumen"><?php echo esc_html(wp_trim_words($resumen, 15)); ?></p>
+                                <?php endif; ?>
+
+                                <div class="blog-card-meta">
+                                    <span class="blog-card-fecha">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <?php echo get_the_date('j M, Y'); ?>
+                                    </span>
+                                    <?php if ($autor) : ?>
+                                        <span class="blog-card-autor">
+                                            <i class="far fa-user"></i>
+                                            <?php echo esc_html($autor); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+
+                                <a href="<?php the_permalink(); ?>" class="blog-card-leer-mas">
+                                    Leer más <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                    <?php endwhile; ?>
+                </div>
+
+                <button class="blog-carousel-nav next" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        <?php else : ?>
+            <div class="blog-carousel-empty">
+                <i class="fas fa-blog"></i>
+                <p>No hay entradas destacadas o comunicados urgentes en este momento.</p>
+            </div>
+        <?php endif;
+        wp_reset_postdata();
+        ?>
+    </div>
+
+    <script>
+    (function() {
+        var wrapper = document.getElementById('<?php echo esc_js($carousel_id); ?>');
+        if (!wrapper) return;
+
+        var track      = wrapper.querySelector('.blog-carousel-track');
+        var cards      = wrapper.querySelectorAll('.blog-carousel-card');
+        var prevBtn    = wrapper.querySelector('.blog-carousel-nav.prev');
+        var nextBtn    = wrapper.querySelector('.blog-carousel-nav.next');
+        var filterBtns = wrapper.querySelectorAll('.blog-carousel-filtro-btn');
+
+        if (!track || cards.length === 0) return;
+
+        var scrollPos = 0;
+
+        function getScrollAmount() {
+            var card = track.querySelector('.blog-carousel-card:not([style*="display: none"])');
+            if (!card) return 300;
+            return card.offsetWidth + 20;
+        }
+
+        function getMaxScroll() {
+            return Math.max(0, track.scrollWidth - track.parentElement.offsetWidth);
+        }
+
+        function updateButtons() {
+            var max = getMaxScroll();
+            if (prevBtn) prevBtn.disabled = (scrollPos <= 0);
+            if (nextBtn) nextBtn.disabled = (scrollPos >= max);
+        }
+
+        function scrollTrack(direction) {
+            var amount = getScrollAmount();
+            var max = getMaxScroll();
+            scrollPos += direction * amount;
+            scrollPos = Math.max(0, Math.min(scrollPos, max));
+            track.style.transform = 'translateX(-' + scrollPos + 'px)';
+            updateButtons();
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function() { scrollTrack(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { scrollTrack(1); });
+
+        // Filtros
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+
+                var filter = btn.getAttribute('data-filter');
+                cards.forEach(function(card) {
+                    if (filter === 'todas' || card.getAttribute('data-tipo') === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                scrollPos = 0;
+                track.style.transform = 'translateX(0px)';
+                updateButtons();
+            });
+        });
+
+        // Touch support
+        var startX = 0, isDragging = false;
+        track.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        }, { passive: true });
+
+        track.addEventListener('touchend', function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            var diff = startX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                scrollTrack(diff > 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        updateButtons();
+    })();
+    </script>
+    <?php
+
+    return ob_get_clean();
+}
+add_shortcode('blog_carousel', 'cc_shortcode_blog_carousel');
+
+/**
  * ========================================
  * DASHBOARD WIDGET
  * ========================================
@@ -587,6 +965,25 @@ function cc_enqueue_blog_assets() {
             get_template_directory_uri() . '/plantillas/agenda/blog/blog-scripts.js',
             array('jquery'),
             '1.0.0',
+            true
+        );
+    }
+    
+    // Estilos para el page template de listado de blog
+    if (is_page_template('page-listado-blog.php')) {
+        wp_enqueue_style(
+            'cc-page-listado-blog-styles',
+            get_template_directory_uri() . '/plantillas/agenda/blog/page-listado-blog-styles.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Sticky Filters Script (Mobile)
+        wp_enqueue_script(
+            'cc-sticky-filters',
+            get_template_directory_uri() . '/plantillas/agenda/assets/js/sticky-filters.js',
+            array(),
+            filemtime(get_template_directory() . '/plantillas/agenda/assets/js/sticky-filters.js'),
             true
         );
     }

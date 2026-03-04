@@ -1,7 +1,9 @@
 <?php
 /**
- * Template para archivo de eventos
- * Casa de la Cultura - Eventos Culturales
+ * Template Name: Listado de Eventos
+ * Plantilla para mostrar el listado completo de eventos culturales
+ *
+ * @package CasaDeLaCultura
  */
 
 get_header(); ?>
@@ -23,6 +25,26 @@ get_header(); ?>
         </div>
     </section>
     
+    <!-- Buscador de Eventos -->
+    <section class="eventos-buscador-section">
+        <div class="container">
+            <div class="buscador-eventos-container">
+                <div class="buscador-input-wrapper">
+                    <i class="fas fa-search buscador-icon"></i>
+                    <input 
+                        type="text" 
+                        id="buscadorEventos" 
+                        class="buscador-eventos-input" 
+                        placeholder="Buscar eventos por título, tipo o lugar..."
+                    >
+                    <button class="buscador-clear-btn" id="clearBuscador" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Filtros por Tipo de Evento -->
     <section class="eventos-filtros-section">
         <div class="container">
@@ -30,7 +52,7 @@ get_header(); ?>
                 
                 <!-- Filtro "Todos" fijo -->
                 <button class="filtro-evento-btn filtro-todos active" data-tipo="todos">
-                    <span class="filtro-icono"><i class="fas fa-list"></i></span>
+                    <span class="filtro-icono"><i class="fas fa-th"></i></span>
                     <span>Todos</span>
                 </button>
                 
@@ -117,11 +139,11 @@ get_header(); ?>
             </div>
 
             <div class="eventos-tabs">
-                <button class="tab-btn active" data-tab="proximos">
-                    <i class="far fa-calendar-alt"></i> Próximos Eventos
-                </button>
                 <button class="tab-btn" data-tab="pasados">
                     <i class="fas fa-history"></i> Eventos Pasados
+                </button>
+                <button class="tab-btn active" data-tab="proximos">
+                    <i class="far fa-calendar-alt"></i> Próximos Eventos
                 </button>
             </div>
         </div>
@@ -169,9 +191,17 @@ get_header(); ?>
                             $tipo_info = $tipos_evento[$tipo] ?? $tipos_evento['otro'];
                             
                             $clase_destacado = $destacado ? ' evento-destacado-card' : '';
+                            
+                            // Preparar datos de búsqueda
+                            $search_parts = array(
+                                get_the_title(),
+                                $tipo_info['label'],
+                                $lugar ? $lugar : ''
+                            );
+                            $search_data = strtolower(implode(' ', array_filter($search_parts)));
                         ?>
                             
-                            <article class="evento-card<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>">
+                            <article class="evento-card<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>">
                                 
                                 <?php if ($destacado): ?>
                                     <div class="badge-destacado-card">
@@ -187,22 +217,27 @@ get_header(); ?>
                                     <!-- Imagen -->
                                     <div class="evento-card-imagen">
                                         <?php if ($imagen): ?>
-                                            <img src="<?php echo esc_url($imagen['url']); ?>" 
-                                                 alt="<?php echo esc_attr($imagen['alt']); ?>"
-                                                 loading="lazy">
+                                            <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php the_title_attribute(); ?>">
                                         <?php endif; ?>
                                         <div class="evento-card-overlay"></div>
                                         
                                         <!-- Badge de estado -->
                                         <span class="badge-estado-card" style="background: <?php echo $estado['color']; ?>;">
-                                            <?php echo $estado['icon']; ?> <?php echo esc_html($estado['label']); ?>
+                                            <?php echo $estado['icon']; ?> 
+                                            <?php echo esc_html($estado['label']); ?>
                                         </span>
                                         
                                         <!-- Fecha grande -->
-                                        <div class="fecha-badge-card">
-                                            <div class="fecha-dia"><?php echo date('j', strtotime($fecha)); ?></div>
-                                            <div class="fecha-mes"><?php echo date('M', strtotime($fecha)); ?></div>
-                                        </div>
+                                        <?php if ($fecha): 
+                                            $timestamp = strtotime($fecha);
+                                            $dia = date('d', $timestamp);
+                                            $mes = date('M', $timestamp);
+                                        ?>
+                                            <div class="fecha-badge-card">
+                                                <span class="fecha-dia"><?php echo $dia; ?></span>
+                                                <span class="fecha-mes"><?php echo strtoupper($mes); ?></span>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     
                                     <!-- Contenido -->
@@ -214,27 +249,31 @@ get_header(); ?>
                                             </span>
                                         </div>
                                         
-                                        <h3 class="evento-card-titulo"><?php the_title(); ?></h3>
+                                        <h2 class="evento-card-titulo"><?php the_title(); ?></h2>
                                         
                                         <?php if ($descripcion): ?>
                                             <p class="evento-card-descripcion"><?php echo esc_html($descripcion); ?></p>
                                         <?php endif; ?>
                                         
                                         <div class="evento-card-meta">
-                                            <div class="meta-item-card">
-                                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
-                                                </svg>
-                                                <?php echo date('H:i', strtotime($fecha)); ?>
-                                            </div>
+                                            <?php if ($fecha): ?>
+                                                <div class="meta-item-card">
+                                                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                    </svg>
+                                                    <span><?php echo date('d/m/Y - H:i', strtotime($fecha)); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                             
-                                            <div class="meta-item-card">
-                                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                                </svg>
-                                                <?php echo esc_html($lugar); ?>
-                                            </div>
+                                            <?php if ($lugar): ?>
+                                                <div class="meta-item-card">
+                                                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                                    </svg>
+                                                    <span><?php echo esc_html($lugar); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         
                                     </div>
@@ -242,16 +281,17 @@ get_header(); ?>
                                     <div class="evento-card-footer">
                                         <div class="precio-card">
                                             <?php if ($precio['gratuito']): ?>
-                                                <span class="precio-gratuito">🎁 Gratis</span>
+                                                <span class="precio-gratuito"><i class="fas fa-check-circle"></i> GRATUITO</span>
+                                            <?php elseif ($precio['multiple']): ?>
+                                                <span class="precio-valor"><?php echo esc_html($precio['texto']); ?></span>
                                             <?php else: ?>
                                                 <span class="precio-valor"><?php echo esc_html($precio['texto']); ?></span>
                                             <?php endif; ?>
                                         </div>
-                                        
                                         <span class="ver-mas-link">
-                                            Ver detalles
-                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                                            Ver más
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                                             </svg>
                                         </span>
                                     </div>
@@ -297,6 +337,7 @@ get_header(); ?>
                             $fecha = get_field('evento_fecha_inicio');
                             $lugar = get_field('evento_lugar');
                             $descripcion = get_field('evento_descripcion_corta');
+                            $destacado = get_field('evento_destacado');
                             
                             $tipos_evento = array(
                                 'teatro' => array('label' => 'Teatro', 'icon' => '<i class="fas fa-theater-masks"></i>'),
@@ -314,29 +355,47 @@ get_header(); ?>
                             );
                             
                             $tipo_info = $tipos_evento[$tipo] ?? $tipos_evento['otro'];
+                            
+                            $clase_destacado = $destacado ? ' evento-destacado-card' : '';
+                            
+                            // Preparar datos de búsqueda
+                            $search_parts = array(
+                                get_the_title(),
+                                $tipo_info['label'],
+                                $lugar ? $lugar : ''
+                            );
+                            $search_data = strtolower(implode(' ', array_filter($search_parts)));
                         ?>
                             
-                            <article class="evento-card evento-pasado" data-tipo="<?php echo esc_attr($tipo); ?>">
+                            <article class="evento-card evento-pasado<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>">
+                                
+                                <?php if ($destacado): ?>
+                                    <div class="badge-destacado-card">
+                                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        DESTACADO
+                                    </div>
+                                <?php endif; ?>
                                 
                                 <a href="<?php the_permalink(); ?>" class="evento-card-link">
                                     
                                     <div class="evento-card-imagen">
                                         <?php if ($imagen): ?>
-                                            <img src="<?php echo esc_url($imagen['url']); ?>" 
-                                                 alt="<?php echo esc_attr($imagen['alt']); ?>"
-                                                 loading="lazy"
-                                                 style="filter: grayscale(50%);">
+                                            <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php the_title_attribute(); ?>">
                                         <?php endif; ?>
                                         <div class="evento-card-overlay"></div>
                                         
-                                        <span class="badge-estado-card" style="background: #95a5a6;">
-                                            ✓ Finalizado
-                                        </span>
-                                        
-                                        <div class="fecha-badge-card">
-                                            <div class="fecha-dia"><?php echo date('j', strtotime($fecha)); ?></div>
-                                            <div class="fecha-mes"><?php echo date('M', strtotime($fecha)); ?></div>
-                                        </div>
+                                        <?php if ($fecha): 
+                                            $timestamp = strtotime($fecha);
+                                            $dia = date('d', $timestamp);
+                                            $mes = date('M', $timestamp);
+                                        ?>
+                                            <div class="fecha-badge-card">
+                                                <span class="fecha-dia"><?php echo $dia; ?></span>
+                                                <span class="fecha-mes"><?php echo strtoupper($mes); ?></span>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     
                                     <div class="evento-card-body">
@@ -347,36 +406,40 @@ get_header(); ?>
                                             </span>
                                         </div>
                                         
-                                        <h3 class="evento-card-titulo"><?php the_title(); ?></h3>
+                                        <h2 class="evento-card-titulo"><?php the_title(); ?></h2>
                                         
                                         <?php if ($descripcion): ?>
                                             <p class="evento-card-descripcion"><?php echo esc_html($descripcion); ?></p>
                                         <?php endif; ?>
                                         
                                         <div class="evento-card-meta">
-                                            <div class="meta-item-card">
-                                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                                                </svg>
-                                                <?php echo date('j M Y', strtotime($fecha)); ?>
-                                            </div>
+                                            <?php if ($fecha): ?>
+                                                <div class="meta-item-card">
+                                                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                    </svg>
+                                                    <span><?php echo date('d/m/Y', strtotime($fecha)); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                             
-                                            <div class="meta-item-card">
-                                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                                </svg>
-                                                <?php echo esc_html($lugar); ?>
-                                            </div>
+                                            <?php if ($lugar): ?>
+                                                <div class="meta-item-card">
+                                                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                                    </svg>
+                                                    <span><?php echo esc_html($lugar); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         
                                     </div>
                                     
                                     <div class="evento-card-footer">
                                         <span class="ver-mas-link">
-                                            Ver galería
-                                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                                            Ver más
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                                             </svg>
                                         </span>
                                     </div>
@@ -411,9 +474,8 @@ get_header(); ?>
 </div>
 
 <script>
-// Buscador y Filtrado
+// Buscador y Filtros
 document.addEventListener('DOMContentLoaded', function() {
-    
     // Variables de estado
     let terminoBusqueda = '';
     let filtroActivo = 'todos';
@@ -421,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Elementos del buscador
     const buscador = document.getElementById('buscadorEventos');
-    const clearBtn = document.getElementById('clearSearch');
+    const clearBtn = document.getElementById('clearBuscador');
     const resultadosCount = document.getElementById('resultadosCount');
     const toggleDestacados = document.getElementById('toggleDestacados');
     
@@ -499,20 +561,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar estado de botones
     updateSliderButtons();
-
-    // Función para actualizar los resultados visibles
+    
+    // Función para actualizar resultados
     function actualizarResultados() {
         // Determinar el tab activo
         const activeTab = document.querySelector('.tab-content.active');
         const activeCards = activeTab ? activeTab.querySelectorAll('.evento-card') : cards;
         
-        let count = 0;
+        let visibles = 0;
         const total = activeCards.length;
         
         activeCards.forEach(card => {
             const cardTipo = card.getAttribute('data-tipo');
             const cardSearch = card.getAttribute('data-search') || '';
-
+            
             // Verificar si pasa el filtro de tipo
             const pasaFiltroTipo = (filtroActivo === 'todos' || cardTipo === filtroActivo);
             
@@ -526,19 +588,42 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pasaFiltroTipo && pasaBusqueda && pasaFiltroDestacado) {
                 card.style.display = 'block';
                 card.style.animation = 'fadeInUp 0.5s ease';
-                count++;
+                visibles++;
             } else {
                 card.style.display = 'none';
             }
         });
-        if (resultadosCount) {
-            if (terminoBusqueda !== '' || filtroActivo !== 'todos' || soloDestacados) {
-                resultadosCount.textContent = count + ' de ' + total + ' Eventos';
-            } else {
-                resultadosCount.textContent = total + ' Eventos en total';
-            }
+        
+        // Actualizar contador
+        if (terminoBusqueda !== '' || filtroActivo !== 'todos' || soloDestacados) {
+            resultadosCount.textContent = visibles + ' de ' + total + ' Eventos';
+        } else {
+            resultadosCount.textContent = total + ' Eventos en total';
         }
+        resultadosCount.style.display = 'block';
     }
+    
+    // Buscador
+    buscador.addEventListener('input', function() {
+        terminoBusqueda = this.value.toLowerCase().trim();
+        
+        if (terminoBusqueda !== '') {
+            clearBtn.style.display = 'flex';
+        } else {
+            clearBtn.style.display = 'none';
+        }
+        
+        actualizarResultados();
+    });
+    
+    // Botón limpiar búsqueda
+    clearBtn.addEventListener('click', function() {
+        buscador.value = '';
+        terminoBusqueda = '';
+        clearBtn.style.display = 'none';
+        actualizarResultados();
+        buscador.focus();
+    });
     
     // Filtros por tipo
     filtros.forEach(filtro => {
@@ -549,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
             filtros.forEach(f => f.classList.remove('active'));
             this.classList.add('active');
             
-            // Filtrar cards
+            // Actualizar resultados
             actualizarResultados();
         });
     });
@@ -575,13 +660,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Resetear filtro al cambiar de tab
+            // Resetear filtro y búsqueda al cambiar de tab
             const primerFiltro = document.querySelector('.filtro-evento-btn[data-tipo="todos"]');
             if (primerFiltro) {
-                primerFiltro.click();
+                filtroActivo = 'todos';
+                filtros.forEach(f => f.classList.remove('active'));
+                primerFiltro.classList.add('active');
             }
+            
+            // Limpiar búsqueda
+            buscador.value = '';
+            terminoBusqueda = '';
+            clearBtn.style.display = 'none';
+            
+            actualizarResultados();
         });
     });
+    
+    // Inicializar contador al cargar la página
+    actualizarResultados();
 });
 
 // Animación

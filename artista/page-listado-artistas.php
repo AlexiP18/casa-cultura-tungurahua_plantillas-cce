@@ -1,67 +1,141 @@
 <?php
 /**
- * Plantilla para el archivo de artistas
+ * Template Name: Listado de Artistas
+ * Plantilla para mostrar el listado completo de artistas con filtros
  *
  * @package CasaDeLaCultura
  */
 
 get_header();
+
+// Obtener todos los artistas publicados
+$args = array(
+    'post_type'      => 'artista',
+    'post_status'    => 'publish',
+    'posts_per_page' => -1,
+    'orderby'        => 'title',
+    'order'          => 'ASC',
+);
+
+$artistas_query = new WP_Query($args);
+
+// Iconos por disciplina
+$disciplinas_iconos = array(
+    'artes_visuales' => 'fa-eye',
+    'artes_plasticas' => 'fa-paint-brush',
+    'artes_literarias' => 'fa-book',
+    'artes_escenicas' => 'fa-theater-masks',
+    'artes_musicales' => 'fa-music',
+    'artes_audiovisuales' => 'fa-film',
+    'artes_digitales' => 'fa-laptop-code',
+    'artes_aplicadas' => 'fa-pencil-ruler',
+    'artes_tradicionales' => 'fa-landmark',
+    'artes_corporales' => 'fa-running',
+    'fotografia' => 'fa-camera',
+    'arquitectura' => 'fa-building',
+    'otra' => 'fa-ellipsis-h'
+);
 ?>
 
-<div class="artistas-archive-container">
-    <header class="artistas-header">
-        <h1>Nuestros Artistas</h1>
-        <div class="artistas-descripcion">
-            <p>Conoce a los talentosos artistas que forman parte de la Casa de la Cultura de Tungurahua. 
-            Un espacio donde el talento local y nacional se reúne para compartir su arte con la comunidad.</p>
-        </div>
-    </header>
-
-    <?php if (have_posts()) : ?>
-        <!-- Sección de Filtros -->
-        <div class="artistas-filtros">
-            <!-- Buscador -->
-            <div class="artistas-buscador">
-                <div class="buscador-container">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="artistas-search" placeholder="Buscar por nombre, disciplina o especialidad..." autocomplete="off">
-                    <button type="button" id="clear-search" class="clear-search" style="display: none;">
-                        <i class="fas fa-times"></i>
-                    </button>
+<div class="artistas-archive-wrapper">
+    <!-- Hero -->
+    <section class="artistas-hero" style="background-image: url('<?php echo esc_url(get_field('imagen_hero_artistas') ?: get_template_directory_uri() . '/images/hero-artistas.jpg'); ?>');">
+        <div class="artistas-hero-overlay"></div>
+        <div class="container">
+            <div class="artistas-hero-content">
+                <h1 class="artistas-hero-titulo">
+                    <i class="fas fa-palette"></i>
+                    Nuestros Artistas
+                </h1>
+                <p class="artistas-hero-descripcion">
+                    Conoce a los talentosos artistas que forman parte de la Casa de la Cultura de Tungurahua. 
+                    Un espacio donde el talento local y nacional se reúne para compartir su arte con la comunidad.
+                </p>
+                
+                <!-- Llamada a la acción para registro -->
+                <div class="artistas-cta-banner">
+                    <div class="cta-content">
+                        <i class="fas fa-user-plus"></i>
+                        <p class="cta-texto">¿Qué esperas? ¿Quieres unirte a nuestro catálogo de Artistas?</p>
+                    </div>
+                    <a href="https://plantilla.culturatungurahua.com/opc_5/registro-de-artistas/" class="cta-btn" target="_blank">
+                        <i class="fas fa-edit"></i> Formulario
+                    </a>
                 </div>
             </div>
-            
-            <!-- Filtros por Disciplina -->
-            <div class="disciplinas-filtro">
-                <div class="filtro-label">
-                    <i class="fas fa-filter"></i>
-                    <span>Filtrar por disciplina:</span>
-                </div>
-                <div class="disciplinas-chips">
-                    <button class="chip-filtro active" data-disciplina="all">
-                        <span>Todas</span>
-                    </button>
-                    <?php 
-                    $disciplinas_labels = cc_get_disciplinas_labels();
-                    foreach ($disciplinas_labels as $key => $label) : 
-                    ?>
-                        <button class="chip-filtro" data-disciplina="<?php echo esc_attr($key); ?>">
-                            <span><?php echo esc_html($label); ?></span>
+        </div>
+    </section>
+
+    <!-- Sección de Buscador -->
+    <section class="artistas-buscador-section">
+        <div class="container">
+            <div class="buscador-artistas-container">
+                <div class="artistas-buscador">
+                    <div class="buscador-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="artistas-search" placeholder="Buscar por nombre, disciplina o especialidad..." autocomplete="off">
+                        <button type="button" id="clear-search" class="clear-search" style="display: none;">
+                            <i class="fas fa-times"></i>
                         </button>
-                    <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Contador de resultados -->
-            <div class="artistas-resultados">
-                <span id="resultados-count"></span>
+        </div>
+    </section>
+    
+    <!-- Sección de Filtros -->
+    <section class="artistas-filtros-section">
+        <div class="container">
+            <div class="artistas-filtros-container">
+                
+                <!-- Filtro "Todas" fijo -->
+                <button class="chip-filtro filtro-todas active" data-disciplina="all">
+                    <span class="filtro-icono"><i class="fas fa-th"></i></span>
+                    <span>Todas</span>
+                </button>
+                
+                <!-- Slider de filtros -->
+                <div class="filtros-slider-wrapper">
+                    <button class="slider-nav-btn prev" id="disciplinasSliderPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <div class="disciplinas-slider" id="disciplinasSlider">
+                        <div class="disciplinas-slider-track">
+                            <?php 
+                            // $disciplinas_iconos is defined at the top of the file
+                            $disciplinas_labels = cc_get_disciplinas_labels();
+                            foreach ($disciplinas_labels as $key => $label) :  
+                                $icono = isset($disciplinas_iconos[$key]) ? $disciplinas_iconos[$key] : 'fa-circle';
+                            ?>
+                                <button class="chip-filtro" data-disciplina="<?php echo esc_attr($key); ?>">
+                                    <span class="filtro-icono"><i class="fas <?php echo esc_attr($icono); ?>"></i></span>
+                                    <span><?php echo esc_html($label); ?></span>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    
+                    <button class="slider-nav-btn next" id="disciplinasSliderNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
             </div>
         </div>
+    </section>
 
+    <div class="artistas-archive-container">
+        <!-- Contador de resultados -->
+        <div class="artistas-resultados">
+            <span id="resultados-count"></span>
+        </div>
+        
+    <?php if ($artistas_query->have_posts()) : ?>
         <div class="artistas-grid">
-            <?php while (have_posts()) : the_post(); 
+            <?php while ($artistas_query->have_posts()) : $artistas_query->the_post(); 
                 // Obtener datos del artista
-                $disciplina_artistica = get_field('disciplina_artistica'); // Array de disciplinas
+                $disciplina_artistica = get_field('disciplina_artistica');
                 $especialidad = get_field('especialidad');
                 $slider = get_field('slider_imagenes');
                 $imagen_destacada = !empty($slider['imagen_1']) ? $slider['imagen_1'] : null;
@@ -111,6 +185,8 @@ get_header();
                             if (isset($disciplinas_labels[$primera_disciplina])) : 
                             ?>
                                 <div class="disciplina-badge-destacado">
+                                    <?php $icono = isset($disciplinas_iconos[$primera_disciplina]) ? $disciplinas_iconos[$primera_disciplina] : 'fa-circle'; ?>
+                                    <i class="fas <?php echo esc_attr($icono); ?>" style="margin-right: 5px;"></i>
                                     <span><?php echo esc_html($disciplinas_labels[$primera_disciplina]); ?></span>
                                 </div>
                             <?php endif; ?>
@@ -126,23 +202,18 @@ get_header();
                             <div class="artista-card-disciplina">
                                 <div class="disciplina-tags">
                                     <?php 
-                                    $max_disciplinas = 3;
-                                    $contador = 0;
                                     foreach ($disciplina_artistica as $disciplina_key) : 
-                                        if ($contador >= $max_disciplinas) break;
                                         if (isset($disciplinas_labels[$disciplina_key])) : 
                                     ?>
-                                            <span class="disciplina-tag"><?php echo esc_html($disciplinas_labels[$disciplina_key]); ?></span>
+                                            <?php $icono = isset($disciplinas_iconos[$disciplina_key]) ? $disciplinas_iconos[$disciplina_key] : 'fa-circle'; ?>
+                                            <span class="disciplina-tag">
+                                                <i class="fas <?php echo esc_attr($icono); ?>" style="margin-right: 4px; font-size: 0.8em;"></i>
+                                                <?php echo esc_html($disciplinas_labels[$disciplina_key]); ?>
+                                            </span>
                                     <?php 
-                                        $contador++;
                                         endif;
                                     endforeach; 
-                                    
-                                    // Mostrar "..." si hay más disciplinas
-                                    if (count($disciplina_artistica) > $max_disciplinas) : 
                                     ?>
-                                        <span class="disciplina-tag disciplina-mas">...</span>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -150,26 +221,24 @@ get_header();
                         <div class="artista-card-excerpt">
                             <?php the_excerpt(); ?>
                         </div>
-                        
+                    </div>
+                    
+                    <div class="artista-card-footer">
                         <a href="<?php the_permalink(); ?>" class="artista-card-btn">Ver perfil</a>
                     </div>
                 </article>
             <?php endwhile; ?>
         </div>
         
-        <div class="artistas-pagination">
-            <?php 
-            echo paginate_links(array(
-                'prev_text' => '&laquo; Anterior',
-                'next_text' => 'Siguiente &raquo;',
-            )); 
-            ?>
-        </div>
     <?php else : ?>
         <div class="artistas-empty">
             <p>No se encontraron artistas registrados.</p>
         </div>
-    <?php endif; ?>
+    <?php endif; 
+    
+    wp_reset_postdata();
+    ?>
+    </div>
 </div>
 
 <!-- Script de Filtrado -->
@@ -180,9 +249,66 @@ get_header();
     var chipsButtons = document.querySelectorAll('.chip-filtro');
     var artistCards = document.querySelectorAll('.artista-card');
     var resultadosCount = document.getElementById('resultados-count');
+    var slider = document.getElementById('disciplinasSlider');
+    var sliderTrack = slider.querySelector('.disciplinas-slider-track');
+    var prevBtn = document.getElementById('disciplinasSliderPrev');
+    var nextBtn = document.getElementById('disciplinasSliderNext');
     
     var filtroActivo = 'all';
     var busquedaActiva = '';
+    var currentScroll = 0;
+    var scrollAmount = 250;
+    
+    // Funcionalidad del slider
+    function updateSliderButtons() {
+        var maxScroll = sliderTrack.scrollWidth - slider.clientWidth;
+        
+        if (currentScroll <= 0) {
+            prevBtn.style.opacity = '0.3';
+            prevBtn.style.cursor = 'not-allowed';
+        } else {
+            prevBtn.style.opacity = '1';
+            prevBtn.style.cursor = 'pointer';
+        }
+        
+        if (currentScroll >= maxScroll) {
+            nextBtn.style.opacity = '0.3';
+            nextBtn.style.cursor = 'not-allowed';
+        } else {
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+        }
+    }
+    
+    prevBtn.addEventListener('click', function() {
+        if (currentScroll > 0) {
+            currentScroll = Math.max(0, currentScroll - scrollAmount);
+            slider.scrollTo({
+                left: currentScroll,
+                behavior: 'smooth'
+            });
+            setTimeout(updateSliderButtons, 300);
+        }
+    });
+    
+    nextBtn.addEventListener('click', function() {
+        var maxScroll = sliderTrack.scrollWidth - slider.clientWidth;
+        if (currentScroll < maxScroll) {
+            currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+            slider.scrollTo({
+                left: currentScroll,
+                behavior: 'smooth'
+            });
+            setTimeout(updateSliderButtons, 300);
+        }
+    });
+    
+    slider.addEventListener('scroll', function() {
+        currentScroll = slider.scrollLeft;
+        updateSliderButtons();
+    });
+    
+    updateSliderButtons();
     
     function actualizarResultados() {
         var visibles = 0;
@@ -207,10 +333,10 @@ get_header();
         
         // Actualizar contador
         if (busquedaActiva || filtroActivo !== 'all') {
-            resultadosCount.textContent = visibles + ' de ' + total + ' artistas';
+            resultadosCount.textContent = visibles + ' de ' + total + ' Artistas';
             resultadosCount.style.display = 'block';
         } else {
-            resultadosCount.textContent = total + ' artistas en total';
+            resultadosCount.textContent = total + ' Artistas en total';
             resultadosCount.style.display = 'block';
         }
         

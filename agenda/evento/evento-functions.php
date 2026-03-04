@@ -82,39 +82,39 @@ function cc_get_estado_evento($post_id = null) {
     
     $estados = array(
         'proximo' => array(
-            'label' => 'Próximamente',
+            'label' => 'Proximamente',
             'color' => '#3498db',
-            'icon' => '⏳'
+            'icon' => ''
         ),
         'inscripcion_abierta' => array(
-            'label' => 'Inscripción Abierta',
+            'label' => 'Inscripcion Abierta',
             'color' => '#27ae60',
-            'icon' => '✅'
+            'icon' => ''
         ),
         'cupos_limitados' => array(
             'label' => 'Cupos Limitados',
             'color' => '#f39c12',
-            'icon' => '⚠️'
+            'icon' => ''
         ),
         'agotado' => array(
             'label' => 'Entradas Agotadas',
             'color' => '#e74c3c',
-            'icon' => '🚫'
+            'icon' => ''
         ),
         'en_curso' => array(
             'label' => 'En Curso',
             'color' => '#9b59b6',
-            'icon' => '▶️'
+            'icon' => ''
         ),
         'finalizado' => array(
             'label' => 'Finalizado',
             'color' => '#95a5a6',
-            'icon' => '✓'
+            'icon' => ''
         ),
         'cancelado' => array(
             'label' => 'Cancelado',
             'color' => '#c0392b',
-            'icon' => '✖️'
+            'icon' => ''
         )
     );
     
@@ -254,22 +254,35 @@ function cc_get_precio_evento($post_id = null) {
     }
     
     $precio = get_field('evento_precio', $post_id);
-    $precios_multiples = get_field('evento_precios_multiples', $post_id);
+    $precios_multiples_group = get_field('evento_precios_multiples', $post_id);
     
-    if ($precios_multiples) {
+    // Construir lista de precios diferenciados desde el grupo ACF
+    $precios_lista = array();
+    if ($precios_multiples_group && is_array($precios_multiples_group)) {
+        for ($i = 1; $i <= 10; $i++) {
+            $nombre = isset($precios_multiples_group['precio_' . $i . '_nombre']) ? trim($precios_multiples_group['precio_' . $i . '_nombre']) : '';
+            $valor  = isset($precios_multiples_group['precio_' . $i . '_valor'])  ? $precios_multiples_group['precio_' . $i . '_valor']  : '';
+            if ($nombre !== '') {
+                $precios_lista[] = array('nombre' => $nombre, 'valor' => $valor);
+            }
+        }
+    }
+    
+    if (!empty($precios_lista)) {
+        $min_valor = min(array_column($precios_lista, 'valor'));
         return array(
-            'gratuito' => false,
-            'multiple' => true,
-            'texto' => 'Desde $' . $precio,
-            'detalles' => $precios_multiples
+            'gratuito'      => false,
+            'multiple'      => true,
+            'texto'         => 'Desde $' . number_format($min_valor, 2),
+            'precios_lista' => $precios_lista,
         );
     }
     
     return array(
         'gratuito' => false,
         'multiple' => false,
-        'texto' => '$' . $precio,
-        'valor' => $precio
+        'texto'    => $precio ? '$' . number_format((float)$precio, 2) : 'Consultar',
+        'valor'    => $precio
     );
 }
 
@@ -295,8 +308,8 @@ function cc_get_slider_evento($post_id = null) {
         $imagenes[] = $imagen_banner;
     }
     
-    // Imágenes adicionales 4 y 5
-    for ($i = 4; $i <= 5; $i++) {
+    // Imágenes adicionales 3, 4 y 5
+    for ($i = 3; $i <= 5; $i++) {
         $imagen = get_field('evento_imagen_' . $i, $post_id);
         if ($imagen && is_array($imagen)) {
             $imagenes[] = $imagen;
@@ -524,7 +537,7 @@ function cc_shortcode_eventos_destacados($atts) {
             echo $estado['icon'] . ' ' . $estado['label'];
             echo '</span>';
             echo '<h3><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
-            echo '<p class="evento-fecha">📅 ' . $fecha . '</p>';
+            echo '<p class="evento-fecha"><span class="dashicons dashicons-calendar-alt"></span> ' . $fecha . '</p>';
             echo '<p class="evento-precio">' . $precio['texto'] . '</p>';
             echo '<a href="' . get_permalink() . '" class="btn-ver-evento">Ver Detalles</a>';
             echo '</div>';
@@ -576,7 +589,7 @@ function cc_shortcode_proximos_eventos($atts) {
             
             echo '<div class="evento-card-content">';
             echo '<h4><a href="' . get_permalink() . '">' . get_the_title() . '</a></h4>';
-            echo '<p class="evento-fecha-mini">📅 ' . date('j M, H:i', strtotime($fecha)) . '</p>';
+            echo '<p class="evento-fecha-mini"><span class="dashicons dashicons-calendar-alt"></span> ' . date('j M, H:i', strtotime($fecha)) . '</p>';
             echo '<p class="evento-precio-mini">' . $precio['texto'] . '</p>';
             echo '</div>';
             
@@ -592,6 +605,437 @@ function cc_shortcode_proximos_eventos($atts) {
     return ob_get_clean();
 }
 add_shortcode('proximos_eventos', 'cc_shortcode_proximos_eventos');
+
+/**
+ * Shortcode para mostrar todos los eventos en grid
+ * Uso: [mostrar_eventos cantidad="9" orden="date" direccion="DESC" tipo=""]
+ */
+function cc_shortcode_mostrar_eventos($atts) {
+    $atts = shortcode_atts(array(
+        'cantidad' => 9,
+        'orden' => 'date',
+        'direccion' => 'DESC',
+        'tipo' => '',
+        'estado' => ''
+    ), $atts);
+    
+    // Asegurar estilos cargados
+    wp_enqueue_style('cc-eventos-styles', get_template_directory_uri() . '/plantillas/agenda/evento/eventos-styles.css');
+    
+    $args = array(
+        'post_type' => 'evento',
+        'posts_per_page' => intval($atts['cantidad']),
+        'orderby' => $atts['orden'],
+        'order' => $atts['direccion']
+    );
+    
+    // Filtros opcionales
+    $meta_query = array();
+    
+    if (!empty($atts['tipo'])) {
+        $meta_query[] = array(
+            'key' => 'evento_tipo',
+            'value' => $atts['tipo'],
+            'compare' => '='
+        );
+    }
+    
+    if (!empty($atts['estado'])) {
+        $meta_query[] = array(
+            'key' => 'evento_estado',
+            'value' => $atts['estado'],
+            'compare' => '='
+        );
+    }
+    
+    if (!empty($meta_query)) {
+        $args['meta_query'] = $meta_query;
+    }
+    
+    $query = new WP_Query($args);
+    
+    $tipos_labels = array(
+        'teatro' => 'Teatro',
+        'musica' => 'Musica',
+        'danza' => 'Danza',
+        'exposicion' => 'Exposicion',
+        'taller' => 'Taller',
+        'conferencia' => 'Conferencia',
+        'conversatorio' => 'Conversatorio',
+        'cine' => 'Cine',
+        'literario' => 'Literario',
+        'concurso' => 'Concurso',
+        'festival' => 'Festival',
+        'otro' => 'Otro'
+    );
+    
+    ob_start();
+    
+    if ($query->have_posts()) : ?>
+        <div class="eventos-archive-container">
+            <div class="eventos-grid">
+                <?php while ($query->have_posts()) : $query->the_post();
+                    $imagen = get_field('evento_imagen_principal');
+                    $tipo = get_field('evento_tipo');
+                    $fecha_inicio = get_field('evento_fecha_inicio');
+                    $lugar = get_field('evento_lugar');
+                    $estado = cc_get_estado_evento();
+                    $precio = cc_get_precio_evento();
+                ?>
+                    <article class="evento-card">
+                        <?php if ($imagen) : ?>
+                            <div class="evento-card-image">
+                                <a href="<?php the_permalink(); ?>">
+                                    <img src="<?php echo esc_url($imagen['sizes']['medium_large'] ?? $imagen['url']); ?>" alt="<?php echo esc_attr($imagen['alt']); ?>" loading="lazy">
+                                </a>
+                                <span class="evento-estado-badge" style="background-color: <?php echo esc_attr($estado['color']); ?>;">
+                                    <?php echo esc_html($estado['label']); ?>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="evento-card-content">
+                            <span class="evento-tipo"><?php echo esc_html($tipos_labels[$tipo] ?? 'Evento'); ?></span>
+                            
+                            <h3 class="evento-card-title">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+                            
+                            <?php if ($fecha_inicio) : ?>
+                                <div class="evento-card-fecha">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <?php echo date('j M Y, H:i', strtotime($fecha_inicio)); ?>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($lugar) : ?>
+                                <div class="evento-card-lugar">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <?php echo esc_html($lugar); ?>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div class="evento-card-footer">
+                                <span class="evento-precio"><?php echo esc_html($precio['texto']); ?></span>
+                                <a href="<?php the_permalink(); ?>" class="evento-ver-mas">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+            </div>
+        </div>
+    <?php else : ?>
+        <div class="eventos-empty">
+            <p>No hay eventos disponibles en este momento.</p>
+        </div>
+    <?php endif;
+    
+    wp_reset_postdata();
+    
+    return ob_get_clean();
+}
+add_shortcode('mostrar_eventos', 'cc_shortcode_mostrar_eventos');
+
+/**
+ * Shortcode para carrusel de eventos destacados
+ * Uso: [eventos_carousel cantidad="-1" titulo="Eventos Destacados"]
+ */
+function cc_shortcode_eventos_carousel($atts) {
+    $atts = shortcode_atts(array(
+        'cantidad' => -1,
+        'titulo'   => 'Eventos Destacados',
+    ), $atts);
+
+    // Encolar estilos del carrusel
+    wp_enqueue_style(
+        'cc-eventos-carousel-styles',
+        get_template_directory_uri() . '/plantillas/agenda/evento/eventos-carousel-styles.css',
+        array(),
+        '1.0.0'
+    );
+
+    // Query: eventos destacados (futuros)
+    $ahora = current_time('Y-m-d H:i:s');
+    $args = array(
+        'post_type'      => 'evento',
+        'posts_per_page' => intval($atts['cantidad']),
+        'meta_query'     => array(
+            'relation' => 'AND',
+            array(
+                'key'     => 'evento_destacado',
+                'value'   => '1',
+                'compare' => '='
+            ),
+            array(
+                'key'     => 'evento_fecha_inicio',
+                'value'   => $ahora,
+                'compare' => '>=',
+                'type'    => 'DATETIME'
+            ),
+        ),
+        'meta_key' => 'evento_fecha_inicio',
+        'orderby'  => 'meta_value',
+        'order'    => 'ASC',
+    );
+
+    $query = new WP_Query($args);
+    $carousel_id = 'ec-' . wp_rand(1000, 9999);
+
+    $tipos_labels = array(
+        'teatro'        => 'Teatro',
+        'musica'        => 'Música',
+        'danza'         => 'Danza',
+        'exposicion'    => 'Exposición',
+        'taller'        => 'Taller',
+        'conferencia'   => 'Conferencia',
+        'conversatorio' => 'Conversatorio',
+        'cine'          => 'Cine',
+        'literario'     => 'Literario',
+        'concurso'      => 'Concurso',
+        'festival'      => 'Festival',
+        'otro'          => 'Otro',
+    );
+
+    $tipos_iconos = array(
+        'teatro'        => 'fa-theater-masks',
+        'musica'        => 'fa-music',
+        'danza'         => 'fa-running',
+        'exposicion'    => 'fa-image',
+        'taller'        => 'fa-palette',
+        'conferencia'   => 'fa-microphone',
+        'conversatorio' => 'fa-comments',
+        'cine'          => 'fa-film',
+        'literario'     => 'fa-book',
+        'concurso'      => 'fa-trophy',
+        'festival'      => 'fa-star',
+        'otro'          => 'fa-calendar-check',
+    );
+
+    // Recopilar tipos presentes para generar filtros dinámicos
+    $tipos_encontrados = array();
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $tipo = get_field('evento_tipo');
+            if ($tipo && !isset($tipos_encontrados[$tipo])) {
+                $tipos_encontrados[$tipo] = $tipos_labels[$tipo] ?? ucfirst($tipo);
+            }
+        }
+        $query->rewind_posts();
+    }
+
+    ob_start();
+    ?>
+    <div class="eventos-carousel-wrapper" id="<?php echo esc_attr($carousel_id); ?>">
+        <!-- Header: Filtros (izquierda) + Título (derecha) -->
+        <div class="ev-carousel-header">
+            <h2>
+                <i class="fas fa-theater-masks"></i>
+                <?php echo esc_html($atts['titulo']); ?>
+            </h2>
+            <div class="ev-carousel-filtros">
+                <button class="ev-carousel-filtro-btn active" data-filter="todos">
+                    <i class="fas fa-layer-group"></i> Todos
+                </button>
+                <?php foreach ($tipos_encontrados as $tipo_key => $tipo_label) :
+                    $icono_filtro = $tipos_iconos[$tipo_key] ?? 'fa-calendar-check';
+                ?>
+                    <button class="ev-carousel-filtro-btn" data-filter="<?php echo esc_attr($tipo_key); ?>">
+                        <i class="fas <?php echo esc_attr($icono_filtro); ?>"></i> <?php echo esc_html($tipo_label); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <?php if ($query->have_posts()) : ?>
+            <!-- Carrusel -->
+            <div class="ev-carousel-container">
+                <button class="ev-carousel-nav prev" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="ev-carousel-track">
+                    <?php while ($query->have_posts()) : $query->the_post();
+                        $imagen       = get_field('evento_imagen_principal');
+                        $tipo         = get_field('evento_tipo');
+                        $fecha_inicio = get_field('evento_fecha_inicio');
+                        $lugar        = get_field('evento_lugar');
+                        $estado       = cc_get_estado_evento();
+                        $precio       = cc_get_precio_evento();
+                    ?>
+                        <article class="ev-carousel-card" data-tipo="<?php echo esc_attr($tipo); ?>">
+                            <?php if ($imagen) : ?>
+                                <div class="ev-card-image">
+                                    <a href="<?php the_permalink(); ?>">
+                                        <img src="<?php echo esc_url($imagen['sizes']['medium_large'] ?? $imagen['url']); ?>"
+                                             alt="<?php echo esc_attr($imagen['alt']); ?>"
+                                             loading="lazy">
+                                    </a>
+                                    <span class="ev-card-estado" style="background-color: <?php echo esc_attr($estado['color']); ?>;">
+                                        <?php echo esc_html($estado['label']); ?>
+                                    </span>
+                                    <span class="ev-card-badge-destacado">
+                                        <i class="fas fa-star"></i> Destacado
+                                    </span>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="ev-card-content">
+                                <span class="ev-card-tipo tipo-<?php echo esc_attr($tipo); ?>">
+                                    <i class="fas <?php echo esc_attr($tipos_iconos[$tipo] ?? 'fa-calendar-check'); ?>"></i>
+                                    <?php echo esc_html($tipos_labels[$tipo] ?? 'Evento'); ?>
+                                </span>
+
+                                <h3 class="ev-card-title">
+                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                </h3>
+
+                                <div class="ev-card-info">
+                                    <?php if ($fecha_inicio) : ?>
+                                        <div class="ev-card-fecha">
+                                            <i class="far fa-calendar-alt"></i>
+                                            <?php echo date('j M Y, H:i', strtotime($fecha_inicio)); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($lugar) : ?>
+                                        <div class="ev-card-lugar">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <?php echo esc_html($lugar); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="ev-card-footer">
+                                    <span class="ev-card-precio<?php echo ($precio['gratuito'] ?? false) ? ' gratuito' : ''; ?>">
+                                        <?php echo esc_html($precio['texto']); ?>
+                                    </span>
+                                    <a href="<?php the_permalink(); ?>" class="ev-card-ver-mas">
+                                        Ver detalles <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endwhile; ?>
+                </div>
+
+                <button class="ev-carousel-nav next" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        <?php else : ?>
+            <div class="ev-carousel-empty">
+                <i class="fas fa-calendar-times"></i>
+                <p>No hay eventos destacados próximos en este momento.</p>
+            </div>
+        <?php endif;
+        wp_reset_postdata();
+        ?>
+    </div>
+
+    <script>
+    (function() {
+        var wrapper = document.getElementById('<?php echo esc_js($carousel_id); ?>');
+        if (!wrapper) return;
+
+        var track      = wrapper.querySelector('.ev-carousel-track');
+        var cards      = wrapper.querySelectorAll('.ev-carousel-card');
+        var prevBtn    = wrapper.querySelector('.ev-carousel-nav.prev');
+        var nextBtn    = wrapper.querySelector('.ev-carousel-nav.next');
+        var filterBtns = wrapper.querySelectorAll('.ev-carousel-filtro-btn');
+
+        if (!track || cards.length === 0) return;
+
+        var scrollPos = 0;
+
+        function getScrollAmount() {
+            var card = track.querySelector('.ev-carousel-card:not([style*="display: none"])');
+            if (!card) return 300;
+            return card.offsetWidth + 20;
+        }
+
+        function getMaxScroll() {
+            return Math.max(0, track.scrollWidth - track.parentElement.offsetWidth);
+        }
+
+        function updateButtons() {
+            var max = getMaxScroll();
+            if (prevBtn) prevBtn.disabled = (scrollPos <= 0);
+            if (nextBtn) nextBtn.disabled = (scrollPos >= max);
+        }
+
+        function scrollTo(pos) {
+            var max = getMaxScroll();
+            scrollPos = Math.max(0, Math.min(pos, max));
+            track.style.transform = 'translateX(-' + scrollPos + 'px)';
+            updateButtons();
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                scrollTo(scrollPos - getScrollAmount());
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                scrollTo(scrollPos + getScrollAmount());
+            });
+        }
+
+        // Filtros por tipo de evento
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+
+                var filter = this.getAttribute('data-filter');
+
+                cards.forEach(function(card) {
+                    var tipo = card.getAttribute('data-tipo');
+                    if (filter === 'todos' || tipo === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                scrollTo(0);
+            });
+        });
+
+        // Touch swipe
+        var startX = 0;
+        var isDragging = false;
+
+        track.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        }, { passive: true });
+
+        track.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            var diff = startX - e.touches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                scrollTo(scrollPos + (diff > 0 ? getScrollAmount() : -getScrollAmount()));
+                isDragging = false;
+            }
+        }, { passive: true });
+
+        track.addEventListener('touchend', function() {
+            isDragging = false;
+        }, { passive: true });
+
+        updateButtons();
+        window.addEventListener('resize', function() { scrollTo(scrollPos); });
+    })();
+    </script>
+    <?php
+
+    return ob_get_clean();
+}
+add_shortcode('eventos_carousel', 'cc_shortcode_eventos_carousel');
+
 
 /**
  * ========================================
@@ -616,7 +1060,7 @@ function cc_dashboard_widget_eventos() {
     echo '</div>';
     
     if ($proximos->have_posts()) {
-        echo '<h4 style="margin-top: 20px; margin-bottom: 10px;">📅 Próximos Eventos</h4>';
+        echo '<h4 style="margin-top: 20px; margin-bottom: 10px;"><span class="dashicons dashicons-calendar-alt" style="color: #3498db;"></span> Proximos Eventos</h4>';
         echo '<ul style="list-style: none; padding: 0; margin: 0;">';
         
         while ($proximos->have_posts()) {
@@ -626,9 +1070,9 @@ function cc_dashboard_widget_eventos() {
             
             echo '<li style="padding: 10px 0; border-bottom: 1px solid #f0f0f1;">';
             echo '<strong><a href="' . get_edit_post_link() . '">' . get_the_title() . '</a></strong>';
-            echo '<br><span style="font-size: 12px; color: #666;">📅 ' . date('j M Y, H:i', strtotime($fecha)) . '</span>';
+            echo '<br><span style="font-size: 12px; color: #666;"><span class="dashicons dashicons-calendar" style="font-size: 14px;"></span> ' . date('j M Y, H:i', strtotime($fecha)) . '</span>';
             echo '<br><span style="display: inline-block; padding: 3px 8px; background: ' . $estado['color'] . '; color: #fff; border-radius: 10px; font-size: 11px; margin-top: 5px;">';
-            echo $estado['icon'] . ' ' . $estado['label'];
+            echo $estado['label'];
             echo '</span>';
             echo '</li>';
         }
@@ -647,7 +1091,7 @@ function cc_dashboard_widget_eventos() {
 function cc_agregar_dashboard_widget_eventos() {
     wp_add_dashboard_widget(
         'cc_eventos_dashboard',
-        '🎭 Eventos Culturales - Casa de la Cultura',
+        'Eventos Culturales - Casa de la Cultura',
         'cc_dashboard_widget_eventos'
     );
 }
@@ -663,30 +1107,44 @@ add_action('wp_dashboard_setup', 'cc_agregar_dashboard_widget_eventos');
  * Cargar estilos y scripts para eventos
  */
 function cc_enqueue_eventos_assets() {
-    if (is_singular('evento') || is_post_type_archive('evento')) {
+    // Verificar si es la plantilla de listado de eventos
+    $is_listado_template = is_page() && basename(get_page_template()) === 'page-listado-eventos.php';
+    
+    if (is_singular('evento') || is_post_type_archive('evento') || $is_listado_template) {
         
         // CSS
         wp_enqueue_style(
             'cc-eventos-styles',
             get_template_directory_uri() . '/plantillas/agenda/evento/eventos-styles.css',
             array(),
-            '1.0.1'
+            filemtime(get_template_directory() . '/plantillas/agenda/evento/eventos-styles.css')
         );
-        
-        // JavaScript
+
+        // Sticky Filters Script (Mobile)
         wp_enqueue_script(
-            'cc-eventos-scripts',
-            get_template_directory_uri() . '/plantillas/agenda/evento/eventos-scripts.js',
-            array('jquery'),
-            '1.0.1',
+            'cc-sticky-filters',
+            get_template_directory_uri() . '/plantillas/agenda/assets/js/sticky-filters.js',
+            array(),
+            filemtime(get_template_directory() . '/plantillas/agenda/assets/js/sticky-filters.js'),
             true
         );
         
-        // Pasar datos PHP a JavaScript
-        wp_localize_script('cc-eventos-scripts', 'eventosData', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('eventos_nonce')
-        ));
+        // JavaScript solo si es necesario
+        if (is_singular('evento')) {
+            wp_enqueue_script(
+                'cc-eventos-scripts',
+                get_template_directory_uri() . '/plantillas/agenda/evento/eventos-scripts.js',
+                array('jquery'),
+                '1.0.1',
+                true
+            );
+            
+            // Pasar datos PHP a JavaScript
+            wp_localize_script('cc-eventos-scripts', 'eventosData', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('eventos_nonce')
+            ));
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'cc_enqueue_eventos_assets');
@@ -707,7 +1165,7 @@ function cc_eventos_columnas_admin($columns) {
         $new_columns[$key] = $value;
         
         if ($key === 'title') {
-            $new_columns['evento_fecha'] = '📅 Fecha';
+            $new_columns['evento_fecha'] = 'Fecha';
             $new_columns['evento_tipo'] = 'Tipo';
             $new_columns['evento_estado'] = 'Estado';
             $new_columns['evento_cupos'] = 'Cupos';
@@ -729,10 +1187,10 @@ function cc_eventos_columnas_contenido($column, $post_id) {
                 echo date('j M Y, H:i', strtotime($fecha));
                 
                 if (cc_evento_ha_pasado($post_id)) {
-                    echo '<br><span style="color: #999;">✓ Finalizado</span>';
+                    echo '<br><span style="color: #999;">Finalizado</span>';
                 }
             } else {
-                echo '—';
+                echo '-';
             }
             break;
             
@@ -758,7 +1216,7 @@ function cc_eventos_columnas_contenido($column, $post_id) {
         case 'evento_estado':
             $estado = cc_get_estado_evento($post_id);
             echo '<span style="display: inline-block; padding: 5px 10px; background: ' . $estado['color'] . '; color: #fff; border-radius: 12px; font-size: 11px; font-weight: 600;">';
-            echo $estado['icon'] . ' ' . $estado['label'];
+            echo $estado['label'];
             echo '</span>';
             break;
             

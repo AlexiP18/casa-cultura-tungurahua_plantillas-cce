@@ -1,0 +1,1283 @@
+[
+    {
+        "key": "group_eventos_culturales",
+        "title": "Configuración de Eventos Culturales",
+        "fields": [
+            {
+                "key": "field_tab_info_evento",
+                "label": "📅 Información del Evento",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_tipo",
+                "label": "Tipo de Evento",
+                "name": "evento_tipo",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Selecciona el tipo de evento cultural",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "teatro": "Teatro",
+                    "musica": "Música y Conciertos",
+                    "danza": "Danza",
+                    "exposicion": "Exposición",
+                    "taller": "Taller",
+                    "conferencia": "Conferencia \/ Charla",
+                    "conversatorio": "Conversatorio",
+                    "cine": "Cine",
+                    "literario": "Evento Literario",
+                    "concurso": "Concurso",
+                    "festival": "Festival",
+                    "otro": "Otro"
+                },
+                "default_value": "teatro",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 1,
+                "ajax": 0,
+                "return_format": "value",
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_evento_destacado",
+                "label": "Evento Destacado",
+                "name": "evento_destacado",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Marcar para mostrar en el slider principal",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 0,
+                "ui": 1,
+                "ui_on_text": "Sí",
+                "ui_off_text": "No",
+                "message": ""
+            },
+            {
+                "key": "field_evento_estado",
+                "label": "Estado del Evento",
+                "name": "evento_estado",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Estado actual del evento",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "proximo": "Próximamente",
+                    "inscripcion_abierta": "Inscripción Abierta",
+                    "cupos_limitados": "Cupos Limitados",
+                    "agotado": "Entradas Agotadas",
+                    "en_curso": "En Curso",
+                    "finalizado": "Finalizado",
+                    "cancelado": "Cancelado"
+                },
+                "default_value": "proximo",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 1,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_evento_subtitulo",
+                "label": "Subtítulo del Evento",
+                "name": "evento_subtitulo",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Subtítulo o descripción corta",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Una experiencia única de teatro contemporáneo",
+                "maxlength": 200,
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_descripcion_corta",
+                "label": "Descripción Corta",
+                "name": "evento_descripcion_corta",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Descripción breve del evento (se mostrará en tarjetas). Máximo 300 caracteres.",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Describe brevemente el evento...",
+                "maxlength": 300,
+                "rows": 4,
+                "new_lines": "br"
+            },
+            {
+                "key": "field_evento_artista",
+                "label": "Artista \/ Ponente \/ Tallerista",
+                "name": "evento_artista",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del artista, ponente o responsable del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: María García",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_artista_bio",
+                "label": "Biografía del Artista",
+                "name": "evento_artista_bio",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Breve biografía o descripción del artista\/ponente. Máximo 500 caracteres.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Biografía...",
+                "maxlength": 500,
+                "rows": 4,
+                "new_lines": "br"
+            },
+            {
+                "key": "field_tab_fecha_lugar",
+                "label": "📍 Fecha y Lugar",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_fecha_inicio",
+                "label": "Fecha y Hora de Inicio",
+                "name": "evento_fecha_inicio",
+                "aria-label": "",
+                "type": "date_time_picker",
+                "instructions": "Cuándo comienza el evento",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "d\/m\/Y H:i",
+                "return_format": "Y-m-d H:i:s",
+                "first_day": 1,
+                "default_to_current_date": 0
+            },
+            {
+                "key": "field_evento_fecha_fin",
+                "label": "Fecha y Hora de Fin",
+                "name": "evento_fecha_fin",
+                "aria-label": "",
+                "type": "date_time_picker",
+                "instructions": "Cuándo termina el evento (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "d\/m\/Y H:i",
+                "return_format": "Y-m-d H:i:s",
+                "first_day": 1,
+                "default_to_current_date": 0
+            },
+            {
+                "key": "field_evento_duracion",
+                "label": "Duración Estimada",
+                "name": "evento_duracion",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Duración aproximada del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "34",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 2 horas, 3 días, etc.",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_multiples_fechas",
+                "label": "¿Tiene múltiples fechas?",
+                "name": "evento_multiples_fechas",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Activar si el evento se realiza en varias fechas",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 0,
+                "ui": 1,
+                "message": "",
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_evento_fechas_adicionales",
+                "label": "Fechas Adicionales",
+                "name": "evento_fechas_adicionales",
+                "aria-label": "",
+                "type": "group",
+                "instructions": "Complete las fechas adicionales del evento (hasta 15 fechas)",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_evento_multiples_fechas",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "block",
+                "sub_fields": [
+                    {"key": "field_fecha_1_nombre",  "label": "Nombre",      "name": "fecha_1_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #1",  "placeholder": "Fecha #1",  "maxlength": ""},
+                    {"key": "field_fecha_1_dt",       "label": "Fecha y Hora","name": "fecha_1_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_2_nombre",  "label": "Nombre",      "name": "fecha_2_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #2",  "placeholder": "Fecha #2",  "maxlength": ""},
+                    {"key": "field_fecha_2_dt",       "label": "Fecha y Hora","name": "fecha_2_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_3_nombre",  "label": "Nombre",      "name": "fecha_3_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #3",  "placeholder": "Fecha #3",  "maxlength": ""},
+                    {"key": "field_fecha_3_dt",       "label": "Fecha y Hora","name": "fecha_3_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_4_nombre",  "label": "Nombre",      "name": "fecha_4_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #4",  "placeholder": "Fecha #4",  "maxlength": ""},
+                    {"key": "field_fecha_4_dt",       "label": "Fecha y Hora","name": "fecha_4_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_5_nombre",  "label": "Nombre",      "name": "fecha_5_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #5",  "placeholder": "Fecha #5",  "maxlength": ""},
+                    {"key": "field_fecha_5_dt",       "label": "Fecha y Hora","name": "fecha_5_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_6_nombre",  "label": "Nombre",      "name": "fecha_6_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #6",  "placeholder": "Fecha #6",  "maxlength": ""},
+                    {"key": "field_fecha_6_dt",       "label": "Fecha y Hora","name": "fecha_6_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_7_nombre",  "label": "Nombre",      "name": "fecha_7_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #7",  "placeholder": "Fecha #7",  "maxlength": ""},
+                    {"key": "field_fecha_7_dt",       "label": "Fecha y Hora","name": "fecha_7_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_8_nombre",  "label": "Nombre",      "name": "fecha_8_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #8",  "placeholder": "Fecha #8",  "maxlength": ""},
+                    {"key": "field_fecha_8_dt",       "label": "Fecha y Hora","name": "fecha_8_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_9_nombre",  "label": "Nombre",      "name": "fecha_9_nombre",  "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #9",  "placeholder": "Fecha #9",  "maxlength": ""},
+                    {"key": "field_fecha_9_dt",       "label": "Fecha y Hora","name": "fecha_9_dt",       "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_10_nombre", "label": "Nombre",      "name": "fecha_10_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #10", "placeholder": "Fecha #10", "maxlength": ""},
+                    {"key": "field_fecha_10_dt",      "label": "Fecha y Hora","name": "fecha_10_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_11_nombre", "label": "Nombre",      "name": "fecha_11_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #11", "placeholder": "Fecha #11", "maxlength": ""},
+                    {"key": "field_fecha_11_dt",      "label": "Fecha y Hora","name": "fecha_11_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_12_nombre", "label": "Nombre",      "name": "fecha_12_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #12", "placeholder": "Fecha #12", "maxlength": ""},
+                    {"key": "field_fecha_12_dt",      "label": "Fecha y Hora","name": "fecha_12_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_13_nombre", "label": "Nombre",      "name": "fecha_13_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #13", "placeholder": "Fecha #13", "maxlength": ""},
+                    {"key": "field_fecha_13_dt",      "label": "Fecha y Hora","name": "fecha_13_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_14_nombre", "label": "Nombre",      "name": "fecha_14_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #14", "placeholder": "Fecha #14", "maxlength": ""},
+                    {"key": "field_fecha_14_dt",      "label": "Fecha y Hora","name": "fecha_14_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_15_nombre", "label": "Nombre",      "name": "fecha_15_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #15", "placeholder": "Fecha #15", "maxlength": ""},
+                    {"key": "field_fecha_15_dt",      "label": "Fecha y Hora","name": "fecha_15_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_16_nombre", "label": "Nombre",      "name": "fecha_16_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #16", "placeholder": "Fecha #16", "maxlength": ""},
+                    {"key": "field_fecha_16_dt",      "label": "Fecha y Hora","name": "fecha_16_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_17_nombre", "label": "Nombre",      "name": "fecha_17_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #17", "placeholder": "Fecha #17", "maxlength": ""},
+                    {"key": "field_fecha_17_dt",      "label": "Fecha y Hora","name": "fecha_17_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_18_nombre", "label": "Nombre",      "name": "fecha_18_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #18", "placeholder": "Fecha #18", "maxlength": ""},
+                    {"key": "field_fecha_18_dt",      "label": "Fecha y Hora","name": "fecha_18_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_19_nombre", "label": "Nombre",      "name": "fecha_19_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #19", "placeholder": "Fecha #19", "maxlength": ""},
+                    {"key": "field_fecha_19_dt",      "label": "Fecha y Hora","name": "fecha_19_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0},
+                    {"key": "field_fecha_20_nombre", "label": "Nombre",      "name": "fecha_20_nombre", "aria-label": "", "type": "text",           "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "Fecha #20", "placeholder": "Fecha #20", "maxlength": ""},
+                    {"key": "field_fecha_20_dt",      "label": "Fecha y Hora","name": "fecha_20_dt",      "aria-label": "", "type": "date_time_picker","instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "display_format": "d\/m\/Y H:i", "return_format": "Y-m-d H:i:s", "first_day": 1, "default_to_current_date": 0}
+                ]
+            },
+            {
+                "key": "field_evento_lugar",
+                "label": "Lugar del Evento",
+                "name": "evento_lugar",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del lugar donde se realizará",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Casa de la Cultura",
+                "placeholder": "Ej: Auditorio Principal",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_direccion",
+                "label": "Dirección",
+                "name": "evento_direccion",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Dirección completa del lugar",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Calle Principal #123, Centro",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_mapa",
+                "label": "Enlace a Google Maps",
+                "name": "evento_mapa",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "URL de Google Maps para ubicación",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "34",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/maps.google.com\/..."
+            },
+            {
+                "key": "field_tab_entradas_cupos",
+                "label": "🎟️ Entradas y Cupos",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_es_gratuito",
+                "label": "¿Evento Gratuito?",
+                "name": "evento_es_gratuito",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Marcar si el evento es de entrada libre",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 1,
+                "ui": 1,
+                "ui_on_text": "Sí",
+                "ui_off_text": "No",
+                "message": ""
+            },
+            {
+                "key": "field_evento_requiere_inscripcion",
+                "label": "¿Requiere Inscripción?",
+                "name": "evento_requiere_inscripcion",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "Activar si se requiere registro previo",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 0,
+                "ui": 1,
+                "message": "",
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_evento_enlace_inscripcion",
+                "label": "Enlace de Inscripción",
+                "name": "evento_enlace_inscripcion",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "URL del formulario de inscripción",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_evento_requiere_inscripcion",
+                            "operator": "==",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/..."
+            },
+            {
+                "key": "field_evento_precio",
+                "label": "Precio de Entrada",
+                "name": "evento_precio",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Precio en moneda local (máximo $9,999)",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_evento_es_gratuito",
+                            "operator": "!=",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "0.00",
+                "min": 0,
+                "max": 9999,
+                "step": 0.01,
+                "prepend": "$",
+                "append": ""
+            },
+            {
+                "key": "field_evento_capacidad_total",
+                "label": "Capacidad Total",
+                "name": "evento_capacidad_total",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Número máximo de asistentes",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 200",
+                "min": 1,
+                "max": 10000,
+                "step": 1,
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_edad_minima",
+                "label": "Clasificación de Edad",
+                "name": "evento_edad_minima",
+                "aria-label": "",
+                "type": "range",
+                "instructions": "Desliza para indicar la edad mínima (0 = Apto para todo público, 18 = +18 años)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "34",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 0,
+                "min": 0,
+                "max": 18,
+                "step": 1,
+                "prepend": "",
+                "append": " años"
+            },
+            {
+                "key": "field_evento_cupos_disponibles",
+                "label": "Cupos Disponibles Actuales",
+                "name": "evento_cupos_disponibles",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Cupos restantes (actualizar manualmente)",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_evento_capacidad_total",
+                            "operator": "!=empty"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 150",
+                "min": 0,
+                "step": 1,
+                "max": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_precios_multiples",
+                "label": "Precios Diferenciados",
+                "name": "evento_precios_multiples",
+                "aria-label": "",
+                "type": "group",
+                "instructions": "Define hasta 10 categorías de precios diferenciados",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_evento_es_gratuito",
+                            "operator": "!=",
+                            "value": "1"
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "block",
+                "sub_fields": [
+                    {"key": "field_precio_1_nombre", "label": "Categoría", "name": "precio_1_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: General", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_1_valor", "label": "Valor ($)", "name": "precio_1_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_2_nombre", "label": "Categoría", "name": "precio_2_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Estudiantes", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_2_valor", "label": "Valor ($)", "name": "precio_2_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_3_nombre", "label": "Categoría", "name": "precio_3_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Tercera edad", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_3_valor", "label": "Valor ($)", "name": "precio_3_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_4_nombre", "label": "Categoría", "name": "precio_4_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Niños", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_4_valor", "label": "Valor ($)", "name": "precio_4_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_5_nombre", "label": "Categoría", "name": "precio_5_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Profesores", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_5_valor", "label": "Valor ($)", "name": "precio_5_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_6_nombre", "label": "Categoría", "name": "precio_6_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Socios", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_6_valor", "label": "Valor ($)", "name": "precio_6_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_7_nombre", "label": "Categoría", "name": "precio_7_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: VIP", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_7_valor", "label": "Valor ($)", "name": "precio_7_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_8_nombre", "label": "Categoría", "name": "precio_8_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Grupos", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_8_valor", "label": "Valor ($)", "name": "precio_8_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_9_nombre", "label": "Categoría", "name": "precio_9_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Personas con discapacidad", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_9_valor", "label": "Valor ($)", "name": "precio_9_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""},
+                    {"key": "field_precio_10_nombre", "label": "Categoría", "name": "precio_10_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "30", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Precio especial", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_precio_10_valor", "label": "Valor ($)", "name": "precio_10_valor", "aria-label": "", "type": "number", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "20", "class": "", "id": ""}, "default_value": "", "placeholder": "0.00", "min": 0, "max": 9999, "step": 0.01, "prepend": "$", "append": ""}
+                ]
+            },
+            {
+                "key": "field_tab_multimedia",
+                "label": "🎨 Multimedia",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_imagen_principal",
+                "label": "Imagen Principal \/ Afiche",
+                "name": "evento_imagen_principal",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen promocional del evento (Recomendado: 1200x630px)",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": 800,
+                "min_height": 600,
+                "max_size": 2,
+                "mime_types": "jpg,jpeg,png,webp",
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0
+            },
+            {
+                "key": "field_evento_imagen_banner",
+                "label": "Banner \/ Portada",
+                "name": "evento_imagen_banner",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen para header (Recomendado: 1920x600px)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_evento_imagen_3",
+                "label": "Imagen Adicional 3",
+                "name": "evento_imagen_3",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen adicional del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_evento_imagen_4",
+                "label": "Imagen Adicional 4",
+                "name": "evento_imagen_4",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen adicional del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_evento_imagen_5",
+                "label": "Imagen Adicional 5",
+                "name": "evento_imagen_5",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Imagen adicional del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "34",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 0,
+                "min_height": 0,
+                "min_size": 0,
+                "max_width": 0,
+                "max_height": 0,
+                "max_size": 0,
+                "mime_types": ""
+            },
+            {
+                "key": "field_evento_video",
+                "label": "Video Promocional 1",
+                "name": "evento_video",
+                "aria-label": "",
+                "type": "oembed",
+                "instructions": "URL de YouTube, Vimeo, etc.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "width": "",
+                "height": ""
+            },
+            {
+                "key": "field_evento_video_2",
+                "label": "Video Promocional 2",
+                "name": "evento_video_2",
+                "aria-label": "",
+                "type": "oembed",
+                "instructions": "URL de YouTube, Vimeo, etc. (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "width": "",
+                "height": ""
+            },
+            {
+                "key": "field_evento_video_3",
+                "label": "Video Promocional 3",
+                "name": "evento_video_3",
+                "aria-label": "",
+                "type": "oembed",
+                "instructions": "URL de YouTube, Vimeo, etc. (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "33",
+                    "class": "",
+                    "id": ""
+                },
+                "width": "",
+                "height": ""
+            },
+            {
+                "key": "field_tab_info_adicional",
+                "label": "ℹ️ Información Adicional",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_programa",
+                "label": "Programa del Evento",
+                "name": "evento_programa",
+                "aria-label": "",
+                "type": "wysiwyg",
+                "instructions": "Detalle del programa o agenda",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 1,
+                "delay": 0
+            },
+            {
+                "key": "field_evento_requisitos",
+                "label": "Requisitos",
+                "name": "evento_requisitos",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Requisitos para asistir (uno por línea)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "cedula": "Cedula",
+                    "amabilidad": "Amabilidad",
+                    "puntualidad": "Puntualidad"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 1,
+                "create_options": 1,
+                "save_options": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_evento_incluye",
+                "label": "¿Qué Incluye?",
+                "name": "evento_incluye",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Qué está incluido en el evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "refrigerio": "Refrigerio",
+                    "material_didactico": "Material Didáctico",
+                    "certificado": "Certificado"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 1,
+                "create_options": 1,
+                "save_options": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_evento_archivo_programa",
+                "label": "Programa (PDF)",
+                "name": "evento_archivo_programa",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "Programa en PDF para descargar",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "max_size": 5,
+                "mime_types": "pdf",
+                "min_size": 0
+            },
+            {
+                "key": "field_evento_archivo_adicional",
+                "label": "Archivo Adicional",
+                "name": "evento_archivo_adicional",
+                "aria-label": "",
+                "type": "file",
+                "instructions": "Otro archivo relacionado",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "library": "all",
+                "max_size": 5,
+                "mime_types": "pdf,doc,docx,jpg,jpeg,png",
+                "min_size": 0
+            },
+            {
+                "key": "field_evento_etiquetas",
+                "label": "Etiquetas",
+                "name": "evento_etiquetas",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Etiquetas para categorizar el evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "familiar": "Para toda la familia",
+                    "adultos": "Solo adultos",
+                    "ninos": "Para niños",
+                    "jovenes": "Para jóvenes",
+                    "profesional": "Profesional",
+                    "principiantes": "Principiantes",
+                    "avanzado": "Nivel avanzado",
+                    "certificado": "Otorga certificado",
+                    "al_aire_libre": "Al aire libre",
+                    "virtual": "Virtual\/Online",
+                    "presencial": "Presencial"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_null": 1,
+                "allow_in_bindings": 1,
+                "ui": 1,
+                "ajax": 1,
+                "create_options": 1,
+                "save_options": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_tab_organizacion",
+                "label": "🏢 Organización",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_evento_organizador",
+                "label": "Organizado por",
+                "name": "evento_organizador",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del organizador o institución",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Casa de la Cultura",
+                "placeholder": "",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_patrocinadores",
+                "label": "Patrocinadores",
+                "name": "evento_patrocinadores",
+                "aria-label": "",
+                "type": "group",
+                "instructions": "Agrega hasta 10 patrocinadores del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "block",
+                "sub_fields": [
+                    {"key": "field_patroc_1_nombre", "label": "Nombre del Patrocinador", "name": "patroc_1_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_1_link", "label": "Enlace", "name": "patroc_1_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_2_nombre", "label": "Nombre del Patrocinador", "name": "patroc_2_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_2_link", "label": "Enlace", "name": "patroc_2_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_3_nombre", "label": "Nombre del Patrocinador", "name": "patroc_3_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_3_link", "label": "Enlace", "name": "patroc_3_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_4_nombre", "label": "Nombre del Patrocinador", "name": "patroc_4_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_4_link", "label": "Enlace", "name": "patroc_4_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_5_nombre", "label": "Nombre del Patrocinador", "name": "patroc_5_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_5_link", "label": "Enlace", "name": "patroc_5_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_6_nombre", "label": "Nombre del Patrocinador", "name": "patroc_6_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_6_link", "label": "Enlace", "name": "patroc_6_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_7_nombre", "label": "Nombre del Patrocinador", "name": "patroc_7_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_7_link", "label": "Enlace", "name": "patroc_7_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_8_nombre", "label": "Nombre del Patrocinador", "name": "patroc_8_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_8_link", "label": "Enlace", "name": "patroc_8_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_9_nombre", "label": "Nombre del Patrocinador", "name": "patroc_9_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_9_link", "label": "Enlace", "name": "patroc_9_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."},
+                    {"key": "field_patroc_10_nombre", "label": "Nombre del Patrocinador", "name": "patroc_10_nombre", "aria-label": "", "type": "text", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "Ej: Empresa XYZ", "maxlength": "", "prepend": "", "append": ""},
+                    {"key": "field_patroc_10_link", "label": "Enlace", "name": "patroc_10_link", "aria-label": "", "type": "url", "instructions": "", "required": 0, "conditional_logic": 0, "wrapper": {"width": "25", "class": "", "id": ""}, "default_value": "", "placeholder": "https://..."}
+                ]
+            },
+            {
+                "key": "field_evento_contacto_nombre",
+                "label": "Contacto - Nombre",
+                "name": "evento_contacto_nombre",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Nombre del responsable de contacto",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "maxlength": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_contacto_telefono",
+                "label": "Contacto - Teléfono",
+                "name": "evento_contacto_telefono",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Número de teléfono con hasta 10 dígitos",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "9XXXXXXXXX",
+                "min": 1000000000,
+                "max": 9999999999,
+                "step": 1,
+                "prepend": "+593",
+                "append": ""
+            },
+            {
+                "key": "field_evento_contacto_email",
+                "label": "Contacto - Email",
+                "name": "evento_contacto_email",
+                "aria-label": "",
+                "type": "email",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "25",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "contacto@ejemplo.com",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_evento_redes_facebook",
+                "label": "Facebook",
+                "name": "evento_redes_facebook",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace del evento o perfil en Facebook",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/facebook.com\/..."
+            },
+            {
+                "key": "field_evento_redes_instagram",
+                "label": "Instagram",
+                "name": "evento_redes_instagram",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace del evento o perfil en Instagram",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/instagram.com\/..."
+            },
+            {
+                "key": "field_evento_redes_twitter",
+                "label": "Twitter \/ X",
+                "name": "evento_redes_twitter",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace del evento o perfil en Twitter\/X",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/x.com\/..."
+            },
+            {
+                "key": "field_evento_redes_youtube",
+                "label": "YouTube",
+                "name": "evento_redes_youtube",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace del canal o video en YouTube",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/youtube.com\/..."
+            },
+            {
+                "key": "field_evento_redes_tiktok",
+                "label": "TikTok",
+                "name": "evento_redes_tiktok",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Enlace del perfil en TikTok",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/tiktok.com\/@..."
+            },
+            {
+                "key": "field_evento_enlace_externo",
+                "label": "Enlace Externo",
+                "name": "evento_enlace_externo",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "Sitio web o página oficial del evento",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "https:\/\/..."
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "evento"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "acf_after_title",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "excerpt",
+            "discussion",
+            "comments",
+            "revisions",
+            "author",
+            "format",
+            "page_attributes"
+        ],
+        "active": true,
+        "description": "Campos para gestionar eventos culturales",
+        "show_in_rest": 0,
+        "display_title": ""
+    }
+]

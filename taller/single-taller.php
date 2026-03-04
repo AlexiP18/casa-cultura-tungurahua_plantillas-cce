@@ -6,50 +6,121 @@
  */
 
 get_header();
+
+// Obtener datos del taller
+$imagenes = get_field('slider_imagenes');
+$descripcion = get_field('descripcion');
+$categoria = get_field('categoria_taller');
+$instructor = get_field('instructor');
+$costo = get_field('costo');
+$edad = get_field('edad');
+$dias = get_field('dias');
+$horario_matutino = get_field('horario_matutino');
+$horario_vespertino = get_field('horario_vespertino');
+$telefono = get_field('#_de_contacto');
+
+// Iconos por categoría
+$categoria_icons = array(
+    'arte' => 'fa-palette',
+    'canto' => 'fa-microphone',
+    'danza' => 'fa-music',
+    'musica' => 'fa-guitar',
+    'teatro' => 'fa-theater-masks',
+    'otros' => 'fa-star'
+);
+
+$categoria_colors = array(
+    'arte' => '#e74c3c',
+    'canto' => '#9b59b6',
+    'danza' => '#f39c12',
+    'musica' => '#3498db',
+    'teatro' => '#e67e22',
+    'otros' => '#95a5a6'
+);
+
+$cat_icon = isset($categoria_icons[$categoria]) ? $categoria_icons[$categoria] : 'fa-star';
+$cat_color = isset($categoria_colors[$categoria]) ? $categoria_colors[$categoria] : '#3498db';
+
+// Generar enlace de WhatsApp
+$whatsapp_link = '';
+if ($telefono) {
+    $tel = preg_replace('/[^0-9]/', '', $telefono);
+    if (substr($tel, 0, 1) == '0') {
+        $tel = '593' . substr($tel, 1);
+    } else {
+        $tel = '593' . $tel;
+    }
+    $mensaje = "Hola " . $instructor . ", me podría ayudar con más información del curso " . get_the_title();
+    $whatsapp_link = 'https://api.whatsapp.com/send?phone=' . $tel . '&text=' . urlencode($mensaje);
+}
 ?>
 
 <div class="taller-container">
     <div class="taller-header">
+        <?php if ($categoria): ?>
+            <span class="taller-categoria" style="background: <?php echo $cat_color; ?>;">
+                <i class="fas <?php echo $cat_icon; ?>"></i> <?php echo ucfirst($categoria); ?>
+            </span>
+        <?php endif; ?>
         <h1><?php the_title(); ?></h1>
+        <?php if ($instructor): ?>
+            <p class="taller-subtitulo"><i class="fas fa-user-tie"></i> Instructor: <?php echo esc_html($instructor); ?></p>
+        <?php endif; ?>
     </div>
     
     <div class="taller-content">
         <div class="taller-main">
             <!-- Slider de imágenes -->
-            <div class="taller-slider">
-                <div class="slider-wrapper">
+            <?php if (!empty($imagenes)) : ?>
+            <div class="taller-galeria-slider">
+                <div class="galeria-slider-taller">
+                    <?php
+                    $count = 0;
+                    for ($i = 1; $i <= 3; $i++) {
+                        $imagen_key = "imagen_{$i}";
+                        if (!empty($imagenes[$imagen_key])) :
+                            $imagen = $imagenes[$imagen_key];
+                            $active = $count === 0 ? ' active' : '';
+                    ?>
+                        <div class="galeria-slide-taller<?php echo $active; ?>">
+                            <img src="<?php echo esc_url($imagen['url']); ?>" 
+                                 alt="<?php echo esc_attr($imagen['alt'] ?: get_the_title()); ?>">
+                        </div>
                     <?php 
-                    $imagenes = get_field('slider_imagenes');
-                    if($imagenes): 
-                        if(!empty($imagenes['imagen_1'])): ?>
-                            <div class="slide">
-                                <img src="<?php echo esc_url($imagenes['imagen_1']['url']); ?>" 
-                                     alt="<?php echo esc_attr($imagenes['imagen_1']['alt']); ?>">
-                            </div>
-                        <?php endif;
-                        
-                        if(!empty($imagenes['imagen_2'])): ?>
-                            <div class="slide">
-                                <img src="<?php echo esc_url($imagenes['imagen_2']['url']); ?>" 
-                                     alt="<?php echo esc_attr($imagenes['imagen_2']['alt']); ?>">
-                            </div>
-                        <?php endif;
-                        
-                        if(!empty($imagenes['imagen_3'])): ?>
-                            <div class="slide">
-                                <img src="<?php echo esc_url($imagenes['imagen_3']['url']); ?>" 
-                                     alt="<?php echo esc_attr($imagenes['imagen_3']['alt']); ?>">
-                            </div>
-                        <?php endif;
-                    endif; ?>
+                            $count++;
+                        endif;
+                    } 
+                    ?>
                 </div>
-                <button class="slider-nav prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-                <button class="slider-nav next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+                
+                <?php if ($count > 1): ?>
+                    <button class="galeria-btn-taller prev" onclick="cambiarSlideTaller(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="galeria-btn-taller next" onclick="cambiarSlideTaller(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <div class="galeria-dots-taller">
+                        <?php
+                        for ($i = 0; $i < $count; $i++) {
+                            $active = $i === 0 ? ' active' : '';
+                        ?>
+                            <span class="dot-taller<?php echo $active; ?>" onclick="irASlideTaller(<?php echo $i; ?>)"></span>
+                        <?php } ?>
+                    </div>
+                <?php endif; ?>
             </div>
+            <?php endif; ?>
             
             <!-- Descripción del taller -->
+            <div class="seccion-header-taller">
+                <span class="btn-seccion-taller">
+                    <i class="fas fa-info-circle"></i> ACERCA DEL TALLER
+                </span>
+            </div>
             <div class="taller-descripcion">
-                <?php echo get_field('descripcion'); ?>
+                <?php echo $descripcion; ?>
             </div>
         </div>
         
@@ -61,48 +132,54 @@ get_header();
                 </button>
             </div>
             
-            <!-- Información del instructor -->
+            <!-- Información del taller -->
             <div class="taller-info">
+                <?php if ($instructor): ?>
                 <div class="info-item instructor">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-user-tie"></i>
                     </div>
                     <div class="info-content">
                         <span class="label">Instructor:</span>
-                        <span class="value"><?php echo esc_html(get_field('instructor')); ?></span>
+                        <span class="value"><?php echo esc_html($instructor); ?></span>
                     </div>
                 </div>
+                <?php endif; ?>
                 
-                <!-- Costo -->
+                <?php if ($costo !== null && $costo !== ''): ?>
                 <div class="info-item costo">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-dollar-sign"></i>
                     </div>
                     <div class="info-content">
                         <span class="label">Costo:</span>
-                        <span class="value">$<?php echo number_format(get_field('costo'), 2); ?></span>
+                        <span class="value precio">$<?php echo number_format($costo, 2); ?></span>
                     </div>
                 </div>
+                <?php endif; ?>
                 
-                <!-- Edad -->
+                <?php if ($edad): ?>
                 <div class="info-item edad">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-users"></i>
                     </div>
                     <div class="info-content">
                         <span class="label">Edad:</span>
-                        <span class="value"><?php echo esc_html(get_field('edad')); ?></span>
+                        <span class="value"><?php echo esc_html($edad); ?></span>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
             
             <!-- Horarios -->
-            <div class="horario-seccion">
-                <div class="horario-header">
+            <div class="detalles-boton taller-seccion-titulo">
+                <span class="btn-detalles">
                     <i class="fas fa-clock"></i> HORARIO
-                </div>
+                </span>
+            </div>
+            <div class="horario-seccion">
                 
-                <!-- Días -->
+                <?php if ($dias): ?>
                 <div class="info-item dias">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-calendar-alt"></i>
@@ -111,7 +188,6 @@ get_header();
                         <span class="label">Días:</span>
                         <span class="value">
                             <?php 
-                            $dias = get_field('dias');
                             if (is_array($dias)) {
                                 echo implode(' y ', $dias);
                             } else {
@@ -121,8 +197,8 @@ get_header();
                         </span>
                     </div>
                 </div>
+                <?php endif; ?>
                 
-                <!-- Horario Matutino -->
                 <div class="info-item horario">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-sun"></i>
@@ -130,19 +206,17 @@ get_header();
                     <div class="info-content">
                         <span class="label">Matutino:</span>
                         <?php 
-                        $horario_matutino = get_field('horario_matutino');
                         if (is_array($horario_matutino) && !empty($horario_matutino)) {
                             echo '<span class="value">' . implode(', ', $horario_matutino) . '</span>';
                         } else if (!empty($horario_matutino)) {
                             echo '<span class="value">' . esc_html($horario_matutino) . '</span>';
                         } else {
-                            echo '<span class="value">------</span>';
+                            echo '<span class="value sin-horario">------</span>';
                         }
                         ?>
                     </div>
                 </div>
                 
-                <!-- Horario Vespertino -->
                 <div class="info-item horario">
                     <div class="icon-wrapper">
                         <i class="icon fas fa-moon"></i>
@@ -150,13 +224,12 @@ get_header();
                     <div class="info-content">
                         <span class="label">Vespertino:</span>
                         <?php 
-                        $horario_vespertino = get_field('horario_vespertino');
                         if (is_array($horario_vespertino) && !empty($horario_vespertino)) {
                             echo '<span class="value">' . implode(', ', $horario_vespertino) . '</span>';
                         } else if (!empty($horario_vespertino)) {
                             echo '<span class="value">' . esc_html($horario_vespertino) . '</span>';
                         } else {
-                            echo '<span class="value">------</span>';
+                            echo '<span class="value sin-horario">------</span>';
                         }
                         ?>
                     </div>
@@ -164,109 +237,65 @@ get_header();
             </div>
             
             <!-- Botón de WhatsApp -->
-            <?php 
-            // Generar el enlace de WhatsApp para Ecuador
-            $telefono = get_field('#_de_contacto');
-            $instructor = get_field('instructor');
-            $curso = get_the_title();
-            
-            // Formatear número para Ecuador
-            $telefono = preg_replace('/[^0-9]/', '', $telefono);
-            if (substr($telefono, 0, 1) == '0') {
-                $telefono = '593' . substr($telefono, 1);
-            } else {
-                $telefono = '593' . $telefono;
-            }
-            
-            $mensaje = "Hola " . $instructor . " me podría ayudar con más información del curso " . $curso;
-            $whatsapp_link = 'https://api.whatsapp.com/send?phone=' . $telefono . '&text=' . urlencode($mensaje);
-            ?>
-            
+            <?php if ($whatsapp_link): ?>
             <a href="<?php echo esc_url($whatsapp_link); ?>" class="whatsapp-btn" target="_blank">
                 <i class="fab fa-whatsapp"></i> Contacto vía Whatsapp
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
+<!-- Widget de Compartir -->
+<?php include(get_stylesheet_directory() . '/compartir-widget.php'); ?>
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget-styles.css">
+<script src="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget.js"></script>
+
 <!-- JavaScript para el slider -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sliderWrapper = document.querySelector('.slider-wrapper');
-    const slides = document.querySelectorAll('.slide');
-    const prevButton = document.querySelector('.slider-nav.prev');
-    const nextButton = document.querySelector('.slider-nav.next');
+// Slider de galería del taller
+let slideActualTaller = 0;
+
+function cambiarSlideTaller(direccion) {
+    const slides = document.querySelectorAll('.galeria-slide-taller');
+    const dots = document.querySelectorAll('.dot-taller');
     
-    if (!sliderWrapper || slides.length === 0) return;
+    if (slides.length === 0) return;
     
-    let currentSlide = 0;
-    const totalSlides = slides.length;
+    slides[slideActualTaller].classList.remove('active');
+    if (dots.length > 0) dots[slideActualTaller].classList.remove('active');
     
-    // Mostrar solo si hay más de una imagen
-    if (totalSlides <= 1) {
-        if (prevButton) prevButton.style.display = 'none';
-        if (nextButton) nextButton.style.display = 'none';
-        return;
-    }
+    slideActualTaller = (slideActualTaller + direccion + slides.length) % slides.length;
     
-    function updateSliderPosition() {
-        sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+    slides[slideActualTaller].classList.add('active');
+    if (dots.length > 0) dots[slideActualTaller].classList.add('active');
+}
+
+function irASlideTaller(index) {
+    const slides = document.querySelectorAll('.galeria-slide-taller');
+    const dots = document.querySelectorAll('.dot-taller');
     
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateSliderPosition();
-    }
+    if (slides.length === 0) return;
     
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateSliderPosition();
-    }
+    slides[slideActualTaller].classList.remove('active');
+    if (dots.length > 0) dots[slideActualTaller].classList.remove('active');
     
-    // Event listeners para los botones
-    if (prevButton) {
-        prevButton.addEventListener('click', prevSlide);
-    }
+    slideActualTaller = index;
     
-    if (nextButton) {
-        nextButton.addEventListener('click', nextSlide);
-    }
-    
-    // Auto rotación cada 5 segundos
-    let autoSlide = setInterval(nextSlide, 5000);
-    
-    // Pausar auto rotación al pasar el mouse
-    sliderWrapper.addEventListener('mouseenter', function() {
-        clearInterval(autoSlide);
-    });
-    
-    // Reanudar auto rotación al salir el mouse
-    sliderWrapper.addEventListener('mouseleave', function() {
-        autoSlide = setInterval(nextSlide, 5000);
-    });
-    
-    // Soporte para swipe en dispositivos táctiles
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    sliderWrapper.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    sliderWrapper.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-    
-    function handleSwipe() {
-        if (touchEndX < touchStartX - 50) {
-            nextSlide();
-        }
-        if (touchEndX > touchStartX + 50) {
-            prevSlide();
-        }
-    }
-});
+    slides[slideActualTaller].classList.add('active');
+    if (dots.length > 0) dots[slideActualTaller].classList.add('active');
+}
+
+// Auto-avanzar galería
+if (document.querySelectorAll('.galeria-slide-taller').length > 1) {
+    setInterval(() => {
+        cambiarSlideTaller(1);
+    }, 5000);
+}
 </script>
+    
+
+    
+
 
 <?php get_footer(); ?>

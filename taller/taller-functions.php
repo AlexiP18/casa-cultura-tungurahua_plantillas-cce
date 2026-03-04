@@ -193,9 +193,19 @@ function ccct_load_talleres_styles() {
  * Enqueue scripts y estilos para la plantilla de talleres
  */
 function ccct_enqueue_taller_assets() {
-    if (is_singular('taller')) {
+    if (is_singular('taller') || is_page_template('page-listado-talleres.php')) {
         wp_enqueue_style('taller-styles', get_template_directory_uri() . '/plantillas/taller/taller-styles.css', array(), '1.0.0');
-        wp_enqueue_script('taller-slider', get_template_directory_uri() . '/plantillas/taller/taller-slider.js', array(), '1.0.0', true);
+        
+        // Sticky Filters for Listado
+        if (is_page_template('page-listado-talleres.php')) {
+            wp_enqueue_script(
+                'cc-sticky-filters',
+                get_template_directory_uri() . '/plantillas/agenda/assets/js/sticky-filters.js',
+                array(),
+                filemtime(get_template_directory() . '/plantillas/agenda/assets/js/sticky-filters.js'),
+                true
+            );
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'ccct_enqueue_taller_assets');
@@ -324,7 +334,7 @@ function ccct_dashboard_widget_talleres() {
     echo '</div>';
     
     if ($recientes->have_posts()) {
-        echo '<h4 style="margin: 20px 0 10px 0; color: #333;">📚 Talleres Recientes</h4>';
+        echo '<h4 style="margin: 20px 0 10px 0; color: #333;"><span class="dashicons dashicons-book" style="color: #8e44ad;"></span> Talleres Recientes</h4>';
         echo '<ul style="list-style: none; padding: 0; margin: 0;">';
         
         while ($recientes->have_posts()) {
@@ -356,7 +366,7 @@ function ccct_dashboard_widget_talleres() {
 function ccct_agregar_dashboard_widget_talleres() {
     wp_add_dashboard_widget(
         'ccct_talleres_resumen',
-        '🎨 Talleres - Casa de la Cultura',
+        'Talleres - Casa de la Cultura',
         'ccct_dashboard_widget_talleres'
     );
 }

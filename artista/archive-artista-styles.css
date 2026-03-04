@@ -1,45 +1,417 @@
 /* Estilos para el archivo de artistas */
 
+/* Wrapper principal con hero */
+.artistas-archive-wrapper {
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero del listado */
+.artistas-hero {
+    position: relative;
+    min-height: 100vh;
+    background-color: #2c3e50;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    z-index: 1;
+}
+
+.artistas-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(231, 30, 138, 0.85) 0%, rgba(0, 132, 255, 0.75) 100%);
+    z-index: 1;
+}
+
+.artistas-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.artistas-hero-content {
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.artistas-hero-titulo {
+    font-size: 52px;
+    font-weight: 900;
+    margin: 0 0 20px 0;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.artistas-hero-titulo i {
+    margin-right: 12px;
+    color: #fff;
+}
+
+.artistas-hero-descripcion {
+    font-size: 18px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+/* Banner de llamada a la acción en hero */
+.artistas-cta-banner {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0 auto;
+    max-width: 700px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.artistas-cta-banner:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+}
+
+.cta-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.cta-content i {
+    font-size: 28px;
+    color: #e71e8a;
+    flex-shrink: 0;
+}
+
+.cta-texto {
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #e71e8a 0%, #c41e80 100%);
+    color: #ffffff;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(231, 30, 138, 0.3);
+}
+
+.cta-btn:hover {
+    background: linear-gradient(135deg, #c41e80 0%, #a01868 100%);
+    color: #ffffff;
+    text-decoration: none;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(231, 30, 138, 0.4);
+}
+
+.cta-btn i {
+    font-size: 16px;
+}
+
+/* Contenedor del listado */
 .artistas-archive-container {
     max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 40px 20px;
     font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
-}
-
-.artistas-header {
-    text-align: center;
-    margin-bottom: 50px;
     position: relative;
+    /* z-index removed */
 }
 
-.artistas-header h1 {
-    font-size: 3rem;
+/* ========== BÚSQUEDA ========== */
+.artistas-buscador-section {
+    background: #fff;
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.buscador-artistas-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Buscador */
+.artistas-buscador {
+    margin-bottom: 0;
+}
+
+.buscador-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.buscador-container i.fa-search {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+    font-size: 18px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.buscador-container input {
+    width: 100%;
+    padding: 16px 55px 16px 55px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    color: #2c3e50;
+}
+
+.buscador-container input:focus {
+    border-color: #e71e8a;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(231, 30, 138, 0.15);
+    outline: none;
+}
+
+.buscador-container input::placeholder {
+    color: #95a5a6;
+}
+
+.clear-search {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #95a5a6;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    transition: all 0.2s ease;
+    padding: 0;
+    z-index: 1;
+}
+
+.clear-search:hover {
+    color: #e74c3c;
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* Filtros de Disciplina */
+.artistas-filtros-section {
+    background: #fff;
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100000 !important;
+}
+
+.artistas-filtros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.filtro-todas {
+    flex-shrink: 0;
+}
+
+.filtros-slider-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow: hidden;
+}
+
+.disciplinas-slider {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.disciplinas-slider-track {
+    display: flex;
+    gap: 12px;
+    transition: transform 0.3s ease;
+}
+
+.slider-nav-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #1d5695;
+    background: white;
+    color: #1d5695;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.slider-nav-btn:hover {
+    background: #1d5695;
+    color: white;
+    transform: scale(1.1);
+}
+
+.slider-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.chip-filtro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.chip-filtro:hover {
+    background: #ecf0f1;
+    border-color: #e71e8a;
+    transform: translateY(-2px);
+}
+
+.chip-filtro.active {
+    background: linear-gradient(135deg, #e71e8a 0%, #c41e80 100%);
+    color: #fff;
+    border-color: #e71e8a;
+    box-shadow: 0 4px 15px rgba(231, 30, 138, 0.3);
+}
+
+.filtro-icono {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtro-icono i {
+    font-size: 20px;
+}
+
+/* Contador de resultados */
+.artistas-resultados {
     margin-bottom: 20px;
-    color: #8e44ad;
-    font-weight: 700;
-    position: relative;
     display: inline-block;
 }
 
-.artistas-header h1:after {
-    content: '';
-    position: absolute;
-    width: 100px;
-    height: 4px;
-    background: #e67e22;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
+.artistas-resultados span {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(231, 30, 138, 0.1);
+    color: #e71e8a;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 2px solid rgba(231, 30, 138, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
 }
 
-.artistas-descripcion {
+/* Mensaje sin resultados */
+.artistas-no-resultados {
+    display: none;
+    text-align: center;
+    padding: 60px 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.artistas-no-resultados i {
+    font-size: 4rem;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.artistas-no-resultados p {
     font-size: 1.2rem;
-    max-width: 800px;
-    margin: 0 auto;
     color: #2c3e50;
-    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.btn-limpiar-filtros {
+    background: #e71e8a;
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-limpiar-filtros:hover {
+    background: #1d5695;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(29, 86, 149, 0.3);
 }
 
 /* Grid de artistas */
@@ -59,34 +431,98 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.3s ease;
     background-color: white;
     position: relative;
-    height: 100%;
+    z-index: 0;
+    min-height: auto;
+    max-height: none;
     display: flex;
     flex-direction: column;
+    opacity: 1;
+}
+
+.artista-card.artista-visible {
+    animation: fadeInCard 0.4s ease-out;
+}
+
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .artista-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* HEADER: Imagen del artista */
 .artista-card-image {
     height: 250px;
     overflow: hidden;
     position: relative;
+    flex-shrink: 0;
 }
 
+/* Badge destacado en esquina superior izquierda */
+.disciplina-badge-destacado {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    background: #e71e8a;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 10px rgba(231, 30, 138, 0.4);
+    backdrop-filter: blur(8px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: fadeInBadge 0.5s ease-out;
+    transition: all 0.3s ease;
+    max-width: calc(100% - 30px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artista-card:hover .disciplina-badge-destacado {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(231, 30, 138, 0.6);
+}
+
+@keyframes fadeInBadge {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Overlay suave en la parte inferior de la imagen */
 .artista-card-image:before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
-    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    height: 80px;
+    background: rgba(0, 0, 0, 0.15);
     z-index: 1;
+    pointer-events: none;
 }
 
 .artista-card-image img {
@@ -100,38 +536,134 @@
     transform: scale(1.08);
 }
 
+/* BODY: Contenido del artista */
 .artista-card-content {
     padding: 25px;
     position: relative;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    min-height: 260px;
+    max-height: 260px;
 }
 
+/* Título del artista */
 .artista-card-title {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-    line-height: 1.4;
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    min-height: 28px;
+    max-height: 28px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
+    color: #1d5695;
+    /* Set color here for ellipsis */
 }
 
 .artista-card-title a {
-    color: #8e44ad;
+    color: #1d5695;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .artista-card-title a:hover {
-    color: #e67e22;
+    color: #e71e8a;
 }
 
+/* Tags de disciplinas */
 .artista-card-disciplina {
-    color: #6c3483;
-    font-style: italic;
-    margin-bottom: 15px;
-    font-weight: 500;
+    margin-bottom: 12px;
+    min-height: 36px;
+    /* max-height and overflow removed to allow scroll */
+}
+
+.artista-card-disciplina .disciplina-tags {
     display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
     align-items: center;
-    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    /* More space for scrollbar */
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+
+    /* Scrollbar visible for desktop default */
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar {
+    height: 4px;
+    display: block;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar-button {
+    display: none;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 2px;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 2px;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+.artista-card-disciplina .disciplina-tags::-webkit-scrollbar-thumb:active {
+    background: #9ca3af;
+}
+
+.artista-card-disciplina .disciplina-tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(231, 30, 138, 0.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #1d5695;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    line-height: 1.2;
+    border: 1px solid rgba(231, 30, 138, 0.2);
+    white-space: nowrap;
+}
+
+.artista-card-disciplina .disciplina-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: #e71e8a;
+    color: #ffffff;
+    border-color: #e71e8a;
+}
+
+.artista-card-disciplina .disciplina-mas {
+    background: rgba(29, 86, 149, 0.1);
+    color: #1d5695;
+    font-weight: 700;
+    border-color: rgba(29, 86, 149, 0.2);
+    cursor: default;
+    font-size: 1rem;
+    padding: 6px 12px;
+}
+
+.artista-card-disciplina .disciplina-mas:hover {
+    transform: none;
+    background: rgba(29, 86, 149, 0.15);
+    color: #1d5695;
+    border-color: rgba(29, 86, 149, 0.3);
 }
 
 .disciplina-count {
@@ -143,18 +675,38 @@
     font-style: normal;
 }
 
+/* Extracto/descripción */
 .artista-card-excerpt {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     color: #2c3e50;
     line-height: 1.6;
-    flex-grow: 1;
+    font-size: 0.95rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    max-height: 6.1em;
 }
 
+.artista-card-excerpt p {
+    margin: 0;
+}
+
+/* FOOTER: Contenedor del botón */
+.artista-card-footer {
+    padding: 20px 25px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* FOOTER: Botón de acción */
 .artista-card-btn {
     display: block;
     text-align: center;
     padding: 12px 15px;
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
+    background: #e71e8a;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -165,7 +717,6 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    margin-top: auto;
 }
 
 .artista-card-btn:before {
@@ -175,7 +726,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #6c3483, #8e44ad);
+    background: #1d5695;
     transition: all 0.3s ease;
     z-index: -1;
 }
@@ -184,7 +735,7 @@
     color: white;
     text-decoration: none;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+    box-shadow: 0 5px 15px rgba(29, 86, 149, 0.3);
 }
 
 .artista-card-btn:hover:before {
@@ -206,7 +757,7 @@
     color: #2c3e50;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-weight: 500;
 }
 
@@ -216,7 +767,7 @@
 }
 
 .artistas-pagination .page-numbers.current {
-    background-color: #8e44ad;
+    background-color: #e71e8a;
     color: white;
 }
 
@@ -240,23 +791,211 @@
     .artistas-grid article {
         width: calc(50% - 35px);
     }
+
+    .disciplinas-chips {
+        justify-content: center;
+    }
+
+    .artistas-hero-titulo {
+        font-size: 42px;
+    }
+
+    .artistas-hero-descripcion {
+        font-size: 16px;
+    }
+
+    /* Mobile Filters Redesign */
+    .artistas-filtros-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: nowrap;
+        padding: 0 0 0 10px;
+        /* No right padding */
+    }
+
+    .filtro-todas {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        margin: 0;
+        order: 2;
+    }
+
+    .filtro-todas span:not(.filtro-icono) {
+        display: none;
+    }
+
+    .filtro-todas .filtro-icono {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .filtros-slider-wrapper {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+        /* Prevent flex overflow */
+        order: 1;
+    }
+
+    /* Hide scrollbar on mobile/tablet */
+    .artista-card-disciplina .disciplina-tags {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 4px;
+        /* Reset padding */
+    }
+
+    .artista-card-disciplina .disciplina-tags::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
     .artistas-grid {
         margin: -12.5px;
     }
-    
+
     .artistas-grid article {
         width: calc(100% - 25px);
         margin: 12.5px;
     }
-    
-    .artistas-header h1 {
-        font-size: 2.3rem;
+
+    .artista-card,
+    .artista-card-image,
+    .artista-card-title {
+        position: relative;
+        /* z-index removed for better stacking */
     }
-    
-    .artistas-descripcion {
+
+    /* CTA Banner responsive */
+    .artistas-cta-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 18px 20px;
+        max-width: 90%;
+    }
+
+    .cta-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cta-content i {
+        font-size: 24px;
+    }
+
+    .cta-texto {
+        font-size: 15px;
+    }
+
+    .cta-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .artistas-hero {
+        min-height: 100vh;
+        background-attachment: scroll;
+    }
+
+    .artistas-hero-titulo {
+        font-size: 38px;
+    }
+
+    .artistas-hero-descripcion {
+        font-size: 15px;
+    }
+
+    /* Filtros responsive */
+    .artistas-buscador-section {
+        padding: 20px 0;
+    }
+
+    .artistas-filtros-section {
+        padding: 5px 0;
+        position: relative;
+        top: auto;
+        bottom: auto;
+        border-top: 1px solid #eee;
+        z-index: 1 !important;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .artistas-filtros-section.sticky-bottom-mobile {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100000 !important;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        animation: slideUpMobile 0.3s ease-out forwards;
+    }
+
+    @keyframes slideUpMobile {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Mobile Filters inherited from max-width: 992px */
+
+    .slider-nav-btn {
+        display: none;
+    }
+
+    .disciplinas-slider {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .disciplinas-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chip-filtro {
+        font-size: 13px;
+        padding: 9px 16px;
+    }
+
+    .buscador-container input {
+        padding: 12px 45px 12px 45px;
+        font-size: 0.95rem;
+    }
+
+    .artistas-no-resultados {
+        padding: 40px 20px;
+    }
+
+    .artistas-no-resultados i {
+        font-size: 3rem;
+    }
+
+    .artistas-no-resultados p {
         font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .artistas-hero-titulo {
+        font-size: 32px;
+    }
+
+    .artistas-hero-descripcion {
+        font-size: 14px;
     }
 }

@@ -35,31 +35,22 @@ get_header(); ?>
     $datos_estadisticos = get_field('blog_datos_estadisticos');
     $archivos = cc_get_blog_archivos();
     
-    // SEO
-    $meta_descripcion = get_field('blog_meta_descripcion');
     $enlace_externo = get_field('blog_enlace_externo');
 ?>
 
 <article class="blog-entry-wrapper">
     
-    <!-- Alert Urgente (si aplica) -->
-    <?php if ($urgente): ?>
-        <div class="blog-alert-urgente">
-            <div class="container">
-                <div class="alert-content-blog">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>Comunicado Importante</strong>
-                        <span>Esta es una publicación urgente que requiere atención inmediata</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
     
     <!-- Hero del Blog -->
-    <header class="blog-hero" style="background-image: linear-gradient(135deg, rgba(<?php echo hexdec(substr($categoria['color'],1,2)); ?>, <?php echo hexdec(substr($categoria['color'],3,2)); ?>, <?php echo hexdec(substr($categoria['color'],5,2)); ?>, 0.85) 0%, rgba(44, 62, 80, 0.9) 100%), url('<?php echo esc_url($imagen_banner ? $imagen_banner['url'] : $imagen_destacada['url']); ?>');">
+    <header class="blog-hero" style="background-image: url('<?php echo esc_url($imagen_banner ? $imagen_banner['url'] : $imagen_destacada['url']); ?>');">
         <div class="blog-hero-overlay"></div>
+        
+        <?php if ($urgente): ?>
+            <div class="blog-badge-urgente">
+                <i class="fas fa-bell"></i> Urgente
+            </div>
+        <?php endif; ?>
+        
         <div class="container">
             <div class="blog-hero-content">
                 
@@ -102,19 +93,7 @@ get_header(); ?>
                     </div>
                 </div>
                 
-                <!-- Conmemoración Info -->
-                <?php if ($es_conmemoracion && ($fecha_conmemoracion || $evento_historico)): ?>
-                    <div class="conmemoracion-info-hero">
-                        <i class="fas fa-calendar-star"></i>
-                        <?php if ($evento_historico): ?>
-                            <strong><?php echo esc_html($evento_historico); ?></strong>
-                        <?php endif; ?>
-                        <?php if ($fecha_conmemoracion): ?>
-                            <span><?php echo date('j \d\e F \d\e Y', strtotime($fecha_conmemoracion)); ?></span>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-                
+
                 <!-- Rendición de Cuentas Info -->
                 <?php if ($es_rendicion && ($periodo_reporte || $tipo_reporte)): ?>
                     <div class="rendicion-info-hero">
@@ -155,8 +134,13 @@ get_header(); ?>
                     <!-- Resumen Destacado -->
                     <?php if ($resumen): ?>
                         <div class="blog-resumen-destacado">
-                            <i class="fas fa-quote-left"></i>
-                            <p><?php echo esc_html($resumen); ?></p>
+                            <div class="resumen-card-header">
+                                <span class="resumen-card-label"><i class="fas fa-align-left"></i> Resumen</span>
+                                <i class="fas fa-quote-left resumen-quote-icon"></i>
+                            </div>
+                            <div class="resumen-card-body">
+                                <p><?php echo esc_html($resumen); ?></p>
+                            </div>
                         </div>
                     <?php endif; ?>
                     
@@ -220,14 +204,30 @@ get_header(); ?>
                         </section>
                     <?php endif; ?>
                     
+                    <!-- Enlace Externo (si aplica) -->
+                    <?php if ($enlace_externo): ?>
+                        <section class="blog-cta-section" style="margin-bottom: 50px; text-align: center;">
+                            <a href="<?php echo esc_url($enlace_externo); ?>" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="btn-cta-externo">
+                                <i class="fas fa-external-link-alt"></i>
+                                Recurso Externo Relacionado
+                            </a>
+                        </section>
+                    <?php endif; ?>
+                    
                     <!-- Datos Estadísticos (Rendición de Cuentas) -->
                     <?php if ($es_rendicion && $datos_estadisticos): ?>
                         <section class="blog-estadisticas-section">
-                            <h3 class="section-title-blog">
-                                <i class="fas fa-chart-bar"></i> Datos Estadísticos
-                            </h3>
-                            <div class="blog-estadisticas-contenido">
-                                <?php echo $datos_estadisticos; ?>
+                            <div class="estadisticas-card">
+                                <div class="estadisticas-card-header">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Datos Estadísticos</span>
+                                </div>
+                                <div class="estadisticas-card-body">
+                                    <?php echo $datos_estadisticos; ?>
+                                </div>
                             </div>
                         </section>
                     <?php endif; ?>
@@ -306,54 +306,34 @@ get_header(); ?>
                         </div>
                     <?php endif; ?>
                     
-                    <!-- Compartir -->
-                    <div class="blog-compartir-wrapper">
-                        <strong><i class="fas fa-share-nodes"></i> Compartir:</strong>
-                        <div class="blog-compartir-buttons">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" 
-                               target="_blank" 
-                               class="share-btn facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" 
-                               target="_blank" 
-                               class="share-btn twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="https://wa.me/?text=<?php echo urlencode(get_the_title() . ' - ' . get_permalink()); ?>" 
-                               target="_blank" 
-                               class="share-btn whatsapp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                            <button class="share-btn copiar" onclick="copiarEnlaceBlog()">
-                                <i class="fas fa-link"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
                     <!-- Autor Card -->
                     <?php if ($mostrar_autor): ?>
                         <div class="blog-autor-card">
-                            <div class="autor-avatar-blog">
-                                <?php if ($autor_info['foto']): ?>
-                                    <?php if (is_array($autor_info['foto'])): ?>
-                                        <img src="<?php echo esc_url($autor_info['foto']['url']); ?>" alt="<?php echo esc_attr($autor_info['nombre']); ?>">
+                            <div class="autor-card-header">
+                                <span class="autor-card-label"><i class="fas fa-pen-nib"></i> Sobre el Autor</span>
+                                <div class="autor-avatar-blog">
+                                    <?php if ($autor_info['foto']): ?>
+                                        <?php if (is_array($autor_info['foto'])): ?>
+                                            <img src="<?php echo esc_url($autor_info['foto']['url']); ?>" alt="<?php echo esc_attr($autor_info['nombre']); ?>">
+                                        <?php else: ?>
+                                            <img src="<?php echo esc_url($autor_info['foto']); ?>" alt="<?php echo esc_attr($autor_info['nombre']); ?>">
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                        <img src="<?php echo esc_url($autor_info['foto']); ?>" alt="<?php echo esc_attr($autor_info['nombre']); ?>">
+                                        <i class="fas fa-user"></i>
                                     <?php endif; ?>
-                                <?php else: ?>
-                                    <i class="fas fa-user"></i>
-                                <?php endif; ?>
+                                </div>
+                                <div class="autor-header-info">
+                                    <h4><?php echo esc_html($autor_info['nombre']); ?></h4>
+                                    <?php if ($autor_info['cargo']): ?>
+                                        <span class="autor-cargo"><?php echo esc_html($autor_info['cargo']); ?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="autor-info-blog">
-                                <h4><?php echo esc_html($autor_info['nombre']); ?></h4>
-                                <?php if ($autor_info['cargo']): ?>
-                                    <span class="autor-cargo"><?php echo esc_html($autor_info['cargo']); ?></span>
-                                <?php endif; ?>
-                                <?php if ($autor_info['bio']): ?>
-                                    <p><?php echo esc_html($autor_info['bio']); ?></p>
-                                <?php endif; ?>
+                            <?php if ($autor_info['bio']): ?>
+                            <div class="autor-bio-body">
+                                <p><?php echo esc_html($autor_info['bio']); ?></p>
                             </div>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                     
@@ -440,6 +420,17 @@ get_header(); ?>
                                 <?php endwhile; wp_reset_postdata(); ?>
                             </div>
                         </section>
+                    <?php else: ?>
+                        <section class="blog-relacionadas-section">
+                            <h3 class="section-title-blog">
+                                <i class="fas fa-newspaper"></i> Entradas Relacionadas
+                            </h3>
+                            <div class="blog-sin-relacionadas" style="text-align: center; padding: 40px 20px; background: #f8f9fa; border-radius: 12px; border: 1px dashed #ced4da; color: #6c757d;">
+                                <i class="fas fa-folder-open" style="font-size: 2.5rem; margin-bottom: 15px; color: #adb5bd; display: block;"></i>
+                                <p style="margin: 0; font-size: 1.1rem; font-weight: 500;">No hay entradas relacionadas en esta categoría</p>
+                                <p style="margin: 5px 0 0; font-size: 0.95rem; opacity: 0.8;">Continúa explorando nuestro blog para más contenido.</p>
+                            </div>
+                        </section>
                     <?php endif; endif; ?>
                     
                     <!-- Comentarios -->
@@ -457,24 +448,6 @@ get_header(); ?>
                 <!-- Sidebar -->
                 <aside class="blog-sidebar">
                     
-                    <!-- Buscador -->
-                    <div class="sidebar-widget">
-                        <h3 class="widget-title">
-                            <i class="fas fa-search"></i> Buscar
-                        </h3>
-                        <form role="search" method="get" class="search-form-blog" action="<?php echo home_url('/'); ?>">
-                            <input type="hidden" name="post_type" value="blog">
-                            <input type="search" 
-                                   class="search-field-blog" 
-                                   placeholder="Buscar en el blog..." 
-                                   name="s" 
-                                   required>
-                            <button type="submit" class="search-submit-blog">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </form>
-                    </div>
-                    
                     <!-- Categorías -->
                     <div class="sidebar-widget">
                         <h3 class="widget-title">
@@ -483,14 +456,14 @@ get_header(); ?>
                         <ul class="categorias-list-blog">
                             <?php 
                             $categorias_blog = array(
-                                'mensaje_directora' => array('label' => 'Mensaje de la Directora', 'icon' => 'fa-message', 'color' => '#8e44ad'),
-                                'conmemoracion' => array('label' => 'Conmemoración', 'icon' => 'fa-calendar-star', 'color' => '#e74c3c'),
+                                'mensaje_directora' => array('label' => 'Mensaje de la Directora', 'icon' => 'fa-envelope', 'color' => '#8e44ad'),
+                                'conmemoracion' => array('label' => 'Conmemoración', 'icon' => 'fa-calendar-alt', 'color' => '#e74c3c'),
                                 'rendicion_cuentas' => array('label' => 'Rendición de Cuentas', 'icon' => 'fa-chart-line', 'color' => '#16a085'),
                                 'logros' => array('label' => 'Logros', 'icon' => 'fa-trophy', 'color' => '#f39c12'),
                                 'proyectos' => array('label' => 'Proyectos', 'icon' => 'fa-lightbulb', 'color' => '#3498db'),
                                 'reflexion' => array('label' => 'Reflexión Cultural', 'icon' => 'fa-brain', 'color' => '#9b59b6'),
                                 'opinion' => array('label' => 'Opinión', 'icon' => 'fa-comments', 'color' => '#34495e'),
-                                'general' => array('label' => 'General', 'icon' => 'fa-pen-to-square', 'color' => '#95a5a6')
+                                'general' => array('label' => 'General', 'icon' => 'fa-edit', 'color' => '#95a5a6')
                             );
                             
                             foreach ($categorias_blog as $cat_key => $cat_info):
@@ -523,6 +496,108 @@ get_header(); ?>
                             endforeach; 
                             ?>
                         </ul>
+                    </div>
+                    
+                    <!-- Noticias Destacadas y Urgentes -->
+                    <div class="sidebar-widget widget-noticias-tabs">
+                        <div class="widget-tabs-header">
+                            <button class="widget-tab-btn active" onclick="cambiarTabNoticias('urgentes')">
+                                <i class="fas fa-exclamation-triangle"></i> Urgentes
+                            </button>
+                            <button class="widget-tab-btn" onclick="cambiarTabNoticias('destacadas')">
+                                <i class="fas fa-star"></i> Destacadas
+                            </button>
+                        </div>
+                        
+                        <div class="widget-tabs-content">
+                            <!-- Tab Urgentes -->
+                            <div id="tab-urgentes" class="widget-tab-panel active">
+                                <?php 
+                                $noticias_urgentes = new WP_Query(array(
+                                    'post_type' => 'noticia',
+                                    'posts_per_page' => 15,
+                                    'meta_query' => array(
+                                        array(
+                                            'key' => 'noticia_urgente',
+                                            'value' => '1',
+                                            'compare' => '='
+                                        )
+                                    ),
+                                    'orderby' => 'date',
+                                    'order' => 'DESC'
+                                ));
+                                
+                                if ($noticias_urgentes->have_posts()):
+                                ?>
+                                    <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
+                                        <?php while ($noticias_urgentes->have_posts()): $noticias_urgentes->the_post(); 
+                                            $not_imagen = get_field('noticia_imagen_principal');
+                                        ?>
+                                            <li class="item-noticia-importante">
+                                                <?php if ($not_imagen): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                                <?php elseif (has_post_thumbnail()): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
+                                                <?php endif; ?>
+                                                <div class="reciente-info">
+                                                    <span class="badge-importante urgente"><i class="fas fa-exclamation-triangle"></i> Urgente</span>
+                                                    <a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 8); ?></a>
+                                                    <span class="reciente-fecha">
+                                                        <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        <?php endwhile; wp_reset_postdata(); ?>
+                                    </ul>
+                                <?php else: ?>
+                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias urgentes en este momento.</p>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <!-- Tab Destacadas -->
+                            <div id="tab-destacadas" class="widget-tab-panel">
+                                <?php 
+                                $noticias_destacadas = new WP_Query(array(
+                                    'post_type' => 'noticia',
+                                    'posts_per_page' => 15,
+                                    'meta_query' => array(
+                                        array(
+                                            'key' => 'noticia_destacada',
+                                            'value' => '1',
+                                            'compare' => '='
+                                        )
+                                    ),
+                                    'orderby' => 'date',
+                                    'order' => 'DESC'
+                                ));
+                                
+                                if ($noticias_destacadas->have_posts()):
+                                ?>
+                                    <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
+                                        <?php while ($noticias_destacadas->have_posts()): $noticias_destacadas->the_post(); 
+                                            $not_imagen = get_field('noticia_imagen_principal');
+                                        ?>
+                                            <li class="item-noticia-importante">
+                                                <?php if ($not_imagen): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                                <?php elseif (has_post_thumbnail()): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
+                                                <?php endif; ?>
+                                                <div class="reciente-info">
+                                                    <span class="badge-importante destacada"><i class="fas fa-star"></i> Destacada</span>
+                                                    <a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 8); ?></a>
+                                                    <span class="reciente-fecha">
+                                                        <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        <?php endwhile; wp_reset_postdata(); ?>
+                                    </ul>
+                                <?php else: ?>
+                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias destacadas en este momento.</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Entradas Recientes -->
@@ -561,16 +636,7 @@ get_header(); ?>
                         <?php endif; ?>
                     </div>
                     
-                    <!-- Enlace Externo (si aplica) -->
-                    <?php if ($enlace_externo): ?>
-                        <div class="sidebar-widget widget-enlace-externo">
-                            <a href="<?php echo esc_url($enlace_externo); ?>" target="_blank" class="enlace-externo-card">
-                                <i class="fas fa-external-link-alt"></i>
-                                <span>Recurso Externo Relacionado</span>
-                                <small>Visitar enlace</small>
-                            </a>
-                        </div>
-                    <?php endif; ?>
+                    <!-- /End Sidebar Widgets -->
                     
                 </aside>
                 
@@ -579,6 +645,11 @@ get_header(); ?>
     </div>
     
 </article>
+
+<!-- Widget de Compartir -->
+<?php include(get_stylesheet_directory() . '/compartir-widget.php'); ?>
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget-styles.css">
+<script src="<?php echo get_stylesheet_directory_uri(); ?>/compartir-widget.js"></script>
 
 <script>
 // Slider de galería del blog
@@ -621,23 +692,19 @@ if (document.querySelectorAll('.galeria-slide-blog').length > 1) {
     }, 5000);
 }
 
-// Copiar enlace
-function copiarEnlaceBlog() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(function() {
-        const btn = event.target.closest('.share-btn');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        btn.style.background = '#27ae60';
-        
-        setTimeout(function() {
-            btn.innerHTML = originalHTML;
-            btn.style.background = '';
-        }, 2000);
-    }, function(err) {
-        console.error('Error al copiar: ', err);
-        alert('No se pudo copiar el enlace');
+// Tabs de Noticias Importantes
+function cambiarTabNoticias(tabId) {
+    // Actualizar botones
+    document.querySelectorAll('.widget-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
     });
+    event.currentTarget.classList.add('active');
+    
+    // Actualizar paneles
+    document.querySelectorAll('.widget-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    document.getElementById('tab-' + tabId).classList.add('active');
 }
 </script>
 

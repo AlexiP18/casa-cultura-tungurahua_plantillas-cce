@@ -1,0 +1,375 @@
+[
+    {
+        "key": "group_taller",
+        "title": "Detalles del Taller",
+        "fields": [
+            {
+                "key": "field_slider_imagenes",
+                "label": "Imágenes para Slider",
+                "name": "slider_imagenes",
+                "aria-label": "",
+                "type": "group",
+                "instructions": "Agrega hasta 3 imágenes para el slider del taller",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "block",
+                "sub_fields": [
+                    {
+                        "key": "field_689e6e25231d2",
+                        "label": "Imagen 1",
+                        "name": "imagen_1",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "Agrega hasta 3 imágenes para el slider del taller (formatos permitidos: JPG, PNG, WEBP)",
+                        "required": 1,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": 800,
+                        "min_height": 500,
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "jpg,png,jpeg,webp",
+                        "allow_in_bindings": 0,
+                        "preview_size": "medium"
+                    },
+                    {
+                        "key": "field_689e6f16231d3",
+                        "label": "Imagen 2",
+                        "name": "imagen_2",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "Agrega hasta 3 imágenes para el slider del taller (formatos permitidos: JPG, PNG, WEBP)",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": 800,
+                        "min_height": 500,
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "jpg,png,jpeg,webp",
+                        "allow_in_bindings": 0,
+                        "preview_size": "medium"
+                    },
+                    {
+                        "key": "field_689e6f1c231d4",
+                        "label": "Imagen 3",
+                        "name": "imagen_3",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "Agrega hasta 3 imágenes para el slider del taller (formatos permitidos: JPG, PNG, WEBP)",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": 800,
+                        "min_height": 500,
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "jpg,png,jpeg,webp",
+                        "allow_in_bindings": 0,
+                        "preview_size": "medium"
+                    }
+                ]
+            },
+            {
+                "key": "field_689e6f7b231d5",
+                "label": "Descripción",
+                "name": "descripcion",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Establezca una descripción concisa de alrededor de 500 caracteres.",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": 500,
+                "allow_in_bindings": 0,
+                "rows": 6,
+                "placeholder": "",
+                "new_lines": "br"
+            },
+            {
+                "key": "field_categoria_taller",
+                "label": "Categoría del Taller",
+                "name": "categoria_taller",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Seleccione la categoría del taller",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "arte": "Arte",
+                    "canto": "Canto",
+                    "danza": "Danza",
+                    "musica": "Música",
+                    "teatro": "Teatro",
+                    "otros": "Otros"
+                },
+                "default_value": false,
+                "return_format": "value",
+                "multiple": 0,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "placeholder": "Seleccione una categoría",
+                "save_options": 0
+            },
+            {
+                "key": "field_instructor",
+                "label": "Nombre del Instructor",
+                "name": "instructor",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Ingrese el nombre y apellido del instructor",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": 200,
+                "allow_in_bindings": 1,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_costo",
+                "label": "Costo",
+                "name": "costo",
+                "aria-label": "",
+                "type": "number",
+                "instructions": "Establezca el costo del taller",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "min": 0,
+                "max": 500,
+                "allow_in_bindings": 1,
+                "placeholder": "",
+                "step": "",
+                "prepend": "$",
+                "append": ""
+            },
+            {
+                "key": "field_edad",
+                "label": "Edad",
+                "name": "edad",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Formato: +10, +18, 8 a16, 3 a 4, etc.",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 1,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_dias",
+                "label": "Días del Taller",
+                "name": "dias",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Ejemplo: Lunes y Miércoles",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "lunes": "Lunes",
+                    "martes": "Martes",
+                    "miercoles": "Miercoles",
+                    "jueves": "Jueves",
+                    "viernes": "Viernes",
+                    "sabado": "Sabado",
+                    "domingo": "Domingo"
+                },
+                "default_value": [],
+                "return_format": "label",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 1,
+                "create_options": 0,
+                "placeholder": "",
+                "save_options": 0
+            },
+            {
+                "key": "field_horario_matutino",
+                "label": "Horario Matutino",
+                "name": "horario_matutino",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Ejemplo: 09:00 a 11:00",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "07:00 a 08:00": "07:00 a 08:00",
+                    "08:00 a 09:00": "08:00 a 09:00",
+                    "09:00 a 10:00": "09:00 a 10:00",
+                    "10:00 a 11:00": "10:00 a 11:00",
+                    "11:00 a 12:00": "11:00 a 12:00",
+                    "08:30 a 09:00": "08:30 a 09:00",
+                    "12:00 a 12:30": "12:00 a 12:30",
+                    "08:00 a 10:30": "08:00 a 10:30",
+                    "09:00 a 11:00": "09:00 a 11:00",
+                    "09:00 a 12:00": "09:00 a 12:00"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 1,
+                "create_options": 1,
+                "save_options": 1,
+                "placeholder": ""
+            },
+            {
+                "key": "field_horario_vespertino",
+                "label": "Horario Vespertino",
+                "name": "horario_vespertino",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "Ejemplo: 16:30 - 18:00",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "12:00 a 13:00": "12:00 a 13:00",
+                    "13:00 a 14:00": "13:00 a 14:00",
+                    "14:00 a 15:00": "14:00 a 15:00",
+                    "15:00 a 16:00": "15:00 a 16:00",
+                    "16:00 a 17:00": "16:00 a 17:00",
+                    "17:00 a 18:00": "17:00 a 18:00",
+                    "18:00 a 19:00": "18:00 a 19:00",
+                    "19:00 a 20:00": "19:00 a 20:00",
+                    "20:00 a 21:00": "20:00 a 21:00",
+                    "21:00 a 22:00": "21:00 a 22:00",
+                    "16:30 a 18:00": "16:30 a 18:00",
+                    "16:15 a 17:15": "16:15 a 17:15",
+                    "16:15 a 18:15": "16:15 a 18:15",
+                    "14:30 a 16:00": "14:30 a 16:00",
+                    "17:30 a 18:30": "17:30 a 18:30"
+                },
+                "default_value": [],
+                "return_format": "value",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 1,
+                "ajax": 0,
+                "create_options": 1,
+                "save_options": 1,
+                "placeholder": ""
+            },
+            {
+                "key": "field_telefono_contacto",
+                "label": "# de Contacto",
+                "name": "#_de_contacto",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Número de celular para WhatsApp (solo números)",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": 10,
+                "allow_in_bindings": 1,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "taller"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    }
+]

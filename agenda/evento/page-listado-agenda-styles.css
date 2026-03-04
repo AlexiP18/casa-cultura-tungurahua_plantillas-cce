@@ -1,0 +1,1369 @@
+/* =============================================
+   AGENDA CULTURAL — Estilos
+   ============================================= */
+
+/* ---------- WRAPPER ---------- */
+.agenda-wrapper {
+    background: #0f0f23;
+    min-height: 100vh;
+    padding-bottom: 0;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    color: #e0e0e0;
+}
+
+.agenda-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.agenda-header-section {
+    padding: 50px 0 20px;
+    text-align: center;
+}
+
+.agenda-titulo {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #fff;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.agenda-titulo::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: #e71e8a;
+    border-radius: 2px;
+}
+
+/* =============================================
+   FILTROS BAR
+   ============================================= */
+.agenda-filtros-section {
+    padding: 10px 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0f0f23;
+    transition: box-shadow 0.3s ease;
+}
+
+.agenda-filtros-section.is-stuck {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.agenda-filtros-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #1a1a2e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px 24px;
+}
+
+/* -- Filtro Año -- */
+.filtro-anio-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.filtro-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8e8ea0;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.filtro-anio-select {
+    background: #0f0f23;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px 36px 8px 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23e71e8a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.2s;
+}
+
+.filtro-anio-select:hover,
+.filtro-anio-select:focus {
+    border-color: #e71e8a;
+    outline: none;
+}
+
+/* -- Filtro Meses -- */
+.filtro-meses-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.meses-slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.meses-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    background: transparent;
+    color: #8e8ea0;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.meses-nav-btn:hover {
+    background: #e71e8a;
+    color: #fff;
+    border-color: #e71e8a;
+}
+
+.meses-slider {
+    flex: 1;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.meses-slider-track {
+    display: flex;
+    gap: 6px;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+.mes-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    background: transparent;
+    color: #8e8ea0;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.mes-btn:hover {
+    border-color: #e71e8a;
+    color: #fff;
+}
+
+.mes-btn.active {
+    background: #e71e8a;
+    border-color: #e71e8a;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* -- Toggle Gratuito -- */
+.filtro-gratuito-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 26px;
+    transition: all 0.3s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.toggle-switch input:checked+.toggle-slider {
+    background: #e71e8a;
+}
+
+.toggle-switch input:checked+.toggle-slider::before {
+    transform: translateX(22px);
+}
+
+/* =============================================
+   BODY: SIDEBAR + CARDS
+   ============================================= */
+.agenda-body-section {
+    padding: 20px 0 40px;
+}
+
+.agenda-body-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+}
+
+/* -- Sidebar Column (wrappers) -- */
+.agenda-sidebar-column {
+    display: contents;
+}
+
+/* Desktop: order aplicado directamente a los botones */
+.sidebar-pasados {
+    order: 0;
+}
+
+.sidebar-proximos {
+    order: 2;
+}
+
+/* -- Sidebar Buttons -- */
+.agenda-sidebar-btn {
+    position: sticky;
+    top: 50vh;
+    transform: translateY(-50%);
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 56px;
+    height: 220px;
+    padding: 20px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: #1a1a2e;
+    color: #8e8ea0;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.agenda-sidebar-btn:hover {
+    border-color: #e71e8a;
+    color: #fff;
+}
+
+.agenda-sidebar-btn.active {
+    background: linear-gradient(135deg, #e71e8a, #a0136d);
+    border-color: #e71e8a;
+    color: #fff;
+}
+
+.sidebar-icon {
+    font-size: 1.3rem;
+}
+
+.sidebar-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sidebar-proximos .sidebar-text {
+    transform: rotate(180deg);
+}
+
+/* -- Cards Container -- */
+.agenda-cards-container {
+    flex: 1;
+    padding: 0 20px;
+    min-width: 0;
+    order: 1;
+}
+
+/* -- Month Group Header -- */
+.agenda-mes-group {
+    margin-bottom: 30px;
+}
+
+.agenda-mes-group.hidden {
+    display: none;
+}
+
+.mes-header {
+    margin-bottom: 14px;
+    padding-left: 14px;
+    border-left: 4px solid #e71e8a;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.mes-titulo {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #fff;
+    margin: 0;
+}
+
+.mes-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 9px;
+    border-radius: 20px;
+    background: rgba(231, 30, 138, 0.15);
+    border: 1px solid rgba(231, 30, 138, 0.35);
+    color: #e71e8a;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* =============================================
+   EVENT CARD (row / 4 columnas)
+   ============================================= */
+
+/* Desktop: los wrappers row-top y row-bottom son transparentes (inline) */
+.card-row-top {
+    display: contents;
+}
+
+.card-row-bottom {
+    display: contents;
+}
+
+.agenda-card {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.agenda-card:hover {
+    border-color: #e71e8a;
+    background: rgba(231, 30, 138, 0.08);
+    transform: translateX(4px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.agenda-card.hidden {
+    display: none;
+}
+
+/* -- Col 1: Tipo -- */
+.card-col-tipo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 80px;
+    min-width: 80px;
+    padding: 20px 6px;
+    background: rgba(231, 30, 138, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tipo-icono {
+    font-size: 1.4rem;
+    color: #e71e8a;
+}
+
+.tipo-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #e71e8a;
+    white-space: nowrap;
+    transform: rotate(180deg);
+}
+
+/* -- Col 2: Fecha / Hora -- */
+.card-col-fecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 160px;
+    min-width: 160px;
+    padding: 16px 14px;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+}
+
+/* Fix for html2canvas vertical text */
+/* Fix for html2canvas - Stacked Vertical Text */
+.is-capturing .card-col-tipo {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    overflow: visible !important;
+    position: relative !important;
+}
+
+.is-capturing .tipo-icono {
+    position: static !important;
+    transform: none !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.is-capturing .tipo-label {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    white-space: normal !important;
+
+    position: static !important;
+    transform: none !important;
+
+    display: block !important;
+    width: 1.2ch !important;
+    /* Slightly wider */
+    word-break: break-all !important;
+    line-height: 1.1 !important;
+
+    margin: 0 auto !important;
+    padding: 0 !important;
+    text-align: center !important;
+    align-self: center !important;
+
+    font-size: 0.8rem !important;
+    letter-spacing: 0 !important;
+}
+
+.fecha-hora {
+    font-size: 1rem;
+    color: #8e8ea0;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.fecha-hora i {
+    margin-right: 4px;
+    color: #e71e8a;
+    font-size: 0.9rem;
+}
+
+.fecha-dias .dia-rango,
+.fecha-dias .dia-unico {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.fecha-dias .dia-semana {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8e8ea0;
+    margin-top: 2px;
+}
+
+/* -- Col 3: Info -- */
+.card-col-info {
+    flex: 1;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e71e8a rgba(255, 255, 255, 0.08);
+}
+
+.card-col-info::-webkit-scrollbar {
+    height: 4px;
+}
+
+.card-col-info::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.card-col-info::-webkit-scrollbar-thumb {
+    background: #e71e8a;
+    border-radius: 2px;
+}
+
+.card-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.agenda-card:hover .card-titulo {
+    color: #e71e8a;
+}
+
+.card-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #8e8ea0;
+}
+
+.card-meta-row i {
+    width: 14px;
+    text-align: center;
+    color: #e71e8a;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.card-meta-row span {
+    white-space: nowrap;
+}
+
+/* -- Badges -- */
+.card-badges {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    color: #8e8ea0;
+    white-space: nowrap;
+}
+
+.badge i {
+    font-size: 0.7rem;
+}
+
+.badge-edad {
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffc107;
+}
+
+.badge-inscripcion {
+    border-color: rgba(76, 175, 80, 0.3);
+    color: #4caf50;
+}
+
+.badge-inscripcion.badge-link {
+    cursor: pointer;
+}
+
+.badge-inscripcion.badge-link:hover {
+    background: rgba(76, 175, 80, 0.15);
+}
+
+.badge-estado {
+    border: none;
+    font-weight: 700;
+}
+
+/* -- Col 4: Imagen -- */
+.card-col-imagen {
+    width: 140px;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-col-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.agenda-card:hover .card-col-imagen img {
+    transform: scale(1.08);
+}
+
+.card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(231, 30, 138, 0.06);
+    color: #e71e8a;
+    font-size: 2rem;
+    opacity: 0.4;
+}
+
+/* =============================================
+   NO RESULTS
+   ============================================= */
+.agenda-no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #8e8ea0;
+}
+
+.agenda-no-results i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: #e71e8a;
+    opacity: 0.4;
+}
+
+.agenda-no-results h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0 0 8px 0;
+}
+
+.agenda-no-results p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* =============================================
+   FOOTER: TIPOS FILTROS (iconos animados)
+   ============================================= */
+.agenda-tipos-section {
+    padding: 10px 0 10px;
+    position: sticky;
+    bottom: 0;
+    background: #0f0f23;
+    z-index: 100;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Footer mode buttons: ocultos en desktop */
+.agenda-footer-mode-btns {
+    display: none;
+}
+
+.tipos-filtros-bar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 16px 0 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.tipos-filtros-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.tipo-filtro-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+}
+
+.tipo-filtro-item:hover {
+    transform: translateY(-10px);
+}
+
+.tipo-filtro-item.active {
+    transform: translateY(-14px);
+}
+
+.tipo-icono-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #8e8ea0;
+    background: #1a1a2e;
+    transition: all 0.3s;
+}
+
+.tipo-filtro-item:hover .tipo-icono-box {
+    border-color: #e71e8a;
+    color: #e71e8a;
+    box-shadow: 0 4px 16px rgba(231, 30, 138, 0.25);
+}
+
+.tipo-filtro-item.active .tipo-icono-box {
+    background: #e71e8a;
+    border-color: #e71e8a;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(231, 30, 138, 0.4);
+}
+
+.tipo-filtro-label {
+    font-size: 0;
+    font-weight: 600;
+    color: #e71e8a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.tipo-filtro-item:hover .tipo-filtro-label,
+.tipo-filtro-item.active .tipo-filtro-label {
+    font-size: 0.62rem;
+    max-height: 20px;
+    opacity: 1;
+    margin-top: 6px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1024px) {
+    .agenda-filtros-bar {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .filtro-meses-group {
+        order: 3;
+        width: 100%;
+    }
+
+    .card-col-imagen {
+        width: 110px;
+        min-width: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Reducir z-index en mobile para que menús laterales aparezcan por encima (sticky se mantiene) -> AUMENTADO PARA MANTENERSE SOBRE EL HEADER */
+    .agenda-filtros-section {
+        z-index: 100000 !important;
+    }
+
+    .agenda-tipos-section {
+        z-index: 1;
+    }
+
+    .agenda-titulo {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+
+    /* ---- FILTROS: Año+Gratuito+Download fila 1 (centrado), Meses fila 2 ---- */
+    .agenda-filtros-bar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 8px 10px;
+        padding: 12px 10px;
+    }
+
+    .filtro-anio-group {
+        order: 1;
+        flex-shrink: 0;
+        gap: 5px;
+    }
+
+    .filtro-gratuito-group {
+        order: 2;
+        margin-left: 0;
+        flex-shrink: 0;
+        gap: 5px;
+    }
+
+    .agenda-download-group {
+        order: 3;
+        margin-left: 0;
+    }
+
+    .filtro-meses-group {
+        order: 4;
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .filtro-meses-group>.filtro-label {
+        display: none;
+    }
+
+    .meses-slider-wrapper {
+        max-width: 100%;
+        overflow: visible;
+    }
+
+    .meses-nav-btn {
+        display: none;
+    }
+
+    .meses-slider {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .meses-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .meses-slider-track {
+        overflow: visible;
+    }
+
+    .mes-btn {
+        padding: 8px 16px;
+        font-size: 0.78rem;
+    }
+
+    /* ---- BODY LAYOUT: solo cards, sin sidebars ---- */
+    .agenda-body-layout {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Ocultar sidebar columns en mobile (se mueve al footer) */
+    .sidebar-col-left,
+    .sidebar-col-right {
+        display: none;
+    }
+
+    .agenda-cards-container {
+        width: 100%;
+        min-width: 0;
+        padding: 0;
+    }
+
+    /* ---- CARD: nueva estructura mobile ---- */
+    .agenda-card {
+        flex-direction: column;
+        height: auto;
+        flex-wrap: nowrap;
+    }
+
+    /* Fila 1: Tipo + Fecha/Día + Hora en una sola fila horizontal */
+    .card-row-top {
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-col-tipo {
+        flex-direction: row;
+        width: auto;
+        min-width: auto;
+        padding: 8px 12px;
+        gap: 8px;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: none;
+        background: rgba(231, 30, 138, 0.08);
+    }
+
+    .tipo-label {
+        writing-mode: horizontal-tb;
+        text-orientation: initial;
+        transform: none;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .card-col-fecha {
+        flex-direction: row;
+        width: auto;
+        min-width: auto;
+        flex: 1;
+        padding: 8px 12px;
+        border-right: none;
+        border-bottom: none;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    /* Fila 2: Imagen (full width) + Info (debajo) */
+    .card-row-bottom {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .card-col-imagen {
+        width: 100%;
+        min-width: 100%;
+        height: 180px;
+        order: 0;
+    }
+
+    .card-col-info {
+        flex: 1;
+        padding: 10px 12px;
+        overflow-x: visible;
+        min-width: 0;
+        order: 1;
+    }
+
+    .card-col-info::-webkit-scrollbar {
+        display: none;
+    }
+
+    .card-titulo {
+        font-size: 0.8rem;
+        white-space: normal;
+        line-height: 1.3;
+    }
+
+    .card-meta-row {
+        font-size: 0.85rem;
+    }
+
+    .card-meta-row span {
+        white-space: normal;
+    }
+
+    .card-badges {
+        flex-wrap: wrap;
+    }
+
+    /* ---- FOOTER: botones Pasados/Próximos + tipos ---- */
+    .agenda-tipos-section {
+        padding: 8px 0 8px;
+    }
+
+    .agenda-footer-mode-btns {
+        display: flex;
+        gap: 4px;
+        padding: 0 0 6px;
+        justify-content: center;
+    }
+
+    .agenda-footer-mode-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: #1a1a2e;
+        color: #8e8ea0;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .agenda-footer-mode-btn i {
+        font-size: 0.85rem;
+    }
+
+    .agenda-footer-mode-btn:hover {
+        border-color: #e71e8a;
+        color: #fff;
+    }
+
+    .agenda-footer-mode-btn.active {
+        background: linear-gradient(135deg, #e71e8a, #a0136d);
+        border-color: #e71e8a;
+        color: #fff;
+    }
+
+    .tipos-filtros-bar {
+        gap: 6px;
+        padding-top: 4px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .tipo-filtro-item {
+        flex-direction: row;
+        gap: 6px;
+        padding: 8px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: #1a1a2e;
+        transition: all 0.2s;
+    }
+
+    .tipo-filtro-item:hover {
+        transform: none;
+        border-color: #e71e8a;
+    }
+
+    .tipo-filtro-item.active {
+        transform: none;
+        background: #e71e8a;
+        border-color: #e71e8a;
+    }
+
+    .tipo-icono-box {
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        font-size: 0.85rem;
+        color: #8e8ea0;
+    }
+
+    .tipo-filtro-item:hover .tipo-icono-box {
+        border-color: transparent;
+        box-shadow: none;
+        color: #e71e8a;
+    }
+
+    .tipo-filtro-item.active .tipo-icono-box {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: #fff;
+    }
+
+    .tipo-filtro-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #8e8ea0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        max-height: none;
+        overflow: visible;
+        opacity: 1;
+        margin-top: 0;
+        white-space: nowrap;
+    }
+
+    .tipo-filtro-item:hover .tipo-filtro-label,
+    .tipo-filtro-item.active .tipo-filtro-label {
+        font-size: 0.78rem;
+        max-height: none;
+        opacity: 1;
+        margin-top: 0;
+    }
+
+    .tipo-filtro-item.active .tipo-filtro-label {
+        color: #fff;
+    }
+
+    .fecha-dias .dia-rango,
+    .fecha-dias .dia-unico {
+        font-size: 1.4rem;
+    }
+
+    .fecha-dias .dia-semana {
+        font-size: 0.7rem;
+    }
+
+    .fecha-hora {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .agenda-header-section {
+        padding: 30px 0 16px;
+    }
+
+    .agenda-titulo {
+        font-size: 1.6rem;
+    }
+
+    .agenda-filtros-bar {
+        padding: 12px 12px;
+    }
+
+    .card-titulo {
+        font-size: 1rem;
+    }
+
+    .card-meta-row {
+        font-size: 0.8rem;
+    }
+
+    .badge {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+    }
+
+    .agenda-card:hover {
+        transform: none;
+    }
+}
+
+/* =============================================
+   DOWNLOAD DROPDOWN
+   ============================================= */
+.agenda-download-group {
+    margin-left: auto;
+    /* Push to the right on desktop */
+    position: relative;
+    z-index: 101;
+}
+
+.agenda-download-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.download-trigger {
+    background: linear-gradient(135deg, #e71e8a 0%, #c11270 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    /* Round */
+    width: 42px;
+    /* Fixed size */
+    height: 42px;
+    /* Fixed size */
+    padding: 0;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 30, 138, 0.3);
+}
+
+.download-trigger span,
+.download-trigger .fa-chevron-down {
+    display: none;
+    /* Hide text and chevron */
+}
+
+.download-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 30, 138, 0.4);
+}
+
+.download-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    left: auto;
+    /* Anchor to right */
+    width: 200px;
+    background: #1e1e36;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    /* Vertical slide only */
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 200;
+}
+
+.agenda-download-dropdown.active .download-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.download-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #b0b0c0;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.download-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.download-option i {
+    font-size: 1.1rem;
+    color: #e71e8a;
+    width: 20px;
+    text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+    .agenda-filtros-bar {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* --- Row 1: Year + Gratuito + Download (all in one line) --- */
+    .filtro-anio-group {
+        order: 1;
+        gap: 6px;
+    }
+
+    .filtro-anio-group .filtro-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .filtro-anio-select {
+        padding: 6px 28px 6px 10px;
+        font-size: 0.85rem;
+        border-radius: 6px;
+    }
+
+    .filtro-gratuito-group {
+        order: 2;
+        gap: 6px;
+    }
+
+    .filtro-gratuito-group .filtro-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .filtro-gratuito-group .toggle-switch {
+        width: 38px;
+        height: 22px;
+    }
+
+    .filtro-gratuito-group .toggle-slider::before {
+        height: 16px;
+        width: 16px;
+    }
+
+    .filtro-gratuito-group .toggle-switch input:checked+.toggle-slider::before {
+        transform: translateX(16px);
+    }
+
+    .agenda-download-group {
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+        order: 3;
+        /* Next to Gratuito */
+    }
+
+    /* --- Row 2: Months slider (full width) --- */
+    .filtro-meses-group {
+        order: 4;
+        width: 100%;
+        margin-top: 4px;
+    }
+
+    .download-trigger {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+    }
+
+    /* .download-menu reverted to desktop style (absolute) */
+    .download-menu {
+        width: 180px;
+        position: absolute;
+        bottom: auto;
+        top: calc(100% + 10px);
+        left: auto;
+        right: 0;
+        transform: translateY(-10px);
+        border-radius: 12px;
+    }
+
+    .agenda-download-dropdown.active .download-menu {
+        transform: translateY(0);
+    }
+}

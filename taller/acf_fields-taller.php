@@ -165,7 +165,7 @@ add_action( 'acf/include_fields', function() {
 			'max' => 500,
 			'allow_in_bindings' => 1,
 			'placeholder' => '',
-			'step' => '',
+			'step' => '0.01',
 			'prepend' => '$',
 			'append' => '',
 		),

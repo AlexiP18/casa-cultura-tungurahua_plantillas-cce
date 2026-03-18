@@ -124,7 +124,7 @@ get_header(); ?>
         </div>
     </section>
     
-    <!-- Pestañas: Próximos / Pasados -->
+    <!-- Barra superior: estrella + contador -->
     <section class="eventos-tabs-section">
         <div class="container">
             <div class="eventos-tabs-left">
@@ -137,21 +137,24 @@ get_header(); ?>
                     <span id="resultadosCount"></span>
                 </div>
             </div>
-
-            <div class="eventos-tabs">
-                <button class="tab-btn" data-tab="pasados">
-                    <i class="fas fa-history"></i> Eventos Pasados
-                </button>
-                <button class="tab-btn active" data-tab="proximos">
-                    <i class="far fa-calendar-alt"></i> Próximos Eventos
-                </button>
-            </div>
         </div>
     </section>
     
-    <!-- Grid de Eventos -->
+    <!-- Grid de Eventos con sidebar buttons -->
     <section class="eventos-listado-section">
         <div class="container">
+            <div class="eventos-body-layout">
+
+                <!-- Sidebar izquierdo: Pasados -->
+                <div class="eventos-sidebar-column">
+                    <button class="eventos-sidebar-btn sidebar-pasados-btn eventos-mode-btn" data-tab="pasados" title="Eventos Pasados">
+                        <span class="eventos-sidebar-icon"><i class="fas fa-history"></i></span>
+                        <span class="eventos-sidebar-text"><span class="st-l1">Eventos</span><span class="st-l2">Pasados</span></span>
+                    </button>
+                </div>
+
+                <!-- Contenido central -->
+                <div class="eventos-grid-wrapper">
             
             <!-- Próximos Eventos -->
             <div id="tab-proximos" class="tab-content active">
@@ -468,6 +471,19 @@ get_header(); ?>
                 <?php endif; ?>
             </div>
             
+                </div>
+                <!-- Fin grid wrapper -->
+
+                <!-- Sidebar derecho: Próximos -->
+                <div class="eventos-sidebar-column">
+                    <button class="eventos-sidebar-btn sidebar-proximos-btn eventos-mode-btn active" data-tab="proximos" title="Próximos Eventos">
+                        <span class="eventos-sidebar-icon"><i class="far fa-calendar-alt"></i></span>
+                        <span class="eventos-sidebar-text"><span class="st-l1">Próximos</span><span class="st-l2">Eventos</span></span>
+                    </button>
+                </div>
+
+            </div>
+            <!-- Fin body layout -->
         </div>
     </section>
     
@@ -639,17 +655,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Tabs: Próximos / Pasados
+    // Tabs: Próximos / Pasados (incluye botones sidebar)
     const tabBtns = document.querySelectorAll('.tab-btn');
+    const modeBtns = document.querySelectorAll('.eventos-mode-btn');
+    const allTabTriggers = document.querySelectorAll('.tab-btn, .eventos-mode-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     
-    tabBtns.forEach(btn => {
+    allTabTriggers.forEach(btn => {
         btn.addEventListener('click', function() {
             const tab = this.getAttribute('data-tab');
             
-            // Actualizar tab activo
-            tabBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+            // Actualizar activos en TODOS los triggers
+            allTabTriggers.forEach(b => b.classList.remove('active'));
+            // Marcar activo todos los que tengan el mismo data-tab
+            allTabTriggers.forEach(b => {
+                if (b.getAttribute('data-tab') === tab) b.classList.add('active');
+            });
             
             // Mostrar contenido correspondiente
             tabContents.forEach(content => {

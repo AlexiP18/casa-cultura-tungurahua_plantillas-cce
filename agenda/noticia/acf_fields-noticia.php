@@ -182,7 +182,7 @@
 			'ajax' => 0,
 			'return_format' => 'value',
 			'placeholder' => 'Selecciona etiquetas',
-			'create_options' => 0,
+			'create_options' => 1,
 			'save_options' => 0,
 		),
 		array(

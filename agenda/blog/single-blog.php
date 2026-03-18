@@ -16,6 +16,7 @@ get_header(); ?>
     $resumen = get_field('blog_resumen');
     $subtitulo = get_field('blog_subtitulo');
     $urgente = get_field('blog_urgente');
+    $destacada = get_field('blog_destacada');
     $tiempo_lectura = cc_calcular_tiempo_lectura();
     $autor_info = cc_get_blog_autor_info();
     $mostrar_autor = get_field('blog_mostrar_autor');
@@ -45,11 +46,19 @@ get_header(); ?>
     <header class="blog-hero" style="background-image: url('<?php echo esc_url($imagen_banner ? $imagen_banner['url'] : $imagen_destacada['url']); ?>');">
         <div class="blog-hero-overlay"></div>
         
-        <?php if ($urgente): ?>
-            <div class="blog-badge-urgente">
-                <i class="fas fa-bell"></i> Urgente
-            </div>
-        <?php endif; ?>
+        <div class="blog-badges-container">
+            <?php if ($urgente): ?>
+                <div class="blog-badge-urgente">
+                    <i class="fas fa-bell"></i> <span>Urgente</span>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($destacada): ?>
+                <div class="blog-badge-destacado">
+                    <i class="fas fa-star"></i> <span>Destacado</span>
+                </div>
+            <?php endif; ?>
+        </div>
         
         <div class="container">
             <div class="blog-hero-content">

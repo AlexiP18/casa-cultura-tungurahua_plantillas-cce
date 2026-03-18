@@ -88,9 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var shareLinks = widget.querySelectorAll('a.cce-compartir-btn');
     shareLinks.forEach(function(link) {
         link.addEventListener('click', function() {
-            setTimeout(function() {
-                widget.classList.remove('active');
-            }, 300);
+            widget.classList.remove('active');
         });
     });
 });

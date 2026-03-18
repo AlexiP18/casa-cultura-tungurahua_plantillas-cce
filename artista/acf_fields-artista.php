@@ -164,16 +164,19 @@ array(
 'sub_fields' => array(
 array(
 'key' => 'field_telefono_artista',
-'label' => 'Teléfono / WhatsApp',
+'label' => 'Celular / WhatsApp',
 'name' => 'telefono',
 'type' => 'text',
+'instructions' => 'Ingrese solo 10 digitos numericos',
+'maxlength' => 10,
+'pattern' => '^[0-9]{10}$',
 'wrapper' => array(
 'width' => '50',
 ),
 ),
 array(
 'key' => 'field_email_artista',
-'label' => 'Correo Electrónico',
+'label' => 'Correo Electronico',
 'name' => 'email',
 'type' => 'email',
 'wrapper' => array(

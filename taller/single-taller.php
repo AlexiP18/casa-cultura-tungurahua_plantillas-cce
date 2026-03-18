@@ -40,6 +40,9 @@ $categoria_colors = array(
 
 $cat_icon = isset($categoria_icons[$categoria]) ? $categoria_icons[$categoria] : 'fa-star';
 $cat_color = isset($categoria_colors[$categoria]) ? $categoria_colors[$categoria] : '#3498db';
+$cat_r = hexdec(substr($cat_color, 1, 2));
+$cat_g = hexdec(substr($cat_color, 3, 2));
+$cat_b = hexdec(substr($cat_color, 5, 2));
 
 // Generar enlace de WhatsApp
 $whatsapp_link = '';
@@ -56,16 +59,16 @@ if ($telefono) {
 ?>
 
 <div class="taller-container">
-    <div class="taller-header">
-        <?php if ($categoria): ?>
-            <span class="taller-categoria" style="background: <?php echo $cat_color; ?>;">
-                <i class="fas <?php echo $cat_icon; ?>"></i> <?php echo ucfirst($categoria); ?>
-            </span>
-        <?php endif; ?>
-        <h1><?php the_title(); ?></h1>
-        <?php if ($instructor): ?>
-            <p class="taller-subtitulo"><i class="fas fa-user-tie"></i> Instructor: <?php echo esc_html($instructor); ?></p>
-        <?php endif; ?>
+    <div class="taller-header taller-header-grid" style="--cat-color: <?php echo esc_attr($cat_color); ?>; --cat-rgb: <?php echo esc_attr($cat_r . ', ' . $cat_g . ', ' . $cat_b); ?>;">
+        <div class="taller-header-izq">
+            <div class="taller-header-texto"><?php echo esc_html($categoria ? mb_strtoupper($categoria) : 'OTROS'); ?></div>
+            <div class="taller-header-icon" aria-hidden="true">
+                <i class="fas <?php echo esc_attr($cat_icon); ?>"></i>
+            </div>
+        </div>
+        <div class="taller-header-der">
+            <h1><?php the_title(); ?></h1>
+        </div>
     </div>
     
     <div class="taller-content">

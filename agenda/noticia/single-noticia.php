@@ -34,9 +34,19 @@ get_header(); ?>
     <div class="noticia-hero" style="background-image: url('<?php echo esc_url($imagen_principal['url']); ?>');">
         <div class="hero-overlay"></div>
         
-        <?php if ($noticia_urgente): ?>
-            <div class="noticia-badge-urgente">
-                <i class="fas fa-bell"></i> Urgente
+        <?php if ($noticia_urgente || $noticia_destacada): ?>
+            <div class="noticia-badges-container">
+                <?php if ($noticia_urgente): ?>
+                    <div class="noticia-badge-urgente">
+                        <i class="fas fa-bell"></i> <span>Urgente</span>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($noticia_destacada): ?>
+                    <div class="noticia-badge-destacado">
+                        <i class="fas fa-star"></i> <span>Destacado</span>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
 
@@ -346,6 +356,82 @@ get_header(); ?>
                     </div>
                 </div>
                 
+                <!-- Noticias Relacionadas -->
+                <?php 
+                $relacionadas = cc_get_noticias_relacionadas(get_the_ID(), 3);
+                if ($relacionadas->have_posts()): 
+                ?>
+                    <section class="blog-relacionadas-section">
+                        <h3 class="section-title-blog">
+                            <i class="fas fa-newspaper"></i> Noticias Relacionadas
+                        </h3>
+                        <div class="blog-relacionadas-grid">
+                            <?php while ($relacionadas->have_posts()): $relacionadas->the_post(); 
+                                $rel_imagen = get_field('noticia_imagen_principal');
+                                $rel_categoria = get_field('noticia_categoria');
+                                $rel_resumen = get_field('noticia_resumen');
+                                
+                                $categorias_data = array(
+                                    'eventos' => array('label' => 'Eventos', 'icon' => 'fa-calendar-alt', 'color' => '#8e44ad'),
+                                    'talleres' => array('label' => 'Talleres', 'icon' => 'fa-chalkboard-teacher', 'color' => '#e74c3c'),
+                                    'exposiciones' => array('label' => 'Exposiciones', 'icon' => 'fa-image', 'color' => '#16a085'),
+                                    'actividades' => array('label' => 'Actividades Culturales', 'icon' => 'fa-music', 'color' => '#f39c12'),
+                                    'comunicados' => array('label' => 'Comunicados', 'icon' => 'fa-bullhorn', 'color' => '#3498db'),
+                                    'convocatorias' => array('label' => 'Convocatorias', 'icon' => 'fa-clipboard-list', 'color' => '#9b59b6'),
+                                    'galeria' => array('label' => 'Galería', 'icon' => 'fa-images', 'color' => '#34495e'),
+                                    'premios' => array('label' => 'Premios', 'icon' => 'fa-trophy', 'color' => '#f1c40f'),
+                                    'general' => array('label' => 'General', 'icon' => 'fa-newspaper', 'color' => '#95a5a6')
+                                );
+                                $cat_info = isset($categorias_data[$rel_categoria]) ? $categorias_data[$rel_categoria] : $categorias_data['general'];
+                            ?>
+                                <article class="blog-relacionada-card">
+                                    <?php if ($rel_imagen): ?>
+                                        <div class="relacionada-imagen">
+                                            <a href="<?php the_permalink(); ?>">
+                                                <img src="<?php echo esc_url($rel_imagen['sizes']['medium'] ?? $rel_imagen['url']); ?>" 
+                                                     alt="<?php echo esc_attr($rel_imagen['alt']); ?>">
+                                            </a>
+                                            <span class="relacionada-categoria" style="background: <?php echo $cat_info['color']; ?>;">
+                                                <i class="fas <?php echo $cat_info['icon']; ?>"></i>
+                                            </span>
+                                        </div>
+                                    <?php elseif (has_post_thumbnail()): ?>
+                                        <div class="relacionada-imagen">
+                                            <a href="<?php the_permalink(); ?>">
+                                                <img src="<?php echo get_the_post_thumbnail_url(null, 'medium'); ?>" 
+                                                     alt="<?php the_title_attribute(); ?>">
+                                            </a>
+                                            <span class="relacionada-categoria" style="background: <?php echo $cat_info['color']; ?>;">
+                                                <i class="fas <?php echo $cat_info['icon']; ?>"></i>
+                                            </span>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="relacionada-contenido">
+                                        <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                                        <?php if ($rel_resumen): ?>
+                                            <p><?php echo esc_html(wp_trim_words($rel_resumen, 15)); ?></p>
+                                        <?php endif; ?>
+                                        <span class="relacionada-fecha">
+                                            <i class="far fa-calendar"></i> <?php echo get_the_date(); ?>
+                                        </span>
+                                    </div>
+                                </article>
+                            <?php endwhile; wp_reset_postdata(); ?>
+                        </div>
+                    </section>
+                <?php else: ?>
+                    <section class="blog-relacionadas-section">
+                        <h3 class="section-title-blog">
+                            <i class="fas fa-newspaper"></i> Noticias Relacionadas
+                        </h3>
+                        <div class="blog-sin-relacionadas" style="text-align: center; padding: 40px 20px; background: #f8f9fa; border-radius: 12px; border: 1px dashed #ced4da; color: #6c757d;">
+                            <i class="fas fa-folder-open" style="font-size: 2.5rem; margin-bottom: 15px; color: #adb5bd; display: block;"></i>
+                            <p style="margin: 0; font-size: 1.1rem; font-weight: 500;">No hay noticias relacionadas en esta categoría</p>
+                            <p style="margin: 5px 0 0; font-size: 0.95rem; opacity: 0.8;">Continúa explorando para más actualizaciones.</p>
+                        </div>
+                    </section>
+                <?php endif; ?>
+                
             </div>
             <!-- Fin Contenido Principal -->
             
@@ -435,49 +521,108 @@ get_header(); ?>
                     </ul>
                 </div>
                 
-                <!-- Widget Noticias Destacadas -->
-                <div class="sidebar-widget widget-destacadas">
-                    <h3 class="widget-title">
-                        <i class="fas fa-star"></i> Destacadas
-                    </h3>
-                    <?php 
-                    $destacadas = new WP_Query(array(
-                        'post_type' => 'noticia',
-                        'posts_per_page' => 3,
-                        'post__not_in' => array(get_the_ID()),
-                        'meta_query' => array(
-                            array(
-                                'key' => 'noticia_destacada',
-                                'value' => '1',
-                                'compare' => '='
-                            )
-                        ),
-                        'orderby' => 'date',
-                        'order' => 'DESC'
-                    ));
+                <!-- Noticias Destacadas y Urgentes -->
+                <div class="sidebar-widget widget-noticias-tabs">
+                    <div class="widget-noticias-header">
+                        <div class="widget-tabs-header">
+                            <button class="widget-tab-btn active" onclick="cambiarTabNoticias('urgentes')">
+                                <i class="fas fa-exclamation-triangle"></i> Urgentes
+                            </button>
+                            <button class="widget-tab-btn" onclick="cambiarTabNoticias('destacadas')">
+                                <i class="fas fa-star"></i> Destacadas
+                            </button>
+                        </div>
+                    </div>
                     
-                    if ($destacadas->have_posts()):
-                    ?>
-                        <ul class="destacadas-list">
-                            <?php while ($destacadas->have_posts()): $destacadas->the_post(); 
-                                $imagen = get_field('noticia_imagen_principal');
+                    <div class="widget-tabs-content">
+                        <!-- Tab Urgentes -->
+                        <div id="tab-urgentes" class="widget-tab-panel active">
+                            <?php 
+                            $noticias_urgentes = new WP_Query(array(
+                                'post_type' => 'noticia',
+                                'posts_per_page' => 15,
+                                'meta_query' => array(
+                                    array(
+                                        'key' => 'noticia_urgente',
+                                        'value' => '1',
+                                        'compare' => '='
+                                    )
+                                ),
+                                'orderby' => 'date',
+                                'order' => 'DESC'
+                            ));
+                            
+                            if ($noticias_urgentes->have_posts()):
                             ?>
-                                <li class="destacada-item">
-                                    <?php if ($imagen): ?>
-                                        <div class="destacada-thumb" style="background-image: url('<?php echo esc_url($imagen['sizes']['thumbnail'] ?? $imagen['url']); ?>');"></div>
-                                    <?php elseif (has_post_thumbnail()): ?>
-                                        <div class="destacada-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
-                                    <?php endif; ?>
-                                    <div class="destacada-info">
-                                        <a href="<?php the_permalink(); ?>" class="destacada-titulo"><?php the_title(); ?></a>
-                                        <span class="destacada-fecha">
-                                            <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
-                                        </span>
-                                    </div>
-                                </li>
-                            <?php endwhile; wp_reset_postdata(); ?>
-                        </ul>
-                    <?php endif; ?>
+                                <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
+                                    <?php while ($noticias_urgentes->have_posts()): $noticias_urgentes->the_post(); 
+                                        $not_imagen = get_field('noticia_imagen_principal');
+                                    ?>
+                                        <li class="item-noticia-importante">
+                                            <?php if ($not_imagen): ?>
+                                                <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                            <?php elseif (has_post_thumbnail()): ?>
+                                                <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
+                                            <?php endif; ?>
+                                            <div class="reciente-info">
+                                                <span class="badge-importante urgente"><i class="fas fa-exclamation-triangle"></i> Urgente</span>
+                                                <a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 8); ?></a>
+                                                <span class="reciente-fecha">
+                                                    <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    <?php endwhile; wp_reset_postdata(); ?>
+                                </ul>
+                            <?php else: ?>
+                                <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias urgentes en este momento.</p>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Tab Destacadas -->
+                        <div id="tab-destacadas" class="widget-tab-panel">
+                            <?php 
+                            $noticias_destacadas = new WP_Query(array(
+                                'post_type' => 'noticia',
+                                'posts_per_page' => 15,
+                                'meta_query' => array(
+                                    array(
+                                        'key' => 'noticia_destacada',
+                                        'value' => '1',
+                                        'compare' => '='
+                                    )
+                                ),
+                                'orderby' => 'date',
+                                'order' => 'DESC'
+                            ));
+                            
+                            if ($noticias_destacadas->have_posts()):
+                            ?>
+                                <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
+                                    <?php while ($noticias_destacadas->have_posts()): $noticias_destacadas->the_post(); 
+                                        $not_imagen = get_field('noticia_imagen_principal');
+                                    ?>
+                                        <li class="item-noticia-importante">
+                                            <?php if ($not_imagen): ?>
+                                                <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                            <?php elseif (has_post_thumbnail()): ?>
+                                                <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
+                                            <?php endif; ?>
+                                            <div class="reciente-info">
+                                                <span class="badge-importante destacada"><i class="fas fa-star"></i> Destacada</span>
+                                                <a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 8); ?></a>
+                                                <span class="reciente-fecha">
+                                                    <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    <?php endwhile; wp_reset_postdata(); ?>
+                                </ul>
+                            <?php else: ?>
+                                <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias destacadas en este momento.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Widget Noticias Recientes -->
@@ -497,12 +642,21 @@ get_header(); ?>
                     if ($recientes->have_posts()):
                     ?>
                         <ul class="recientes-list">
-                            <?php while ($recientes->have_posts()): $recientes->the_post(); ?>
+                            <?php while ($recientes->have_posts()): $recientes->the_post(); 
+                                $imagen = get_field('noticia_imagen_principal');
+                            ?>
                                 <li class="reciente-item">
-                                    <a href="<?php the_permalink(); ?>" class="reciente-titulo"><?php the_title(); ?></a>
-                                    <span class="reciente-fecha">
-                                        <i class="far fa-calendar"></i> <?php echo get_the_date('d M'); ?>
-                                    </span>
+                                    <?php if ($imagen): ?>
+                                        <a href="<?php the_permalink(); ?>" class="reciente-thumb" style="background-image: url('<?php echo esc_url($imagen['sizes']['thumbnail'] ?? $imagen['url']); ?>');"></a>
+                                    <?php elseif (has_post_thumbnail()): ?>
+                                        <a href="<?php the_permalink(); ?>" class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></a>
+                                    <?php endif; ?>
+                                    <div class="reciente-info">
+                                        <a href="<?php the_permalink(); ?>" class="reciente-titulo"><?php the_title(); ?></a>
+                                        <span class="reciente-fecha">
+                                            <i class="far fa-calendar"></i> <?php echo get_the_date('d M, Y'); ?>
+                                        </span>
+                                    </div>
                                 </li>
                             <?php endwhile; wp_reset_postdata(); ?>
                         </ul>
@@ -596,6 +750,21 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 });
+
+// Tabs de Noticias Importantes
+function cambiarTabNoticias(tabId) {
+    // Actualizar botones
+    document.querySelectorAll('.widget-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.currentTarget.classList.add('active');
+    
+    // Actualizar paneles
+    document.querySelectorAll('.widget-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    document.getElementById('tab-' + tabId).classList.add('active');
+}
 </script>
 
 <?php endwhile; ?>

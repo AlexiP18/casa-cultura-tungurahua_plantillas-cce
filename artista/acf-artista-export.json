@@ -241,11 +241,11 @@
                 "sub_fields": [
                     {
                         "key": "field_telefono_artista",
-                        "label": "Teléfono \/ WhatsApp",
+                        "label": "Celular \/ WhatsApp",
                         "name": "telefono",
                         "aria-label": "",
                         "type": "text",
-                        "instructions": "",
+                        "instructions": "Ingrese solo 10 digitos numericos",
                         "required": 0,
                         "conditional_logic": 0,
                         "wrapper": {
@@ -256,12 +256,13 @@
                         "default_value": "",
                         "maxlength": 10,
                         "placeholder": "",
+                        "pattern": "^[0-9]{10}$",
                         "prepend": "",
                         "append": ""
                     },
                     {
                         "key": "field_email_artista",
-                        "label": "Correo Electrónico",
+                        "label": "Correo Electronico",
                         "name": "email",
                         "aria-label": "",
                         "type": "email",

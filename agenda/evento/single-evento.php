@@ -82,7 +82,7 @@ get_header(); ?>
         
         <?php if ($destacado): ?>
             <div class="evento-badge-destacado">
-                <i class="fas fa-star"></i> Destacado
+                <i class="fas fa-star"></i> <span>Destacado</span>
             </div>
         <?php endif; ?>
         
@@ -398,6 +398,49 @@ get_header(); ?>
                         </section>
                     <?php endif; ?>
                     
+                    <!-- Navegación entre eventos -->
+                    <div class="evento-navegacion">
+                        <div class="nav-evento-item">
+                            <?php 
+                            $prev = get_previous_post();
+                            if ($prev): 
+                                $prev_imagen = get_field('evento_imagen_principal', $prev->ID);
+                            ?>
+                                <a href="<?php echo get_permalink($prev->ID); ?>" class="nav-evento-link prev">
+                                    <?php if ($prev_imagen): ?>
+                                        <div class="nav-evento-thumb" style="background-image: url('<?php echo esc_url($prev_imagen['sizes']['thumbnail'] ?? $prev_imagen['url']); ?>');"></div>
+                                    <?php endif; ?>
+                                    <div class="nav-evento-content">
+                                        <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
+                                        <span class="nav-title"><?php echo esc_html($prev->post_title); ?></span>
+                                    </div>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <a href="<?php echo get_post_type_archive_link('evento'); ?>" class="nav-evento-center">
+                            <i class="fas fa-th"></i>
+                        </a>
+                        
+                        <div class="nav-evento-item">
+                            <?php 
+                            $next = get_next_post();
+                            if ($next): 
+                                $next_imagen = get_field('evento_imagen_principal', $next->ID);
+                            ?>
+                                <a href="<?php echo get_permalink($next->ID); ?>" class="nav-evento-link next">
+                                    <div class="nav-evento-content">
+                                        <span class="nav-label">Siguiente <i class="fas fa-arrow-right"></i></span>
+                                        <span class="nav-title"><?php echo esc_html($next->post_title); ?></span>
+                                    </div>
+                                    <?php if ($next_imagen): ?>
+                                        <div class="nav-evento-thumb" style="background-image: url('<?php echo esc_url($next_imagen['sizes']['thumbnail'] ?? $next_imagen['url']); ?>');"></div>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
                     <!-- Eventos Relacionados -->
                     <?php 
                     $relacionados = new WP_Query(array(
@@ -452,49 +495,6 @@ get_header(); ?>
                             </div>
                         </section>
                     <?php endif; ?>
-
-                    <!-- Navegación entre eventos -->
-                    <div class="evento-navegacion">
-                        <div class="nav-evento-item">
-                            <?php 
-                            $prev = get_previous_post();
-                            if ($prev): 
-                                $prev_imagen = get_field('evento_imagen_principal', $prev->ID);
-                            ?>
-                                <a href="<?php echo get_permalink($prev->ID); ?>" class="nav-evento-link prev">
-                                    <?php if ($prev_imagen): ?>
-                                        <div class="nav-evento-thumb" style="background-image: url('<?php echo esc_url($prev_imagen['sizes']['thumbnail'] ?? $prev_imagen['url']); ?>');"></div>
-                                    <?php endif; ?>
-                                    <div class="nav-evento-content">
-                                        <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
-                                        <span class="nav-title"><?php echo esc_html($prev->post_title); ?></span>
-                                    </div>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                        
-                        <a href="<?php echo get_post_type_archive_link('evento'); ?>" class="nav-evento-center">
-                            <i class="fas fa-th"></i>
-                        </a>
-                        
-                        <div class="nav-evento-item">
-                            <?php 
-                            $next = get_next_post();
-                            if ($next): 
-                                $next_imagen = get_field('evento_imagen_principal', $next->ID);
-                            ?>
-                                <a href="<?php echo get_permalink($next->ID); ?>" class="nav-evento-link next">
-                                    <div class="nav-evento-content">
-                                        <span class="nav-label">Siguiente <i class="fas fa-arrow-right"></i></span>
-                                        <span class="nav-title"><?php echo esc_html($next->post_title); ?></span>
-                                    </div>
-                                    <?php if ($next_imagen): ?>
-                                        <div class="nav-evento-thumb" style="background-image: url('<?php echo esc_url($next_imagen['sizes']['thumbnail'] ?? $next_imagen['url']); ?>');"></div>
-                                    <?php endif; ?>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
                     
                 </main>
                 

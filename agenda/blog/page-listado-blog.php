@@ -175,21 +175,21 @@ $categorias_blog = array(
                          data-categoria="<?php echo esc_attr($categoria); ?>"
                          data-search="<?php echo esc_attr($search_data); ?>">
                     
-                    <?php if ($destacada) : ?>
-                        <div class="badge-destacada">
-                            <i class="fas fa-star"></i> DESTACADA
-                        </div>
-                    <?php endif; ?>
-                    
-                    <?php if ($urgente) : ?>
-                        <div class="badge-urgente">
-                            <i class="fas fa-exclamation-triangle"></i> IMPORTANTE
-                        </div>
-                    <?php endif; ?>
-                    
                     <a href="<?php the_permalink(); ?>" class="blog-card-link">
                         <?php if ($imagen) : ?>
                             <div class="blog-card-imagen">
+                                <?php if ($destacada) : ?>
+                                    <div class="badge-destacada">
+                                        <i class="fas fa-star"></i> DESTACADA
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($urgente) : ?>
+                                    <div class="badge-urgente">
+                                        <i class="fas fa-exclamation-triangle"></i> IMPORTANTE
+                                    </div>
+                                <?php endif; ?>
+
                                 <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php the_title_attribute(); ?>">
                                 <div class="blog-card-overlay"></div>
                                 

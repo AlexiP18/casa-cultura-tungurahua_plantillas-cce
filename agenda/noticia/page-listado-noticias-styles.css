@@ -26,7 +26,7 @@
     justify-content: center;
     text-align: center;
     padding: 0;
-    z-index: 1;
+    z-index: 0;
 }
 
 .noticias-hero-overlay {
@@ -166,7 +166,7 @@
 /* Filtros de Categoría */
 .noticias-filtros-section {
     background: #fff;
-    padding: 15px 0;
+    padding: 12px 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
@@ -177,12 +177,14 @@
 
 @media (max-width: 768px) {
     .noticias-filtros-section {
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        position: relative;
+        top: auto;
+        bottom: auto;
+        z-index: 1 !important;
         padding: 5px 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        border-top: none;
+        box-shadow: none;
+        border-top: 1px solid #eee;
+        transition: transform 0.3s ease-in-out;
     }
 
     .noticias-filtros-section.sticky-bottom-mobile {
@@ -192,16 +194,24 @@
         left: 0;
         right: 0;
         width: 100%;
-        z-index: 9999;
+        z-index: 100000 !important;
         background: #fff;
         padding: 5px 0;
         box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
         border-top: 1px solid #eee;
-        animation: slideUpMobile 0.3s ease-out;
+        animation: slideUpMobile 0.3s ease-out forwards;
+    }
+
+
+
+    .noticias-filtros-section .container {
+        padding: 0 10px;
     }
 
     .noticias-filtros-container {
-        padding: 0 0 0 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
     }
 
     .filtro-todas {
@@ -223,10 +233,11 @@
     }
 }
 
+.noticias-filtros-section .container {
+    padding: 0 10px;
+}
+
 .noticias-filtros-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
     display: flex;
     gap: 20px;
     align-items: center;
@@ -254,6 +265,10 @@
     cursor: pointer;
     transition: all 0.3s ease;
     flex-shrink: 0;
+}
+
+.filtro-especial-btn i {
+    font-size: 18px;
 }
 
 .filtro-especial-btn:hover {
@@ -293,7 +308,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin: 0 0 30px 0;
+    margin: -10px 0 20px 0;
     padding: 0;
 }
 
@@ -920,15 +935,16 @@
         padding: 20px 0;
     }
 
+    .noticias-filtros-section .container {
+        padding: 0 10px;
+    }
+
     .noticias-filtros-container {
         flex-wrap: nowrap;
         gap: 10px;
         align-items: center;
         display: flex;
-        padding: 0 10px 0 0;
-        /* No left padding */
         justify-content: flex-start;
-        /* Prevent clipping */
     }
 
     .buscador-container input {

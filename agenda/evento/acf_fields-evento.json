@@ -1113,8 +1113,8 @@
                 "label": "Contacto - Teléfono",
                 "name": "evento_contacto_telefono",
                 "aria-label": "",
-                "type": "number",
-                "instructions": "Número de teléfono con hasta 10 dígitos",
+                "type": "text",
+                "instructions": "Ingrese solo 10 digitos numericos",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -1123,11 +1123,10 @@
                     "id": ""
                 },
                 "default_value": "",
-                "placeholder": "9XXXXXXXXX",
-                "min": 1000000000,
-                "max": 9999999999,
-                "step": 1,
-                "prepend": "+593",
+                "placeholder": "09XXXXXXXX",
+                "maxlength": 10,
+                "pattern": "^[0-9]{10}$",
+                "prepend": "",
                 "append": ""
             },
             {

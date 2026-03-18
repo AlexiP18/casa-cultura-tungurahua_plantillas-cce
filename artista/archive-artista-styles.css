@@ -26,7 +26,7 @@
     justify-content: center;
     text-align: center;
     padding: 0;
-    z-index: 1;
+    z-index: 0;
 }
 
 .artistas-hero-overlay {
@@ -241,17 +241,18 @@
 /* Filtros de Disciplina */
 .artistas-filtros-section {
     background: #fff;
-    padding: 15px 0;
+    padding: 12px 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 100000 !important;
 }
 
-.artistas-filtros-container {
-    max-width: 1200px;
-    margin: 0 auto;
+.artistas-filtros-section .container {
     padding: 0 20px;
+}
+
+.artistas-filtros-container {
     display: flex;
     gap: 20px;
     align-items: center;
@@ -341,14 +342,13 @@
 }
 
 .filtro-icono {
-    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .filtro-icono i {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 /* Contador de resultados */
@@ -805,13 +805,15 @@
     }
 
     /* Mobile Filters Redesign */
+    .artistas-filtros-section .container {
+        padding: 0 10px;
+    }
+
     .artistas-filtros-container {
         display: flex;
         align-items: center;
         gap: 10px;
         flex-wrap: nowrap;
-        padding: 0 0 0 10px;
-        /* No right padding */
     }
 
     .filtro-todas {
@@ -831,7 +833,7 @@
         display: none;
     }
 
-    .filtro-todas .filtro-icono {
+    .filtro-todas .filtro-icono i {
         margin: 0;
         font-size: 1.2rem;
     }
@@ -936,7 +938,7 @@
         width: 100%;
         z-index: 100000 !important;
         box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-        padding: 10px 0;
+        padding: 5px 0;
         animation: slideUpMobile 0.3s ease-out forwards;
     }
 

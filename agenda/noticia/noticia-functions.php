@@ -332,6 +332,34 @@ function cc_get_noticias_por_categoria($categoria, $limit = 10) {
 }
 
 /**
+ * Obtener noticias relacionadas
+ */
+function cc_get_noticias_relacionadas($post_id = null, $limit = 3) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $categoria = get_field('noticia_categoria', $post_id);
+    
+    $args = array(
+        'post_type' => 'noticia',
+        'posts_per_page' => $limit,
+        'post__not_in' => array($post_id),
+        'meta_query' => array(
+            array(
+                'key' => 'noticia_categoria',
+                'value' => $categoria,
+                'compare' => '='
+            )
+        ),
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+    
+    return new WP_Query($args);
+}
+
+/**
  * ==============================================
  * SHORTCODES
  * ==============================================

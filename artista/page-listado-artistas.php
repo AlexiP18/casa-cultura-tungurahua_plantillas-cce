@@ -35,6 +35,16 @@ $disciplinas_iconos = array(
     'arquitectura' => 'fa-building',
     'otra' => 'fa-ellipsis-h'
 );
+
+$disciplinas_labels = cc_get_disciplinas_labels();
+
+// Ordenar filtros de disciplinas alfabéticamente por etiqueta.
+$disciplinas_labels_filtro = $disciplinas_labels;
+uasort($disciplinas_labels_filtro, static function ($a, $b) {
+    $label_a = remove_accents((string) $a);
+    $label_b = remove_accents((string) $b);
+    return strcasecmp($label_a, $label_b);
+});
 ?>
 
 <div class="artistas-archive-wrapper">
@@ -103,9 +113,8 @@ $disciplinas_iconos = array(
                     <div class="disciplinas-slider" id="disciplinasSlider">
                         <div class="disciplinas-slider-track">
                             <?php 
-                            // $disciplinas_iconos is defined at the top of the file
-                            $disciplinas_labels = cc_get_disciplinas_labels();
-                            foreach ($disciplinas_labels as $key => $label) :  
+                            // $disciplinas_iconos is defined at the top of the file.
+                            foreach ($disciplinas_labels_filtro as $key => $label) :  
                                 $icono = isset($disciplinas_iconos[$key]) ? $disciplinas_iconos[$key] : 'fa-circle';
                             ?>
                                 <button class="chip-filtro" data-disciplina="<?php echo esc_attr($key); ?>">
@@ -139,9 +148,6 @@ $disciplinas_iconos = array(
                 $especialidad = get_field('especialidad');
                 $slider = get_field('slider_imagenes');
                 $imagen_destacada = !empty($slider['imagen_1']) ? $slider['imagen_1'] : null;
-                
-                // Etiquetas de disciplinas
-                $disciplinas_labels = cc_get_disciplinas_labels();
                 
                 // Preparar datos para filtrado
                 $disciplinas_string = is_array($disciplina_artistica) ? implode(',', $disciplina_artistica) : '';
@@ -249,6 +255,7 @@ $disciplinas_iconos = array(
     var chipsButtons = document.querySelectorAll('.chip-filtro');
     var artistCards = document.querySelectorAll('.artista-card');
     var resultadosCount = document.getElementById('resultados-count');
+    var filtrosSection = document.querySelector('.artistas-filtros-section');
     var slider = document.getElementById('disciplinasSlider');
     var sliderTrack = slider.querySelector('.disciplinas-slider-track');
     var prevBtn = document.getElementById('disciplinasSliderPrev');
@@ -302,6 +309,29 @@ $disciplinas_iconos = array(
             setTimeout(updateSliderButtons, 300);
         }
     });
+
+    // En escritorio: scroll vertical del mouse dentro de filtros => scroll horizontal del slider.
+    if (filtrosSection) {
+        filtrosSection.addEventListener('wheel', function(e) {
+            if (window.innerWidth <= 768) return;
+
+            var maxScroll = sliderTrack.scrollWidth - slider.clientWidth;
+            if (maxScroll <= 0) return;
+
+            var delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+            if (delta === 0) return;
+
+            var scrollAntes = slider.scrollLeft;
+            var scrollDespues = Math.max(0, Math.min(maxScroll, scrollAntes + delta));
+
+            if (scrollDespues !== scrollAntes) {
+                e.preventDefault();
+                slider.scrollLeft = scrollDespues;
+                currentScroll = slider.scrollLeft;
+                updateSliderButtons();
+            }
+        }, { passive: false });
+    }
     
     slider.addEventListener('scroll', function() {
         currentScroll = slider.scrollLeft;

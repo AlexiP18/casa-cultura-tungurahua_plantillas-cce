@@ -1033,7 +1033,7 @@ function cc_enqueue_noticias_assets() {
             'cc-noticias-styles',
             get_template_directory_uri() . '/plantillas/agenda/noticia/noticias-styles.css',
             array(),
-            '1.0.0'
+            '1.0.2'
         );
         
         // JavaScript

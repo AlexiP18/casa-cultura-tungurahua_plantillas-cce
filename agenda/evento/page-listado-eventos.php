@@ -6,7 +6,35 @@
  * @package CasaDeLaCultura
  */
 
-get_header(); ?>
+get_header();
+
+$tipos_evento_filtros = array(
+    'teatro' => array('label' => 'Teatro', 'icono' => 'fa-theater-masks'),
+    'musica' => array('label' => 'Música', 'icono' => 'fa-music'),
+    'danza' => array('label' => 'Danza', 'icono' => 'fa-running'),
+    'exposicion' => array('label' => 'Exposiciones', 'icono' => 'fa-image'),
+    'taller' => array('label' => 'Talleres', 'icono' => 'fa-palette'),
+    'conferencia' => array('label' => 'Conferencias', 'icono' => 'fa-microphone'),
+    'conversatorio' => array('label' => 'Conversatorios', 'icono' => 'fa-comments'),
+    'cine' => array('label' => 'Cine', 'icono' => 'fa-film'),
+    'literario' => array('label' => 'Literario', 'icono' => 'fa-book'),
+    'concurso' => array('label' => 'Concursos', 'icono' => 'fa-trophy'),
+    'festival' => array('label' => 'Festivales', 'icono' => 'fa-star'),
+    'otro' => array('label' => 'Otros', 'icono' => 'fa-calendar-check'),
+);
+
+// Ordenar filtros alfabéticamente por etiqueta.
+uasort($tipos_evento_filtros, static function ($a, $b) {
+    $label_a = remove_accents($a['label'] ?? '');
+    $label_b = remove_accents($b['label'] ?? '');
+    return strcasecmp($label_a, $label_b);
+});
+
+$tipo_preseleccionado = isset($_GET['tipo']) ? sanitize_key(wp_unslash($_GET['tipo'])) : '';
+if (!isset($tipos_evento_filtros[$tipo_preseleccionado])) {
+    $tipo_preseleccionado = '';
+}
+?>
 
 <div class="archivo-eventos-wrapper">
     
@@ -51,7 +79,7 @@ get_header(); ?>
             <div class="filtros-eventos-container">
                 
                 <!-- Filtro "Todos" fijo -->
-                <button class="filtro-evento-btn filtro-todos active" data-tipo="todos">
+                <button class="filtro-evento-btn filtro-todos<?php echo $tipo_preseleccionado === '' ? ' active' : ''; ?>" data-tipo="todos">
                     <span class="filtro-icono"><i class="fas fa-th"></i></span>
                     <span>Todos</span>
                 </button>
@@ -64,54 +92,12 @@ get_header(); ?>
                     
                     <div class="filtros-slider" id="filtrosSlider">
                         <div class="filtros-slider-track">
-                            <button class="filtro-evento-btn" data-tipo="teatro">
-                                <span class="filtro-icono"><i class="fas fa-theater-masks"></i></span>
-                                <span>Teatro</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="musica">
-                                <span class="filtro-icono"><i class="fas fa-music"></i></span>
-                                <span>Música</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="danza">
-                                <span class="filtro-icono"><i class="fas fa-running"></i></span>
-                                <span>Danza</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="exposicion">
-                                <span class="filtro-icono"><i class="fas fa-image"></i></span>
-                                <span>Exposiciones</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="taller">
-                                <span class="filtro-icono"><i class="fas fa-palette"></i></span>
-                                <span>Talleres</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="conferencia">
-                                <span class="filtro-icono"><i class="fas fa-microphone"></i></span>
-                                <span>Conferencias</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="conversatorio">
-                                <span class="filtro-icono"><i class="fas fa-comments"></i></span>
-                                <span>Conversatorios</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="cine">
-                                <span class="filtro-icono"><i class="fas fa-film"></i></span>
-                                <span>Cine</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="literario">
-                                <span class="filtro-icono"><i class="fas fa-book"></i></span>
-                                <span>Literario</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="concurso">
-                                <span class="filtro-icono"><i class="fas fa-trophy"></i></span>
-                                <span>Concursos</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="festival">
-                                <span class="filtro-icono"><i class="fas fa-star"></i></span>
-                                <span>Festivales</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="otro">
-                                <span class="filtro-icono"><i class="fas fa-calendar-check"></i></span>
-                                <span>Otros</span>
-                            </button>
+                            <?php foreach ($tipos_evento_filtros as $tipo_key => $tipo_data) : ?>
+                                <button class="filtro-evento-btn<?php echo $tipo_preseleccionado === $tipo_key ? ' active' : ''; ?>" data-tipo="<?php echo esc_attr($tipo_key); ?>">
+                                    <span class="filtro-icono"><i class="fas <?php echo esc_attr($tipo_data['icono']); ?>"></i></span>
+                                    <span><?php echo esc_html($tipo_data['label']); ?></span>
+                                </button>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     
@@ -147,7 +133,7 @@ get_header(); ?>
 
                 <!-- Sidebar izquierdo: Pasados -->
                 <div class="eventos-sidebar-column">
-                    <button class="eventos-sidebar-btn sidebar-pasados-btn eventos-mode-btn" data-tab="pasados" title="Eventos Pasados">
+                    <button class="eventos-sidebar-btn sidebar-pasados-btn eventos-mode-btn active" data-tab="pasados" title="Eventos Pasados">
                         <span class="eventos-sidebar-icon"><i class="fas fa-history"></i></span>
                         <span class="eventos-sidebar-text"><span class="st-l1">Eventos</span><span class="st-l2">Pasados</span></span>
                     </button>
@@ -194,6 +180,7 @@ get_header(); ?>
                             $tipo_info = $tipos_evento[$tipo] ?? $tipos_evento['otro'];
                             
                             $clase_destacado = $destacado ? ' evento-destacado-card' : '';
+                            $imagen_url = (is_array($imagen) && !empty($imagen['url'])) ? $imagen['url'] : '';
                             
                             // Preparar datos de búsqueda
                             $search_parts = array(
@@ -202,9 +189,10 @@ get_header(); ?>
                                 $lugar ? $lugar : ''
                             );
                             $search_data = strtolower(implode(' ', array_filter($search_parts)));
+                            $fecha_timestamp = $fecha ? strtotime($fecha) : 0;
                         ?>
                             
-                            <article class="evento-card<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>">
+                            <article class="evento-card<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>" data-fecha-ts="<?php echo esc_attr((string) $fecha_timestamp); ?>">
                                 
                                 <?php if ($destacado): ?>
                                     <div class="badge-destacado-card">
@@ -218,9 +206,13 @@ get_header(); ?>
                                 <a href="<?php the_permalink(); ?>" class="evento-card-link">
                                     
                                     <!-- Imagen -->
-                                    <div class="evento-card-imagen">
+                                    <div class="evento-card-imagen<?php echo $imagen ? '' : ' sin-imagen'; ?>"<?php if ($imagen_url) : ?> style="background-image: url('<?php echo esc_url($imagen_url); ?>');"<?php endif; ?>>
                                         <?php if ($imagen): ?>
                                             <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php the_title_attribute(); ?>">
+                                        <?php else: ?>
+                                            <div class="evento-card-placeholder" aria-hidden="true">
+                                                <i class="fas fa-image"></i>
+                                            </div>
                                         <?php endif; ?>
                                         <div class="evento-card-overlay"></div>
                                         
@@ -265,7 +257,7 @@ get_header(); ?>
                                                         <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
                                                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                     </svg>
-                                                    <span><?php echo date('d/m/Y - H:i', strtotime($fecha)); ?></span>
+                                                    <span class="meta-item-card-text"><?php echo date('d/m/Y - H:i', strtotime($fecha)); ?></span>
                                                 </div>
                                             <?php endif; ?>
                                             
@@ -274,7 +266,7 @@ get_header(); ?>
                                                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                                                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                                                     </svg>
-                                                    <span><?php echo esc_html($lugar); ?></span>
+                                                    <span class="meta-item-card-text"><?php echo esc_html($lugar); ?></span>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
@@ -285,10 +277,10 @@ get_header(); ?>
                                         <div class="precio-card">
                                             <?php if ($precio['gratuito']): ?>
                                                 <span class="precio-gratuito"><i class="fas fa-check-circle"></i> GRATUITO</span>
-                                            <?php elseif ($precio['multiple']): ?>
+                                            <?php elseif (!empty(trim((string) ($precio['texto'] ?? '')))): ?>
                                                 <span class="precio-valor"><?php echo esc_html($precio['texto']); ?></span>
                                             <?php else: ?>
-                                                <span class="precio-valor"><?php echo esc_html($precio['texto']); ?></span>
+                                                <span class="precio-valor">POR CONFIRMAR</span>
                                             <?php endif; ?>
                                         </div>
                                         <span class="ver-mas-link">
@@ -325,7 +317,7 @@ get_header(); ?>
             </div>
             
             <!-- Eventos Pasados -->
-            <div id="tab-pasados" class="tab-content">
+            <div id="tab-pasados" class="tab-content active">
                 <?php 
                 $eventos_pasados = cc_get_eventos_pasados(30);
                 
@@ -339,6 +331,7 @@ get_header(); ?>
                             $tipo = get_field('evento_tipo');
                             $fecha = get_field('evento_fecha_inicio');
                             $lugar = get_field('evento_lugar');
+                            $precio = cc_get_precio_evento();
                             $descripcion = get_field('evento_descripcion_corta');
                             $destacado = get_field('evento_destacado');
                             
@@ -360,6 +353,7 @@ get_header(); ?>
                             $tipo_info = $tipos_evento[$tipo] ?? $tipos_evento['otro'];
                             
                             $clase_destacado = $destacado ? ' evento-destacado-card' : '';
+                            $imagen_url = (is_array($imagen) && !empty($imagen['url'])) ? $imagen['url'] : '';
                             
                             // Preparar datos de búsqueda
                             $search_parts = array(
@@ -368,9 +362,10 @@ get_header(); ?>
                                 $lugar ? $lugar : ''
                             );
                             $search_data = strtolower(implode(' ', array_filter($search_parts)));
+                            $fecha_timestamp = $fecha ? strtotime($fecha) : 0;
                         ?>
                             
-                            <article class="evento-card evento-pasado<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>">
+                            <article class="evento-card evento-pasado<?php echo $clase_destacado; ?>" data-tipo="<?php echo esc_attr($tipo); ?>" data-search="<?php echo esc_attr($search_data); ?>" data-fecha-ts="<?php echo esc_attr((string) $fecha_timestamp); ?>">
                                 
                                 <?php if ($destacado): ?>
                                     <div class="badge-destacado-card">
@@ -383,9 +378,13 @@ get_header(); ?>
                                 
                                 <a href="<?php the_permalink(); ?>" class="evento-card-link">
                                     
-                                    <div class="evento-card-imagen">
+                                    <div class="evento-card-imagen<?php echo $imagen ? '' : ' sin-imagen'; ?>"<?php if ($imagen_url) : ?> style="background-image: url('<?php echo esc_url($imagen_url); ?>');"<?php endif; ?>>
                                         <?php if ($imagen): ?>
                                             <img src="<?php echo esc_url($imagen['url']); ?>" alt="<?php the_title_attribute(); ?>">
+                                        <?php else: ?>
+                                            <div class="evento-card-placeholder" aria-hidden="true">
+                                                <i class="fas fa-image"></i>
+                                            </div>
                                         <?php endif; ?>
                                         <div class="evento-card-overlay"></div>
                                         
@@ -422,7 +421,7 @@ get_header(); ?>
                                                         <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
                                                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                     </svg>
-                                                    <span><?php echo date('d/m/Y', strtotime($fecha)); ?></span>
+                                                    <span class="meta-item-card-text"><?php echo date('d/m/Y', strtotime($fecha)); ?></span>
                                                 </div>
                                             <?php endif; ?>
                                             
@@ -431,7 +430,7 @@ get_header(); ?>
                                                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                                                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                                                     </svg>
-                                                    <span><?php echo esc_html($lugar); ?></span>
+                                                    <span class="meta-item-card-text"><?php echo esc_html($lugar); ?></span>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
@@ -439,6 +438,15 @@ get_header(); ?>
                                     </div>
                                     
                                     <div class="evento-card-footer">
+                                        <div class="precio-card">
+                                            <?php if ($precio['gratuito']): ?>
+                                                <span class="precio-gratuito"><i class="fas fa-check-circle"></i> GRATUITO</span>
+                                            <?php elseif (!empty(trim((string) ($precio['texto'] ?? '')))): ?>
+                                                <span class="precio-valor"><?php echo esc_html($precio['texto']); ?></span>
+                                            <?php else: ?>
+                                                <span class="precio-valor">POR CONFIRMAR</span>
+                                            <?php endif; ?>
+                                        </div>
                                         <span class="ver-mas-link">
                                             Ver más
                                             <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -489,12 +497,91 @@ get_header(); ?>
     
 </div>
 
+<style id="eventos-card-hard-fix">
+    .archivo-eventos-wrapper .evento-card-link {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        min-height: 100% !important;
+    }
+
+    .archivo-eventos-wrapper .evento-card-imagen {
+        position: relative !important;
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+        overflow: hidden !important;
+        background-size: cover !important;
+        background-position: center top !important;
+        background-repeat: no-repeat !important;
+    }
+
+    .archivo-eventos-wrapper .evento-card-imagen img {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+        display: block !important;
+    }
+
+    .archivo-eventos-wrapper .evento-card-meta {
+        max-height: 84px !important;
+        overflow: hidden !important;
+    }
+
+    .archivo-eventos-wrapper .meta-item-card {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .archivo-eventos-wrapper .meta-item-card-text {
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .archivo-eventos-wrapper .evento-card-footer {
+        flex: 0 0 70px !important;
+        min-height: 70px !important;
+        max-height: 70px !important;
+        height: 70px !important;
+        margin-top: 0 !important;
+    }
+
+    @media (max-width: 768px) {
+        .archivo-eventos-wrapper .evento-card-imagen {
+            height: 220px !important;
+            min-height: 220px !important;
+            max-height: 220px !important;
+        }
+
+        .archivo-eventos-wrapper .evento-card-footer {
+            flex: 0 0 60px !important;
+            min-height: 60px !important;
+            max-height: 60px !important;
+            height: 60px !important;
+        }
+    }
+
+    @media (max-width: 580px) {
+        .archivo-eventos-wrapper .evento-card-imagen {
+            height: 200px !important;
+            min-height: 200px !important;
+            max-height: 200px !important;
+        }
+    }
+</style>
+
 <script>
 // Buscador y Filtros
 document.addEventListener('DOMContentLoaded', function() {
     // Variables de estado
     let terminoBusqueda = '';
-    let filtroActivo = 'todos';
+    let filtroActivo = <?php echo wp_json_encode($tipo_preseleccionado ?: 'todos'); ?>;
     let soloDestacados = false;
     
     // Elementos del buscador
@@ -503,9 +590,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultadosCount = document.getElementById('resultadosCount');
     const toggleDestacados = document.getElementById('toggleDestacados');
     
-    // Elementos de filtrado
+    // Elementos de filtrado y tabs
     const filtros = document.querySelectorAll('.filtro-evento-btn');
     const cards = document.querySelectorAll('.evento-card');
+    const allTabTriggers = document.querySelectorAll('.tab-btn, .eventos-mode-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const eventosGridWrapper = document.querySelector('.eventos-grid-wrapper');
+    const activeTabs = new Set();
+    let gridUnificado = null;
     
     // Evento del Toggle Destacados (ahora es un botón)
     if(toggleDestacados) {
@@ -521,6 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sliderTrack = slider.querySelector('.filtros-slider-track');
     const prevBtn = document.getElementById('filtrosSliderPrev');
     const nextBtn = document.getElementById('filtrosSliderNext');
+    const filtrosSection = document.querySelector('.eventos-filtros-section');
     
     let currentScroll = 0;
     const scrollAmount = 250;
@@ -574,22 +667,129 @@ document.addEventListener('DOMContentLoaded', function() {
         currentScroll = slider.scrollLeft;
         updateSliderButtons();
     });
+
+    // En escritorio: scroll vertical del mouse dentro de filtros => scroll horizontal del slider.
+    if (filtrosSection) {
+        filtrosSection.addEventListener('wheel', function(e) {
+            if (window.innerWidth <= 768) return;
+
+            const maxScroll = sliderTrack.scrollWidth - slider.clientWidth;
+            if (maxScroll <= 0) return;
+
+            const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+            if (delta === 0) return;
+
+            const scrollAntes = slider.scrollLeft;
+            const scrollDespues = Math.max(0, Math.min(maxScroll, scrollAntes + delta));
+
+            if (scrollDespues !== scrollAntes) {
+                e.preventDefault();
+                slider.scrollLeft = scrollDespues;
+                currentScroll = slider.scrollLeft;
+                updateSliderButtons();
+            }
+        }, { passive: false });
+    }
     
     // Inicializar estado de botones
     updateSliderButtons();
+
+    function activarFiltroPorTipo(tipo) {
+        if (!tipo) return false;
+
+        const filtroBtn = document.querySelector('.filtro-evento-btn[data-tipo="' + tipo + '"]');
+        if (!filtroBtn) return false;
+
+        filtroActivo = tipo;
+        filtros.forEach(f => f.classList.remove('active'));
+        filtroBtn.classList.add('active');
+
+        if (slider && typeof filtroBtn.scrollIntoView === 'function') {
+            filtroBtn.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+
+        return true;
+    }
+
+    function inicializarGridUnificado() {
+        if (!eventosGridWrapper) return;
+
+        const gridExistente = document.getElementById('eventosGridUnificado');
+        if (gridExistente) {
+            gridUnificado = gridExistente;
+            return;
+        }
+
+        const nuevoGrid = document.createElement('div');
+        nuevoGrid.id = 'eventosGridUnificado';
+        nuevoGrid.className = 'eventos-grid';
+
+        let totalCardsMovidas = 0;
+
+        tabContents.forEach(tabContent => {
+            const tab = (tabContent.id || '').replace('tab-', '');
+            const cardsEnTab = tabContent.querySelectorAll('.evento-card');
+
+            cardsEnTab.forEach(card => {
+                if (tab) {
+                    card.setAttribute('data-tab', tab);
+                }
+                nuevoGrid.appendChild(card);
+                totalCardsMovidas++;
+            });
+        });
+
+        if (totalCardsMovidas === 0) {
+            return;
+        }
+
+        const primeraTab = tabContents.length ? tabContents[0] : null;
+        if (primeraTab) {
+            eventosGridWrapper.insertBefore(nuevoGrid, primeraTab);
+        } else {
+            eventosGridWrapper.appendChild(nuevoGrid);
+        }
+
+        tabContents.forEach(tabContent => {
+            tabContent.style.display = 'none';
+        });
+
+        gridUnificado = nuevoGrid;
+    }
+
+    function ordenarCardsPorFechaEnTabsActivos() {
+        if (!gridUnificado) return;
+
+        const cardsDelGrid = Array.from(gridUnificado.querySelectorAll('.evento-card'));
+
+        cardsDelGrid.sort((cardA, cardB) => {
+            const fechaA = parseInt(cardA.getAttribute('data-fecha-ts') || '0', 10);
+            const fechaB = parseInt(cardB.getAttribute('data-fecha-ts') || '0', 10);
+            return fechaB - fechaA;
+        });
+
+        cardsDelGrid.forEach(card => {
+            gridUnificado.appendChild(card);
+        });
+    }
     
     // Función para actualizar resultados
     function actualizarResultados() {
-        // Determinar el tab activo
-        const activeTab = document.querySelector('.tab-content.active');
-        const activeCards = activeTab ? activeTab.querySelectorAll('.evento-card') : cards;
-        
+        ordenarCardsPorFechaEnTabsActivos();
+
+        // El filtro se aplica sobre tabs activos (pueden ser ambos).
         let visibles = 0;
-        const total = activeCards.length;
+        let total = 0;
         
-        activeCards.forEach(card => {
+        cards.forEach(card => {
             const cardTipo = card.getAttribute('data-tipo');
             const cardSearch = card.getAttribute('data-search') || '';
+            const cardTab = card.getAttribute('data-tab') || 'proximos';
+            const perteneceTabActivo = activeTabs.has(cardTab);
             
             // Verificar si pasa el filtro de tipo
             const pasaFiltroTipo = (filtroActivo === 'todos' || cardTipo === filtroActivo);
@@ -602,12 +802,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const pasaFiltroDestacado = (!soloDestacados || esDestacado);
             
             if (pasaFiltroTipo && pasaBusqueda && pasaFiltroDestacado) {
-                card.style.display = 'block';
+                // Mantener el display nativo del CSS (.evento-card usa flex).
+                card.style.display = '';
                 card.style.animation = 'fadeInUp 0.5s ease';
-                visibles++;
+                if (perteneceTabActivo) visibles++;
             } else {
                 card.style.display = 'none';
             }
+
+            if (perteneceTabActivo) total++;
         });
         
         // Actualizar contador
@@ -644,50 +847,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // Filtros por tipo
     filtros.forEach(filtro => {
         filtro.addEventListener('click', function() {
-            filtroActivo = this.getAttribute('data-tipo');
-            
-            // Actualizar filtro activo
-            filtros.forEach(f => f.classList.remove('active'));
-            this.classList.add('active');
+            activarFiltroPorTipo(this.getAttribute('data-tipo'));
             
             // Actualizar resultados
             actualizarResultados();
         });
     });
     
-    // Tabs: Próximos / Pasados (incluye botones sidebar)
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const modeBtns = document.querySelectorAll('.eventos-mode-btn');
-    const allTabTriggers = document.querySelectorAll('.tab-btn, .eventos-mode-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
+    // Tabs (modo múltiple): se pueden activar Pasados y Próximos al mismo tiempo.
+    function sincronizarTabsActivosDesdeBotones() {
+        activeTabs.clear();
+
+        allTabTriggers.forEach(trigger => {
+            const tab = trigger.getAttribute('data-tab');
+            if (tab && trigger.classList.contains('active')) {
+                activeTabs.add(tab);
+            }
+        });
+
+        if (activeTabs.size === 0) {
+            activeTabs.add('proximos');
+        }
+    }
+
+    function renderTabsActivosEnBotones() {
+        allTabTriggers.forEach(trigger => {
+            const tab = trigger.getAttribute('data-tab');
+            trigger.classList.toggle('active', !!tab && activeTabs.has(tab));
+        });
+    }
+
+    function toggleTab(tab) {
+        if (!tab) return;
+
+        if (activeTabs.has(tab)) {
+            // Mantener al menos uno activo.
+            if (activeTabs.size === 1) {
+                return;
+            }
+            activeTabs.delete(tab);
+        } else {
+            activeTabs.add(tab);
+        }
+
+        renderTabsActivosEnBotones();
+    }
+
     allTabTriggers.forEach(btn => {
         btn.addEventListener('click', function() {
             const tab = this.getAttribute('data-tab');
-            
-            // Actualizar activos en TODOS los triggers
-            allTabTriggers.forEach(b => b.classList.remove('active'));
-            // Marcar activo todos los que tengan el mismo data-tab
-            allTabTriggers.forEach(b => {
-                if (b.getAttribute('data-tab') === tab) b.classList.add('active');
-            });
-            
-            // Mostrar contenido correspondiente
-            tabContents.forEach(content => {
-                if (content.id === 'tab-' + tab) {
-                    content.classList.add('active');
-                } else {
-                    content.classList.remove('active');
-                }
-            });
-            
-            // Resetear filtro y búsqueda al cambiar de tab
-            const primerFiltro = document.querySelector('.filtro-evento-btn[data-tipo="todos"]');
-            if (primerFiltro) {
-                filtroActivo = 'todos';
-                filtros.forEach(f => f.classList.remove('active'));
-                primerFiltro.classList.add('active');
-            }
+            toggleTab(tab);
             
             // Limpiar búsqueda
             buscador.value = '';
@@ -697,9 +906,33 @@ document.addEventListener('DOMContentLoaded', function() {
             actualizarResultados();
         });
     });
-    
-    // Inicializar contador al cargar la página
-    actualizarResultados();
+
+    inicializarGridUnificado();
+    sincronizarTabsActivosDesdeBotones();
+    renderTabsActivosEnBotones();
+
+    function aplicarFiltroInicialDesdeUrl() {
+        // Prioriza el valor validado desde PHP y luego URL.
+        if (activarFiltroPorTipo(filtroActivo)) {
+            actualizarResultados();
+            return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const tipoDesdeUrl = (params.get('tipo') || '').toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+        if (tipoDesdeUrl) {
+            activarFiltroPorTipo(tipoDesdeUrl);
+        } else {
+            activarFiltroPorTipo('todos');
+        }
+        actualizarResultados();
+    }
+
+    // Aplicación inicial y reaplicación en load por si otro JS lo resetea.
+    aplicarFiltroInicialDesdeUrl();
+    window.addEventListener('load', function() {
+        setTimeout(aplicarFiltroInicialDesdeUrl, 0);
+    });
 });
 
 // Animación

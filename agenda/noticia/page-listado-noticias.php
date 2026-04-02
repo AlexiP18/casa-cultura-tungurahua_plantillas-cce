@@ -58,6 +58,25 @@ $categorias_noticias = array(
         'icono' => 'fa-newspaper'
     ),
 );
+
+// Ordenar filtros de categorías alfabéticamente por etiqueta.
+uasort($categorias_noticias, static function ($a, $b) {
+    $label_a = remove_accents($a['label'] ?? '');
+    $label_b = remove_accents($b['label'] ?? '');
+    return strcasecmp($label_a, $label_b);
+});
+
+$categoria_preseleccionada = '';
+if (isset($_GET['categoria'])) {
+    $categoria_preseleccionada = sanitize_key(wp_unslash($_GET['categoria']));
+} elseif (isset($_GET['cat_noticia'])) {
+    // Compatibilidad con enlaces antiguos.
+    $categoria_preseleccionada = sanitize_key(wp_unslash($_GET['cat_noticia']));
+}
+
+if (!isset($categorias_noticias[$categoria_preseleccionada])) {
+    $categoria_preseleccionada = '';
+}
 ?>
 
 <div class="noticias-archive-wrapper">
@@ -99,7 +118,7 @@ $categorias_noticias = array(
             <div class="container">
                 <div class="noticias-filtros-container">
                     <!-- Filtro "Todas" fijo -->
-                    <button class="chip-filtro filtro-todas active" data-categoria="todas">
+                    <button class="chip-filtro filtro-todas<?php echo $categoria_preseleccionada === '' ? ' active' : ''; ?>" data-categoria="todas">
                         <i class="fas fa-th"></i>
                         <span>Todas</span>
                     </button>
@@ -112,7 +131,7 @@ $categorias_noticias = array(
                         <div class="categorias-chips-wrapper">
                             <div class="categorias-chips">
                                 <?php foreach ($categorias_noticias as $key => $cat_data) : ?>
-                                    <button class="chip-filtro" data-categoria="<?php echo esc_attr($key); ?>">
+                                    <button class="chip-filtro<?php echo $categoria_preseleccionada === $key ? ' active' : ''; ?>" data-categoria="<?php echo esc_attr($key); ?>">
                                         <i class="fas <?php echo esc_attr($cat_data['icono']); ?>"></i>
                                         <span><?php echo esc_html($cat_data['label']); ?></span>
                                     </button>
@@ -252,8 +271,17 @@ $categorias_noticias = array(
     var chipsButtons = document.querySelectorAll('.chip-filtro');
     var noticiaCards = document.querySelectorAll('.noticia-card');
     var resultadosCount = document.getElementById('resultados-count');
+    var filtrosSection = document.querySelector('.noticias-filtros-section');
+    var chipsWrapper = document.querySelector('.categorias-chips-wrapper');
+    var prevBtn = document.getElementById('filtro-prev');
+    var nextBtn = document.getElementById('filtro-next');
+
+    // Si no está el listado renderizado (sin resultados), no ejecutar lógica de filtros.
+    if (!searchInput || !clearBtn || !resultadosCount || chipsButtons.length === 0 || noticiaCards.length === 0) {
+        return;
+    }
     
-    var filtroActivo = 'todas';
+    var filtroActivo = <?php echo wp_json_encode($categoria_preseleccionada ?: 'todas'); ?>;
     var busquedaActiva = '';
     var soloDestacados = false;
     var soloUrgentes = false;
@@ -345,7 +373,11 @@ $categorias_noticias = array(
         chipsButtons.forEach(function(btn) {
             btn.classList.remove('active');
         });
-        chipsButtons[0].classList.add('active');
+        if (chipsButtons[0]) {
+            chipsButtons[0].classList.add('active');
+        }
+
+        desplazarAChipSeleccionado('smooth');
         
         actualizarResultados();
     }
@@ -372,6 +404,7 @@ $categorias_noticias = array(
             });
             this.classList.add('active');
             filtroActivo = this.getAttribute('data-categoria');
+            desplazarAChipSeleccionado('smooth');
             actualizarResultados();
         });
     });
@@ -379,11 +412,55 @@ $categorias_noticias = array(
     // Inicializar contador
     actualizarResultados();
     
+    function desplazarAChipSeleccionado(behavior) {
+        if (!chipsWrapper) return;
+
+        if (filtroActivo === 'todas') {
+            chipsWrapper.scrollTo({ left: 0, behavior: behavior || 'smooth' });
+            setTimeout(actualizarBotonesNav, 250);
+            return;
+        }
+
+        var chipActivo = chipsWrapper.querySelector('.chip-filtro.active');
+        if (!chipActivo) return;
+
+        var wrapperRect = chipsWrapper.getBoundingClientRect();
+        var chipRect = chipActivo.getBoundingClientRect();
+        var maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
+
+        var targetScroll = chipsWrapper.scrollLeft
+            + (chipRect.left - wrapperRect.left)
+            - ((wrapperRect.width - chipRect.width) / 2);
+
+        var targetClamped = Math.max(0, Math.min(maxScroll, targetScroll));
+        chipsWrapper.scrollTo({ left: targetClamped, behavior: behavior || 'smooth' });
+        setTimeout(actualizarBotonesNav, 250);
+    }
+
     // Navegación de filtros con botones
-    var chipsWrapper = document.querySelector('.categorias-chips-wrapper');
-    var prevBtn = document.getElementById('filtro-prev');
-    var nextBtn = document.getElementById('filtro-next');
-    
+    function actualizarBotonesNav() {
+        if (!chipsWrapper || !prevBtn || !nextBtn) return;
+
+        var scrollLeft = chipsWrapper.scrollLeft;
+        var maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
+        
+        if (scrollLeft <= 0) {
+            prevBtn.style.opacity = '0.3';
+            prevBtn.style.cursor = 'default';
+        } else {
+            prevBtn.style.opacity = '1';
+            prevBtn.style.cursor = 'pointer';
+        }
+        
+        if (scrollLeft >= maxScroll - 1) {
+            nextBtn.style.opacity = '0.3';
+            nextBtn.style.cursor = 'default';
+        } else {
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+        }
+    }
+
     if (chipsWrapper && prevBtn && nextBtn) {
         prevBtn.addEventListener('click', function() {
             chipsWrapper.scrollBy({
@@ -398,31 +475,39 @@ $categorias_noticias = array(
                 behavior: 'smooth'
             });
         });
-        
-        // Actualizar visibilidad de botones según scroll
-        function actualizarBotonesNav() {
-            var scrollLeft = chipsWrapper.scrollLeft;
-            var maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
-            
-            if (scrollLeft <= 0) {
-                prevBtn.style.opacity = '0.3';
-                prevBtn.style.cursor = 'default';
-            } else {
-                prevBtn.style.opacity = '1';
-                prevBtn.style.cursor = 'pointer';
-            }
-            
-            if (scrollLeft >= maxScroll - 1) {
-                nextBtn.style.opacity = '0.3';
-                nextBtn.style.cursor = 'default';
-            } else {
-                nextBtn.style.opacity = '1';
-                nextBtn.style.cursor = 'pointer';
-            }
+
+        // En escritorio: scroll vertical del mouse dentro de filtros => scroll horizontal del slider.
+        if (filtrosSection) {
+            filtrosSection.addEventListener('wheel', function(e) {
+                if (window.innerWidth <= 768) return;
+
+                var maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
+                if (maxScroll <= 0) return;
+
+                var delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+                if (delta === 0) return;
+
+                var scrollAntes = chipsWrapper.scrollLeft;
+                var scrollDespues = Math.max(0, Math.min(maxScroll, scrollAntes + delta));
+
+                if (scrollDespues !== scrollAntes) {
+                    e.preventDefault();
+                    chipsWrapper.scrollLeft = scrollDespues;
+                    actualizarBotonesNav();
+                }
+            }, { passive: false });
         }
-        
+
         chipsWrapper.addEventListener('scroll', actualizarBotonesNav);
         actualizarBotonesNav();
+        desplazarAChipSeleccionado('auto');
+
+        // Reaplicar al cargar completamente por si cambian medidas de layout/fuentes.
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                desplazarAChipSeleccionado('smooth');
+            }, 0);
+        });
     }
 })();
 </script>

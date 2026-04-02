@@ -235,12 +235,14 @@
 
 .noticias-filtros-section .container {
     padding: 0 10px;
+    overflow: hidden;
 }
 
 .noticias-filtros-container {
     display: flex;
     gap: 20px;
     align-items: center;
+    min-width: 0;
 }
 
 /* ===== FILTROS ESPECIALES (Urgente / Destacado) ===== */
@@ -357,6 +359,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    min-width: 0;
     overflow: hidden;
 }
 
@@ -371,26 +374,39 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
     color: #ffffff;
     font-size: 1.2rem;
     flex-shrink: 0;
     box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
 }
 
+.filtro-nav-btn i {
+    transition: transform 0.25s ease;
+}
+
 .filtro-nav-btn:hover {
     background: #27ae60;
-    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
 }
 
+.filtro-nav-btn:hover i {
+    transform: scale(1.08);
+}
+
 .filtro-nav-btn:active {
-    transform: scale(0.95);
+    background: #229954;
+}
+
+.filtro-nav-btn:active i {
+    transform: scale(0.92);
 }
 
 /* Wrapper con scroll */
 .categorias-chips-wrapper {
     flex: 1;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;

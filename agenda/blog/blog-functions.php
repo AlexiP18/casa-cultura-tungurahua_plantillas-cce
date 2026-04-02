@@ -956,7 +956,7 @@ function cc_enqueue_blog_assets() {
             'cc-blog-styles',
             get_template_directory_uri() . '/plantillas/agenda/blog/blog-styles.css',
             array(),
-            '1.0.0'
+            '1.0.1'
         );
         
         // JavaScript

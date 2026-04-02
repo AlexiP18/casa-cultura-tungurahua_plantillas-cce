@@ -400,7 +400,7 @@ function cc_get_eventos_proximos($limit = 6) {
         ),
         'meta_key' => 'evento_fecha_inicio',
         'orderby' => 'meta_value',
-        'order' => 'ASC'
+        'order' => 'DESC'
     );
     
     return new WP_Query($args);
@@ -751,7 +751,7 @@ function cc_shortcode_eventos_carousel($atts) {
         'cc-eventos-carousel-styles',
         get_template_directory_uri() . '/plantillas/agenda/evento/eventos-carousel-styles.css',
         array(),
-        '1.0.0'
+        '1.0.1'
     );
 
     // Query: eventos destacados (futuros)
@@ -823,6 +823,9 @@ function cc_shortcode_eventos_carousel($atts) {
         }
         $query->rewind_posts();
     }
+
+    // Ordenar filtros por etiqueta (A-Z), manteniendo sus keys como data-filter
+    asort($tipos_encontrados, SORT_NATURAL | SORT_FLAG_CASE);
 
     ob_start();
     ?>

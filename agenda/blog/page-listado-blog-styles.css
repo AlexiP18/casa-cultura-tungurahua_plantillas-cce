@@ -210,12 +210,14 @@
 
 .blog-filtros-section .container {
     padding: 0 20px;
+    overflow: hidden;
 }
 
 .blog-filtros-container {
     display: flex;
     gap: 20px;
     align-items: center;
+    min-width: 0;
 }
 
 /* ===== FILTROS ESPECIALES (Urgente / Destacado) ===== */
@@ -333,7 +335,9 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    min-width: 0;
     overflow: hidden;
+    padding: 0;
 }
 
 /* Botones de navegación de filtros */
@@ -347,26 +351,39 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
     color: #ffffff;
     font-size: 1.2rem;
     flex-shrink: 0;
     box-shadow: 0 2px 8px rgba(155, 89, 182, 0.3);
 }
 
+.filtro-nav-btn i {
+    transition: transform 0.25s ease;
+}
+
 .filtro-nav-btn:hover {
     background: #8e44ad;
-    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
 }
 
+.filtro-nav-btn:hover i {
+    transform: scale(1.08);
+}
+
 .filtro-nav-btn:active {
-    transform: scale(0.95);
+    background: #7d3c98;
+}
+
+.filtro-nav-btn:active i {
+    transform: scale(0.92);
 }
 
 /* Wrapper con scroll */
 .categorias-chips-wrapper {
     flex: 1;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;

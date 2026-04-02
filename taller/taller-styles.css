@@ -66,7 +66,7 @@ header,
 }
 
 .taller-header-texto {
-    font-size: 19px;
+    font-size: clamp(21px, 2.4vw, 29px);
     font-weight: 800;
     color: var(--cat-color, #2c3e50);
     text-transform: uppercase;
@@ -101,15 +101,15 @@ header,
 .taller-header-der {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     padding: 24px 34px;
-    text-align: left;
+    text-align: center;
     position: relative;
     z-index: 1;
 }
 
 .taller-header-der h1 {
-    font-size: clamp(21px, 2.4vw, 29px);
+    font-size: 22px;
     font-weight: 800;
     color: #1f3a56;
     margin: 0;
@@ -132,7 +132,7 @@ header,
     }
 
     .taller-header-texto {
-        font-size: 18px;
+        font-size: 22px;
         letter-spacing: 1.4px;
     }
 
@@ -144,18 +144,22 @@ header,
 
     .taller-header-der {
         padding: 20px 18px 22px;
-        text-align: left;
+        text-align: center;
     }
 
     .taller-header-der h1 {
-        font-size: 16px;
+        font-size: 18px;
         line-height: 1.2;
     }
 }
 
 @media (max-width: 480px) {
+    .taller-header-texto {
+        font-size: 20px;
+    }
+
     .taller-header-der h1 {
-        font-size: 15px;
+        font-size: 18px;
     }
 }
 
@@ -1245,6 +1249,14 @@ header,
 
     .talleres-hero-titulo {
         font-size: 32px;
+    }
+}
+
+/* Override de Pagelayer en móviles pequeños:
+   body.pagelayer-body h1 { font-size: 30px; } */
+@media (max-width: 500px) {
+    body.pagelayer-body .taller-header-der h1 {
+        font-size: 18px !important;
     }
 }
 

@@ -1956,6 +1956,22 @@
     .blog-navegacion {
         flex-direction: column;
         gap: 15px;
+        align-items: stretch;
+    }
+
+    .nav-post,
+    .nav-post-link {
+        width: 100%;
+    }
+
+    .nav-title {
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .nav-post-center {

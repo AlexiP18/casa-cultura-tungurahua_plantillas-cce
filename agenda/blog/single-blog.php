@@ -37,6 +37,23 @@ get_header(); ?>
     $archivos = cc_get_blog_archivos();
     
     $enlace_externo = get_field('blog_enlace_externo');
+
+    // URL del listado de blog: prioriza la página con template de listado.
+    $blog_listado_url = get_post_type_archive_link('blog');
+    $blog_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'agenda/blog/page-listado-blog.php',
+        'number' => 1,
+    ));
+
+    if (!empty($blog_pages)) {
+        $blog_listado_url = get_permalink($blog_pages[0]->ID);
+    } else {
+        $blog_page_by_path = get_page_by_path('home/agenda-cultural/blog_cce');
+        if ($blog_page_by_path instanceof WP_Post) {
+            $blog_listado_url = get_permalink($blog_page_by_path->ID);
+        }
+    }
 ?>
 
 <article class="blog-entry-wrapper">
@@ -65,7 +82,7 @@ get_header(); ?>
                 
                 <!-- Breadcrumb -->
                 <div class="breadcrumb-blog">
-                    <a href="<?php echo get_post_type_archive_link('blog'); ?>">
+                    <a href="<?php echo esc_url($blog_listado_url); ?>">
                         <i class="fas fa-home"></i> Blog
                     </a>
                     <span class="separator">/</span>
@@ -366,7 +383,7 @@ get_header(); ?>
                             <?php endif; ?>
                         </div>
                         
-                        <a href="<?php echo get_post_type_archive_link('blog'); ?>" class="nav-post-center">
+                        <a href="<?php echo esc_url($blog_listado_url); ?>" class="nav-post-center">
                             <i class="fas fa-th"></i>
                         </a>
                         
@@ -491,7 +508,7 @@ get_header(); ?>
                                 if ($count->found_posts > 0):
                             ?>
                                 <li>
-                                    <a href="<?php echo add_query_arg('cat_blog', $cat_key, get_post_type_archive_link('blog')); ?>">
+                                    <a href="<?php echo esc_url(add_query_arg('categoria', $cat_key, $blog_listado_url)); ?>">
                                         <span class="cat-icon" style="background: <?php echo $cat_info['color']; ?>;">
                                             <i class="fas <?php echo $cat_info['icon']; ?>"></i>
                                         </span>
@@ -507,7 +524,7 @@ get_header(); ?>
                         </ul>
                     </div>
                     
-                    <!-- Noticias Destacadas y Urgentes -->
+                    <!-- Entradas Destacadas y Urgentes -->
                     <div class="sidebar-widget widget-noticias-tabs">
                         <div class="widget-tabs-header">
                             <button class="widget-tab-btn active" onclick="cambiarTabNoticias('urgentes')">
@@ -522,12 +539,13 @@ get_header(); ?>
                             <!-- Tab Urgentes -->
                             <div id="tab-urgentes" class="widget-tab-panel active">
                                 <?php 
-                                $noticias_urgentes = new WP_Query(array(
-                                    'post_type' => 'noticia',
+                                $blogs_urgentes = new WP_Query(array(
+                                    'post_type' => 'blog',
                                     'posts_per_page' => 15,
+                                    'post__not_in' => array(get_the_ID()),
                                     'meta_query' => array(
                                         array(
-                                            'key' => 'noticia_urgente',
+                                            'key' => 'blog_urgente',
                                             'value' => '1',
                                             'compare' => '='
                                         )
@@ -536,15 +554,15 @@ get_header(); ?>
                                     'order' => 'DESC'
                                 ));
                                 
-                                if ($noticias_urgentes->have_posts()):
+                                if ($blogs_urgentes->have_posts()):
                                 ?>
                                     <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
-                                        <?php while ($noticias_urgentes->have_posts()): $noticias_urgentes->the_post(); 
-                                            $not_imagen = get_field('noticia_imagen_principal');
+                                        <?php while ($blogs_urgentes->have_posts()): $blogs_urgentes->the_post(); 
+                                            $blog_imagen = get_field('blog_imagen_destacada');
                                         ?>
                                             <li class="item-noticia-importante">
-                                                <?php if ($not_imagen): ?>
-                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                                <?php if ($blog_imagen): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($blog_imagen['sizes']['thumbnail'] ?? $blog_imagen['url']); ?>');"></div>
                                                 <?php elseif (has_post_thumbnail()): ?>
                                                     <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
                                                 <?php endif; ?>
@@ -559,19 +577,20 @@ get_header(); ?>
                                         <?php endwhile; wp_reset_postdata(); ?>
                                     </ul>
                                 <?php else: ?>
-                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias urgentes en este momento.</p>
+                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay entradas urgentes en este momento.</p>
                                 <?php endif; ?>
                             </div>
                             
                             <!-- Tab Destacadas -->
                             <div id="tab-destacadas" class="widget-tab-panel">
                                 <?php 
-                                $noticias_destacadas = new WP_Query(array(
-                                    'post_type' => 'noticia',
+                                $blogs_destacados = new WP_Query(array(
+                                    'post_type' => 'blog',
                                     'posts_per_page' => 15,
+                                    'post__not_in' => array(get_the_ID()),
                                     'meta_query' => array(
                                         array(
-                                            'key' => 'noticia_destacada',
+                                            'key' => 'blog_destacada',
                                             'value' => '1',
                                             'compare' => '='
                                         )
@@ -580,15 +599,15 @@ get_header(); ?>
                                     'order' => 'DESC'
                                 ));
                                 
-                                if ($noticias_destacadas->have_posts()):
+                                if ($blogs_destacados->have_posts()):
                                 ?>
                                     <ul class="entradas-recientes-list noticias-importantes-list scrollable-list">
-                                        <?php while ($noticias_destacadas->have_posts()): $noticias_destacadas->the_post(); 
-                                            $not_imagen = get_field('noticia_imagen_principal');
+                                        <?php while ($blogs_destacados->have_posts()): $blogs_destacados->the_post(); 
+                                            $blog_imagen = get_field('blog_imagen_destacada');
                                         ?>
                                             <li class="item-noticia-importante">
-                                                <?php if ($not_imagen): ?>
-                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($not_imagen['sizes']['thumbnail'] ?? $not_imagen['url']); ?>');"></div>
+                                                <?php if ($blog_imagen): ?>
+                                                    <div class="reciente-thumb" style="background-image: url('<?php echo esc_url($blog_imagen['sizes']['thumbnail'] ?? $blog_imagen['url']); ?>');"></div>
                                                 <?php elseif (has_post_thumbnail()): ?>
                                                     <div class="reciente-thumb" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'thumbnail'); ?>');"></div>
                                                 <?php endif; ?>
@@ -603,7 +622,7 @@ get_header(); ?>
                                         <?php endwhile; wp_reset_postdata(); ?>
                                     </ul>
                                 <?php else: ?>
-                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay noticias destacadas en este momento.</p>
+                                    <p class="tab-empty-msg"><i class="fas fa-info-circle"></i> No hay entradas destacadas en este momento.</p>
                                 <?php endif; ?>
                             </div>
                         </div>

@@ -4,7 +4,28 @@
  * Casa de la Cultura - Eventos Culturales
  */
 
-get_header(); ?>
+get_header();
+
+$tipos_evento_filtros = array(
+    'teatro' => array('label' => 'Teatro', 'icono' => 'fa-theater-masks'),
+    'musica' => array('label' => 'Música', 'icono' => 'fa-music'),
+    'danza' => array('label' => 'Danza', 'icono' => 'fa-running'),
+    'exposicion' => array('label' => 'Exposiciones', 'icono' => 'fa-image'),
+    'taller' => array('label' => 'Talleres', 'icono' => 'fa-palette'),
+    'conferencia' => array('label' => 'Conferencias', 'icono' => 'fa-microphone'),
+    'conversatorio' => array('label' => 'Conversatorios', 'icono' => 'fa-comments'),
+    'cine' => array('label' => 'Cine', 'icono' => 'fa-film'),
+    'literario' => array('label' => 'Literario', 'icono' => 'fa-book'),
+    'concurso' => array('label' => 'Concursos', 'icono' => 'fa-trophy'),
+    'festival' => array('label' => 'Festivales', 'icono' => 'fa-star'),
+    'otro' => array('label' => 'Otros', 'icono' => 'fa-calendar-check'),
+);
+
+$tipo_preseleccionado = isset($_GET['tipo']) ? sanitize_key(wp_unslash($_GET['tipo'])) : '';
+if (!isset($tipos_evento_filtros[$tipo_preseleccionado])) {
+    $tipo_preseleccionado = '';
+}
+?>
 
 <div class="archivo-eventos-wrapper">
     
@@ -29,7 +50,7 @@ get_header(); ?>
             <div class="filtros-eventos-container">
                 
                 <!-- Filtro "Todos" fijo -->
-                <button class="filtro-evento-btn filtro-todos active" data-tipo="todos">
+                <button class="filtro-evento-btn filtro-todos<?php echo $tipo_preseleccionado === '' ? ' active' : ''; ?>" data-tipo="todos">
                     <span class="filtro-icono"><i class="fas fa-list"></i></span>
                     <span>Todos</span>
                 </button>
@@ -42,54 +63,12 @@ get_header(); ?>
                     
                     <div class="filtros-slider" id="filtrosSlider">
                         <div class="filtros-slider-track">
-                            <button class="filtro-evento-btn" data-tipo="teatro">
-                                <span class="filtro-icono"><i class="fas fa-theater-masks"></i></span>
-                                <span>Teatro</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="musica">
-                                <span class="filtro-icono"><i class="fas fa-music"></i></span>
-                                <span>Música</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="danza">
-                                <span class="filtro-icono"><i class="fas fa-running"></i></span>
-                                <span>Danza</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="exposicion">
-                                <span class="filtro-icono"><i class="fas fa-image"></i></span>
-                                <span>Exposiciones</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="taller">
-                                <span class="filtro-icono"><i class="fas fa-palette"></i></span>
-                                <span>Talleres</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="conferencia">
-                                <span class="filtro-icono"><i class="fas fa-microphone"></i></span>
-                                <span>Conferencias</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="conversatorio">
-                                <span class="filtro-icono"><i class="fas fa-comments"></i></span>
-                                <span>Conversatorios</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="cine">
-                                <span class="filtro-icono"><i class="fas fa-film"></i></span>
-                                <span>Cine</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="literario">
-                                <span class="filtro-icono"><i class="fas fa-book"></i></span>
-                                <span>Literario</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="concurso">
-                                <span class="filtro-icono"><i class="fas fa-trophy"></i></span>
-                                <span>Concursos</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="festival">
-                                <span class="filtro-icono"><i class="fas fa-star"></i></span>
-                                <span>Festivales</span>
-                            </button>
-                            <button class="filtro-evento-btn" data-tipo="otro">
-                                <span class="filtro-icono"><i class="fas fa-calendar-check"></i></span>
-                                <span>Otros</span>
-                            </button>
+                            <?php foreach ($tipos_evento_filtros as $tipo_key => $tipo_data) : ?>
+                                <button class="filtro-evento-btn<?php echo $tipo_preseleccionado === $tipo_key ? ' active' : ''; ?>" data-tipo="<?php echo esc_attr($tipo_key); ?>">
+                                    <span class="filtro-icono"><i class="fas <?php echo esc_attr($tipo_data['icono']); ?>"></i></span>
+                                    <span><?php echo esc_html($tipo_data['label']); ?></span>
+                                </button>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     
@@ -416,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Variables de estado
     let terminoBusqueda = '';
-    let filtroActivo = 'todos';
+    let filtroActivo = <?php echo wp_json_encode($tipo_preseleccionado ?: 'todos'); ?>;
     let soloDestacados = false;
     
     // Elementos del buscador
@@ -539,15 +518,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    function activarFiltroPorTipo(tipo) {
+        if (!tipo) return false;
+
+        const filtroBtn = document.querySelector('.filtro-evento-btn[data-tipo="' + tipo + '"]');
+        if (!filtroBtn) return false;
+
+        filtroActivo = tipo;
+        filtros.forEach(f => f.classList.remove('active'));
+        filtroBtn.classList.add('active');
+        return true;
+    }
     
     // Filtros por tipo
     filtros.forEach(filtro => {
         filtro.addEventListener('click', function() {
-            filtroActivo = this.getAttribute('data-tipo');
-            
-            // Actualizar filtro activo
-            filtros.forEach(f => f.classList.remove('active'));
-            this.classList.add('active');
+            activarFiltroPorTipo(this.getAttribute('data-tipo'));
             
             // Filtrar cards
             actualizarResultados();
@@ -576,12 +563,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Resetear filtro al cambiar de tab
-            const primerFiltro = document.querySelector('.filtro-evento-btn[data-tipo="todos"]');
-            if (primerFiltro) {
-                primerFiltro.click();
-            }
+            activarFiltroPorTipo('todos');
+            actualizarResultados();
         });
     });
+
+    // Preselección inicial: PHP + fallback URL
+    if (!activarFiltroPorTipo(filtroActivo)) {
+        const params = new URLSearchParams(window.location.search);
+        const tipoDesdeUrl = (params.get('tipo') || '').toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+        if (tipoDesdeUrl) {
+            activarFiltroPorTipo(tipoDesdeUrl);
+        } else {
+            activarFiltroPorTipo('todos');
+        }
+    }
+
+    actualizarResultados();
 });
 
 // Animación

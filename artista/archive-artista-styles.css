@@ -297,18 +297,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
     font-size: 16px;
+}
+
+.slider-nav-btn i {
+    transition: transform 0.25s ease;
 }
 
 .slider-nav-btn:hover {
     background: #1d5695;
     color: white;
-    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(29, 86, 149, 0.35);
+}
+
+.slider-nav-btn:hover i {
+    transform: scale(1.08);
 }
 
 .slider-nav-btn:active {
-    transform: scale(0.95);
+    background: #184a80;
+}
+
+.slider-nav-btn:active i {
+    transform: scale(0.92);
 }
 
 .chip-filtro {

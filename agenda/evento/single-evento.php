@@ -72,6 +72,23 @@ get_header(); ?>
     );
     
     $tipo_info = $tipos_evento[$tipo] ?? $tipos_evento['otro'];
+
+    // URL del listado de eventos: prioriza la página con template de listado.
+    $eventos_listado_url = get_post_type_archive_link('evento');
+    $eventos_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'agenda/evento/page-listado-eventos.php',
+        'number' => 1,
+    ));
+
+    if (!empty($eventos_pages)) {
+        $eventos_listado_url = get_permalink($eventos_pages[0]->ID);
+    } else {
+        $eventos_page_by_path = get_page_by_path('home/agenda-cultural/eventos');
+        if ($eventos_page_by_path instanceof WP_Post) {
+            $eventos_listado_url = get_permalink($eventos_page_by_path->ID);
+        }
+    }
 ?>
 
 <div class="evento-wrapper">
@@ -91,7 +108,7 @@ get_header(); ?>
                 
                 <!-- Breadcrumb -->
                 <div class="breadcrumb-evento">
-                    <a href="<?php echo get_post_type_archive_link('evento'); ?>">
+                    <a href="<?php echo esc_url($eventos_listado_url); ?>">
                         <i class="fas fa-home"></i> Eventos
                     </a>
                     <span class="separator">/</span>
@@ -397,6 +414,9 @@ get_header(); ?>
                             </div>
                         </section>
                     <?php endif; ?>
+
+                    <!-- En móvil: aquí se reubican dinámicamente las cards de Información y Organización -->
+                    <div class="evento-mobile-info-slot" id="evento-mobile-info-slot"></div>
                     
                     <!-- Navegación entre eventos -->
                     <div class="evento-navegacion">
@@ -418,7 +438,7 @@ get_header(); ?>
                             <?php endif; ?>
                         </div>
                         
-                        <a href="<?php echo get_post_type_archive_link('evento'); ?>" class="nav-evento-center">
+                        <a href="<?php echo esc_url($eventos_listado_url); ?>" class="nav-evento-center">
                             <i class="fas fa-th"></i>
                         </a>
                         
@@ -502,7 +522,7 @@ get_header(); ?>
                 <aside class="evento-sidebar">
                     
                     <!-- Card de Información -->
-                    <div class="evento-card-info">
+                    <div class="evento-card-info" id="evento-card-info-principal">
                         <h3><i class="fas fa-info-circle"></i> Información</h3>
                         
                         <div class="info-item">
@@ -612,7 +632,7 @@ get_header(); ?>
                     
                     <!-- Card de Organización -->
                     <?php if ($organizador || $contacto_nombre || $facebook || $instagram || $twitter || $youtube || $tiktok || !empty($patrocinadores)): ?>
-                        <div class="evento-card-info">
+                        <div class="evento-card-info" id="evento-card-info-organizacion">
                             <h3><i class="fas fa-building"></i> Organización</h3>
                             
                             <?php if ($organizador): ?>
@@ -753,7 +773,7 @@ get_header(); ?>
                                 if ($count->found_posts > 0):
                             ?>
                                 <li>
-                                    <a href="<?php echo add_query_arg('tipo', $cat_key, get_post_type_archive_link('evento')); ?>">
+                                    <a href="<?php echo esc_url(add_query_arg('tipo', $cat_key, $eventos_listado_url)); ?>">
                                         <span class="cat-icon" style="background: <?php echo isset($cat_info['color']) ? $cat_info['color'] : '#3498db'; ?>;">
                                             <?php echo $cat_info['icon']; ?>
                                         </span>
@@ -905,6 +925,44 @@ if (document.querySelectorAll('.slide-evento').length > 1) {
 }
 
 // La barra de compartir es estática, no necesita JS de toggle
+
+// Reordenar cards de sidebar solo en móvil (después de Etiquetas)
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileSlot = document.getElementById('evento-mobile-info-slot');
+    const sidebar = document.querySelector('.evento-sidebar');
+    const infoCard = document.getElementById('evento-card-info-principal');
+    const orgCard = document.getElementById('evento-card-info-organizacion');
+    const mq = window.matchMedia('(max-width: 768px)');
+
+    if (!mobileSlot || !sidebar || !infoCard) return;
+
+    function moveCardsForViewport() {
+        const firstWidget = sidebar.querySelector('.sidebar-widget');
+
+        if (mq.matches) {
+            if (infoCard.parentNode !== mobileSlot) {
+                mobileSlot.appendChild(infoCard);
+            }
+            if (orgCard && orgCard.parentNode !== mobileSlot) {
+                mobileSlot.appendChild(orgCard);
+            }
+        } else {
+            if (infoCard.parentNode !== sidebar) {
+                sidebar.insertBefore(infoCard, firstWidget || null);
+            }
+            if (orgCard && orgCard.parentNode !== sidebar) {
+                sidebar.insertBefore(orgCard, firstWidget || null);
+            }
+        }
+    }
+
+    moveCardsForViewport();
+    if (typeof mq.addEventListener === 'function') {
+        mq.addEventListener('change', moveCardsForViewport);
+    } else if (typeof mq.addListener === 'function') {
+        mq.addListener(moveCardsForViewport);
+    }
+});
 </script>
 
 <?php endwhile; ?>

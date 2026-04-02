@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 15px;
     margin-bottom: 30px;
     padding-bottom: 20px;
@@ -45,7 +45,14 @@
 .ev-carousel-filtros {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 4px;
     order: 1;
     /* Filtros a la izquierda */
 }
@@ -65,6 +72,7 @@
     transition: all 0.3s ease;
     font-family: inherit;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .ev-carousel-filtro-btn:hover {

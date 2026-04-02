@@ -194,7 +194,7 @@ function ccct_load_talleres_styles() {
  */
 function ccct_enqueue_taller_assets() {
     if (is_singular('taller') || is_page_template('page-listado-talleres.php')) {
-        wp_enqueue_style('taller-styles', get_template_directory_uri() . '/plantillas/taller/taller-styles.css', array(), '1.0.0');
+        wp_enqueue_style('taller-styles', get_template_directory_uri() . '/plantillas/taller/taller-styles.css', array(), '1.0.10');
         
         // Sticky Filters for Listado
         if (is_page_template('page-listado-talleres.php')) {

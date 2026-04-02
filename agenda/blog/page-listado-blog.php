@@ -62,6 +62,25 @@ $categorias_blog = array(
         'color' => '#95a5a6'
     ),
 );
+
+// Ordenar filtros de categorías alfabéticamente por etiqueta.
+uasort($categorias_blog, static function ($a, $b) {
+    $label_a = remove_accents($a['label'] ?? '');
+    $label_b = remove_accents($b['label'] ?? '');
+    return strcasecmp($label_a, $label_b);
+});
+
+$categoria_preseleccionada = '';
+if (isset($_GET['categoria'])) {
+    $categoria_preseleccionada = sanitize_key(wp_unslash($_GET['categoria']));
+} elseif (isset($_GET['cat_blog'])) {
+    // Compatibilidad con enlaces antiguos.
+    $categoria_preseleccionada = sanitize_key(wp_unslash($_GET['cat_blog']));
+}
+
+if (!isset($categorias_blog[$categoria_preseleccionada])) {
+    $categoria_preseleccionada = '';
+}
 ?>
 
 <div class="blog-archive-wrapper">
@@ -103,7 +122,7 @@ $categorias_blog = array(
             <div class="container">
                 <div class="blog-filtros-container">
                     <!-- Filtro "Todas" fijo -->
-                    <button class="chip-filtro filtro-todas active" data-categoria="todas">
+                    <button class="chip-filtro filtro-todas<?php echo $categoria_preseleccionada === '' ? ' active' : ''; ?>" data-categoria="todas">
                         <i class="fas fa-th"></i>
                         <span>Todas</span>
                     </button>
@@ -116,7 +135,7 @@ $categorias_blog = array(
                         <div class="categorias-chips-wrapper">
                             <div class="categorias-chips">
                                 <?php foreach ($categorias_blog as $key => $cat_data) : ?>
-                                    <button class="chip-filtro" data-categoria="<?php echo esc_attr($key); ?>">
+                                    <button class="chip-filtro<?php echo $categoria_preseleccionada === $key ? ' active' : ''; ?>" data-categoria="<?php echo esc_attr($key); ?>">
                                         <i class="fas <?php echo esc_attr($cat_data['icono']); ?>"></i>
                                         <span><?php echo esc_html($cat_data['label']); ?></span>
                                     </button>
@@ -269,11 +288,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultadosCount = document.getElementById('resultados-count');
     
     // Navegación de filtros
+    const filtrosSection = document.querySelector('.blog-filtros-section');
     const chipsWrapper = document.querySelector('.categorias-chips-wrapper');
     const prevBtn = document.getElementById('filtro-prev');
     const nextBtn = document.getElementById('filtro-next');
     
-    let categoriaActual = 'todas';
+    let categoriaActual = <?php echo wp_json_encode($categoria_preseleccionada ?: 'todas'); ?>;
     let terminoBusqueda = '';
     let soloDestacados = false;
     let soloUrgentes = false;
@@ -355,10 +375,37 @@ document.addEventListener('DOMContentLoaded', function() {
             
             chips.forEach(c => c.classList.remove('active'));
             this.classList.add('active');
+
+            desplazarAChipSeleccionado('smooth');
             
             actualizarResultados();
         });
     });
+
+    function desplazarAChipSeleccionado(behavior = 'smooth') {
+        if (!chipsWrapper) return;
+
+        if (categoriaActual === 'todas') {
+            chipsWrapper.scrollTo({ left: 0, behavior: behavior });
+            setTimeout(actualizarBotonesNav, 250);
+            return;
+        }
+
+        const chipActivo = chipsWrapper.querySelector('.chip-filtro.active');
+        if (!chipActivo) return;
+
+        const wrapperRect = chipsWrapper.getBoundingClientRect();
+        const chipRect = chipActivo.getBoundingClientRect();
+        const maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
+
+        const targetScroll = chipsWrapper.scrollLeft
+            + (chipRect.left - wrapperRect.left)
+            - ((wrapperRect.width - chipRect.width) / 2);
+
+        const targetClamped = Math.max(0, Math.min(maxScroll, targetScroll));
+        chipsWrapper.scrollTo({ left: targetClamped, behavior: behavior });
+        setTimeout(actualizarBotonesNav, 250);
+    }
     
     // Navegación horizontal de filtros
     function actualizarBotonesNav() {
@@ -391,9 +438,39 @@ document.addEventListener('DOMContentLoaded', function() {
         chipsWrapper.scrollBy({ left: 200, behavior: 'smooth' });
         setTimeout(actualizarBotonesNav, 300);
     });
+
+    // En escritorio: scroll vertical del mouse dentro de filtros => scroll horizontal del slider.
+    if (filtrosSection && chipsWrapper) {
+        filtrosSection.addEventListener('wheel', function(e) {
+            if (window.innerWidth <= 768) return;
+
+            const maxScroll = chipsWrapper.scrollWidth - chipsWrapper.clientWidth;
+            if (maxScroll <= 0) return;
+
+            const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+            if (delta === 0) return;
+
+            const scrollAntes = chipsWrapper.scrollLeft;
+            const scrollDespues = Math.max(0, Math.min(maxScroll, scrollAntes + delta));
+
+            if (scrollDespues !== scrollAntes) {
+                e.preventDefault();
+                chipsWrapper.scrollLeft = scrollDespues;
+                actualizarBotonesNav();
+            }
+        }, { passive: false });
+    }
     
     chipsWrapper.addEventListener('scroll', actualizarBotonesNav);
     actualizarBotonesNav();
+    desplazarAChipSeleccionado('auto');
+
+    // Reaplicar al cargar completamente por si cambian medidas de layout/fuentes.
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            desplazarAChipSeleccionado('smooth');
+        }, 0);
+    });
     
     // Inicializar contador al cargar la página
     actualizarResultados();

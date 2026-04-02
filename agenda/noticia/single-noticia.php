@@ -26,6 +26,27 @@ get_header(); ?>
     
     // Archivos adjuntos
     $archivos = cc_get_archivos_adjuntos();
+
+    // URL del listado de noticias: prioriza la página con template de listado.
+    $noticias_listado_url = get_post_type_archive_link('noticia');
+    $noticias_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'agenda/noticia/page-listado-noticias.php',
+        'number' => 1,
+    ));
+
+    if (!empty($noticias_pages)) {
+        $noticias_listado_url = get_permalink($noticias_pages[0]->ID);
+    } else {
+        $noticias_page_by_path = get_page_by_path('home/agenda-cultural/noticias_cce');
+        if (!($noticias_page_by_path instanceof WP_Post)) {
+            $noticias_page_by_path = get_page_by_path('home/agenda-cultural/noticias');
+        }
+
+        if ($noticias_page_by_path instanceof WP_Post) {
+            $noticias_listado_url = get_permalink($noticias_page_by_path->ID);
+        }
+    }
 ?>
 
 <article class="noticia-wrapper">
@@ -55,7 +76,7 @@ get_header(); ?>
                 
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb-noticia">
-                    <a href="<?php echo get_post_type_archive_link('noticia'); ?>">
+                    <a href="<?php echo esc_url($noticias_listado_url); ?>">
                         <i class="fas fa-home"></i> Noticias
                     </a>
                     <span class="separator">/</span>
@@ -333,7 +354,7 @@ get_header(); ?>
                         <?php endif; ?>
                     </div>
                     
-                    <a href="<?php echo get_post_type_archive_link('noticia'); ?>" class="nav-noticia-center">
+                    <a href="<?php echo esc_url($noticias_listado_url); ?>" class="nav-noticia-center">
                         <i class="fas fa-th"></i>
                     </a>
                     
@@ -393,6 +414,7 @@ get_header(); ?>
                                             </a>
                                             <span class="relacionada-categoria" style="background: <?php echo $cat_info['color']; ?>;">
                                                 <i class="fas <?php echo $cat_info['icon']; ?>"></i>
+                                                <span class="relacionada-categoria-texto"><?php echo esc_html($cat_info['label']); ?></span>
                                             </span>
                                         </div>
                                     <?php elseif (has_post_thumbnail()): ?>
@@ -403,6 +425,7 @@ get_header(); ?>
                                             </a>
                                             <span class="relacionada-categoria" style="background: <?php echo $cat_info['color']; ?>;">
                                                 <i class="fas <?php echo $cat_info['icon']; ?>"></i>
+                                                <span class="relacionada-categoria-texto"><?php echo esc_html($cat_info['label']); ?></span>
                                             </span>
                                         </div>
                                     <?php endif; ?>
@@ -505,7 +528,7 @@ get_header(); ?>
                             if ($count_query->found_posts > 0):
                         ?>
                             <li>
-                                <a href="<?php echo add_query_arg('categoria', $cat_key, get_post_type_archive_link('noticia')); ?>" class="cat-link-sidebar">
+                                <a href="<?php echo esc_url(add_query_arg('categoria', $cat_key, $noticias_listado_url)); ?>" class="cat-link-sidebar">
                                     <span class="cat-icon">
                                         <i class="fas <?php echo esc_attr($cat_data['icono']); ?>"></i>
                                     </span>

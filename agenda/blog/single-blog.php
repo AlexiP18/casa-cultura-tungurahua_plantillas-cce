@@ -491,6 +491,12 @@ get_header(); ?>
                                 'opinion' => array('label' => 'Opinión', 'icon' => 'fa-comments', 'color' => '#34495e'),
                                 'general' => array('label' => 'General', 'icon' => 'fa-edit', 'color' => '#95a5a6')
                             );
+
+                            uasort($categorias_blog, static function ($a, $b) {
+                                $label_a = remove_accents($a['label'] ?? '');
+                                $label_b = remove_accents($b['label'] ?? '');
+                                return strcasecmp($label_a, $label_b);
+                            });
                             
                             foreach ($categorias_blog as $cat_key => $cat_info):
                                 $count = new WP_Query(array(

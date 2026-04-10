@@ -501,6 +501,12 @@ get_header(); ?>
                         'icono' => 'fa-newspaper'
                     ),
                 );
+
+                uasort($categorias_noticias, static function ($a, $b) {
+                    $label_a = remove_accents($a['label'] ?? '');
+                    $label_b = remove_accents($b['label'] ?? '');
+                    return strcasecmp($label_a, $label_b);
+                });
                 ?>
                 
                 <!-- Widget Categorías -->

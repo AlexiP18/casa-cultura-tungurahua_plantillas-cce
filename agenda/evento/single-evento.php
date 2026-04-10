@@ -757,7 +757,14 @@ get_header(); ?>
                         </h3>
                         <ul class="categorias-list-blog">
                             <?php 
-                            foreach ($tipos_evento as $cat_key => $cat_info):
+                            $tipos_evento_ordenados = $tipos_evento;
+                            uasort($tipos_evento_ordenados, static function ($a, $b) {
+                                $label_a = remove_accents($a['label'] ?? '');
+                                $label_b = remove_accents($b['label'] ?? '');
+                                return strcasecmp($label_a, $label_b);
+                            });
+
+                            foreach ($tipos_evento_ordenados as $cat_key => $cat_info):
                                 $count = new WP_Query(array(
                                     'post_type' => 'evento',
                                     'meta_query' => array(
